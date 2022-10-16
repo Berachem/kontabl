@@ -3,6 +3,10 @@
 // faire tous les imports ici
 // permet de ne pas avoir à les faire dans chaque fichier
 
+include "include/Connexion.inc.php";
+exit();
+
+
 switch ($_GET['action']) {
     case 'value':
         // inclure les fichiers qui process l'action demandée
