@@ -7,20 +7,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kontabl</title>
 
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/beercss@2.2.11/dist/cdn/beer.min.css" integrity="sha256-lYnQDpcf+FFMWvFyNlfYM5Zis7/ENdFurMo6UK58k4E=" crossorigin="anonymous">
     <link rel="stylesheet" href="/assets/app.css?v=<?= md5_file('./assets/app.css') ?>">
-    <!-- ajouter un hash à la fin du fichier pour prévenir le cache du naigateur -->
 </head>
 
-<body>
+<body x-data x-init="$router.config({ mode: 'hash' })">
 
-    <!-- 
-    HTML principal
-    
-    Toutes les vues dans le même fichier, routing geré par le JS, voir https://www.npmjs.com/package/pinecone-router (avec des #)
-    Interface dynamique avec alpinejs
-    -->
+    <template x-route="/" template="/pages/search.html"></template>
 
+    <template x-route="/login" template="/pages/login.html"></template>
+
+    <script src="https://cdn.jsdelivr.net/npm/@shaun/alpinejs-router@1.2.1/dist/cdn.min.js" integrity="sha256-Wtqusj1IzuvR9tsDJTMPNZJKGOGTq4i3Fg75WMdupS8=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/beercss@2.2.11/dist/cdn/beer.min.js" integrity="sha256-xzR/l8vcDeDcQ5fylcz9H0gl3JE31ho4nddII0gSMYw=" crossorigin="anonymous"></script>
     <script src="/assets/app.js?v=<?= md5_file('./assets/app.js') ?>"></script>
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.10.4/dist/cdn.min.js" integrity="sha256-6GXzaY8Bwd7jFZRPj4zcj0SZnnb37LkkvkthlOdYSwg=" crossorigin="anonymous"></script>
 </body>
 
 </html>
