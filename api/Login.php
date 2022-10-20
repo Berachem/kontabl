@@ -9,9 +9,21 @@
     $mdp = $_POST['mdp'];
 
 
-    $users = $db -> q("SELECT * FROM commercant WHERE nom = '$nom' AND mdp=$mdp;"); // cas utilisateur
-    $admin = $db -> q("SELECT * FROM admin WHERE nom = '$nom' AND mdp=$mdp;"); // cas admin
-    $productowner = $db -> q("SELECT * FROM productowner WHERE nom = '$nom' AND mdp=$mdp;"); // cas po
+    $users = $db -> q("SELECT * FROM commercant WHERE nom = :nom AND mdp= :mdp;", array(
+        array(':nom',$nom,PDO::PARAM_STR),
+        array(':mdp',$mdp,PDO::PARAM_STR),
+        )
+    ); // cas utilisateur
+    $admin = $db -> q("SELECT * FROM commercant WHERE nom = :nom AND mdp= :mdp;", array(
+        array(':nom',$nom,PDO::PARAM_STR),
+        array(':mdp',$mdp,PDO::PARAM_STR),
+        )
+    ); // cas admin
+    $productowner = $db -> q("SELECT * FROM commercant WHERE nom = :nom AND mdp= :mdp;", array(
+        array(':nom',$nom,PDO::PARAM_STR),
+        array(':mdp',$mdp,PDO::PARAM_STR),
+        )
+    ); // cas po
 
     if ($users) { // cas utilisateur
         $_SESSION['id']= $users[0]->idConnexion;
