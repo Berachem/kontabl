@@ -1,4 +1,36 @@
 <div x-data="login">
+    <!-- Header -->
+    <header>
+        <nav>
+          <button class="circle transparent">
+            <i>Menu</i>
+          </button>
+          <h5 class="max center-align">Kontabl</h5>
+          <button class="circle transparent">
+            <img class="responsive" src="/favicon.png">
+          </button>
+        </nav>
+    </header>
+
+    <!-- Connexion Title -->
+    <div class="max center-align">
+        <h4>Connexion</h1>
+    </div>
+    
+    <!-- Adresse mail input text -->
+    <!-- Dimensionner le field à 75 % de l'écran -->
+    <div class="field label small">
+        <input type="email">
+        <label>Adresse mail</label>
+    </div>
+
+    <!-- Mot de passe input text -->
+    <div class="field label suffix small">
+        <input type="password">
+        <label>Password</label>
+        <i>visibility</i>
+    </div>
+    <!-- Bouton connexion -->
     <span x-text="errMsg" x-if="errMsg"></span>
     <button @click="login">M'identifier</button>
 </div>
