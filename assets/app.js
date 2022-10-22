@@ -3,7 +3,6 @@ document.addEventListener('alpine:init', () => {
         init() {
             // detect if user is logged in
             // if not logged in, show login page
-            $router.push('/login');
         }
     }));
 
