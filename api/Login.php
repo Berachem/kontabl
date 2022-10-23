@@ -7,26 +7,18 @@
     include "include/Connexion.inc.php";
     $nom = $_POST['nom'];
     $mdp = $_POST['mdp'];
-
-    // cas utilisateur
-    $users = $db -> q("SELECT * FROM commercant WHERE nom = :nom AND mdp= :mdp;", array(
+    $param = array(
         array(':nom',$nom,PDO::PARAM_STR),
         array(':mdp',$mdp,PDO::PARAM_STR),
-        )
-    ); 
+    );
+    // cas utilisateur
+    $users = $db -> q("SELECT * FROM commercant WHERE nom = :nom AND mdp= :mdp;", $param); 
 
     // cas admin
-    $admin = $db -> q("SELECT * FROM admin WHERE nom = :nom AND mdp= :mdp;", array(
-        array(':nom',$nom,PDO::PARAM_STR),
-        array(':mdp',$mdp,PDO::PARAM_STR),
-        )
+    $admin = $db -> q("SELECT * FROM admin WHERE nom = :nom AND mdp= :mdp;", $param
     ); 
     // cas Product Owner
-    $productowner = $db -> q("SELECT * FROM productowner WHERE nom = :nom AND mdp= :mdp;", array(
-        array(':nom',$nom,PDO::PARAM_STR),
-        array(':mdp',$mdp,PDO::PARAM_STR),
-        )
-    ); 
+    $productowner = $db -> q("SELECT * FROM productowner WHERE nom = :nom AND mdp= :mdp;", $param); 
 
     // si c'est un utilisateur
     if ($users) { 
@@ -35,25 +27,16 @@
             "success" => true,
             "id" => $users[0]->idConnexion,
             "type" => 'utilisateur'
-        ];
-        header('Content-Type: application/json');
-        echo json_encode($response);
-        return json_encode($response);
-        exit();            
+        ];            
     } 
     // sinon si c'est un admin
     else if ($admin) { 
         $_SESSION['id']= $admin[0]->idAdmin;
-        echo 'oui';
         $response = [
             "success" => true,
             "id" => $admin[0]->idAdmin,
             "type" => 'admin'
-        ];
-        header('Content-Type: application/json');
-        echo json_encode($response);
-        return json_encode($response);
-        exit();            
+        ];           
     } 
     // sinon si c'est un Product Owner
     else if ($productowner) { 
@@ -62,20 +45,16 @@
             "success" => true,
             "id" => $productowner[0]->id,
             "type" => 'product owner'
-        ];
-        header('Content-Type: application/json');
-        echo json_encode($response);
-        return json_encode($response);
-        exit();            
+        ];           
     } 
     // SINON -> cas incorrect
     else { 
         $response = [
             "success" => false,
             "error" => "no user match with your login, password"
-        ];
-        header('Content-Type: application/json');
-        echo json_encode($response);
-        return json_encode($response);
-        exit();            
+        ];           
     }
+    header('Content-Type: application/json');
+    echo json_encode($response);
+    return json_encode($response);
+    exit();
