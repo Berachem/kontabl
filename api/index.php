@@ -19,9 +19,14 @@ switch ($_GET['action']) {
     case 'isLoggedIn':
         include("isLoggedIn.php");
         break;
-    case 'transaction':
+    case 'transactionById':
         if (isset($_GET['transactionId'])) {
-            include("transaction.php");
+            include("transactionById.php");
+        } 
+        break;
+    case 'transactionBySiren':
+        if (isset($_GET['NumSiren'])) {
+            include("transactionBySiren.php");
         } 
         break;
 } 

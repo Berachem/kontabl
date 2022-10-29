@@ -4,7 +4,6 @@
         exit("Veuillez passer par la page connexion");
     }
     session_start();
-    include "include/Connexion.inc.php";
     $nom = $_POST['nom'];
     $mdp = $_POST['mdp'];
     $param = array(
