@@ -1,11 +1,11 @@
-<div x-data="login">
+<div x-data="login($router)">
     <!-- Body -->
     <div class="body">
 
         <!-- Header -->
         <header class="primary-container">
             <nav>
-            <h5 class="max center-align">Kontabl</h5>
+                <h5 class="max center-align">Kontabl</h5>
             </nav>
         </header>
 
@@ -16,23 +16,23 @@
             <div class="medium no-padding left-align top-align">
                 <h5>Connexion</h5>
             </div>
-            
+
             <!-- Adresse mail input text -->
             <!-- Dimensionner le field à 75 % de l'écran -->
             <div class="field label small">
-                <input type="email">
-                <label>Adresse mail</label>
+                <input type="text" x-model="user" autocomplete="username">
+                <label>Identifiant</label>
             </div>
 
             <!-- Mot de passe input text -->
             <div class="field label suffix small">
-                <input type="password">
+                <input type="password" x-model="password" autocomplete="current-password">
                 <label>Password</label>
                 <i>visibility</i>
             </div>
             <!-- Bouton connexion -->
             <span x-text="errMsg" x-if="errMsg"></span>
             <button @click="login">M'identifier</button>
-    
+
+        </div>
     </div>
-</div>
