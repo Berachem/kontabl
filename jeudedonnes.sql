@@ -43,10 +43,10 @@ INSERT INTO `admin` (`idAdmin`, `mdp`, `nom`) VALUES
 -- --------------------------------------------------------
 
 --
--- Structure de la table `commerçant`
+-- Structure de la table `commercant`
 --
 
-CREATE TABLE `commerçant` (
+CREATE TABLE `commercant` (
   `nom` varchar(30) NOT NULL,
   `siren` char(9) NOT NULL,
   `nbtransaction` int NOT NULL,
@@ -59,10 +59,10 @@ CREATE TABLE `commerçant` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 --
--- Déchargement des données de la table `commerçant`
+-- Déchargement des données de la table `commercant`
 --
 
-INSERT INTO `commerçant` (`nom`, `siren`, `nbtransaction`, `devise`, `montantTotal`, `numCarte`, `réseau`, `mdp`, `idConnexion`) VALUES
+INSERT INTO `commercant` (`nom`, `siren`, `nbtransaction`, `devise`, `montantTotal`, `numCarte`, `réseau`, `mdp`, `idConnexion`) VALUES
 ('Leroy Merlin Noisy', '384560942', 0, 'EUR', 0, '7485', 'VS', '2001458436', '2001458436'),
 ('McDonald Champs sur Marne', '722003936', 0, 'EUR', 0, '1796', 'VS', '8755269857', '8755269857');
 
@@ -145,9 +145,9 @@ ALTER TABLE `admin`
   ADD PRIMARY KEY (`idAdmin`);
 
 --
--- Index pour la table `commerçant`
+-- Index pour la table `commercant`
 --
-ALTER TABLE `commerçant`
+ALTER TABLE `commercant`
   ADD PRIMARY KEY (`siren`);
 
 --
@@ -200,7 +200,7 @@ ALTER TABLE `remise`
 -- Contraintes pour la table `transaction`
 --
 ALTER TABLE `transaction`
-  ADD CONSTRAINT `siren` FOREIGN KEY (`numSiren`) REFERENCES `commerçant` (`siren`) ON DELETE RESTRICT ON UPDATE CASCADE;
+  ADD CONSTRAINT `siren` FOREIGN KEY (`numSiren`) REFERENCES `commercant` (`siren`) ON DELETE RESTRICT ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
