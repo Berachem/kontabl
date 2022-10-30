@@ -60,19 +60,19 @@
             <div class="line"></div>
 
             <!-- Selection Filter -->
-            <div class="max center-align">
-                <h6 class="max center-align">Filtre de sélection</h6>
-                <button>
-                    <span>Numéro de Siren</span>
-                    <i>arrow_drop_down</i>
-                    <div class="dropdown">
-                    <a>Les Impayés</a>
-                    <a>Date</a>
-                    <a>Montant</a>
-                    <a>Numéro de carte se terminant par</a>
-                    <a>Devise</a>
-                    </div>
-                </button>
+            <h6 class="max center-align">Filtre de sélection</h6>
+            <div class="field suffix border">
+                <select id="selection" name="selection" size="1">
+                    <option value="NumSiren">Numéro de Siren</option>
+                    <option value="findOnlyUnpaid">Les Impayés</option>
+                    <option value="dateBefore">Date avant</option>
+                    <option value="dateAfter">Date après</option>
+                    <option value="amountMin">Montant minimum</option>
+                    <option value="amountMax">Montant maximum</option>
+                    <option value="endingFoursCardNumbers">Numéro de carte se terminant par</option>
+                    <option value="currency">Devise</option>
+                </select>
+                <i>arrow_drop_down</i>
             </div>
             
             <!-- Search Bar -->
