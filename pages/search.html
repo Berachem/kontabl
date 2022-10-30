@@ -63,6 +63,52 @@
                 </select>
                 <i>arrow_drop_down</i>
             </div>
+
+            <!-- Line -->
+            <div class="line"></div>
+
+            <!-- Section avec tous les inputs affichés par défaut des sélections -->
+            <div class="field label">
+                <input type="tel" id="NumSiren" name="NumSiren">
+                <label>Numéro de Siren</label>
+            </div>
+            <div class="field label prefix border">
+                <i>today</i>
+                <input type="date" id="dateBefore" name="dateBefore">
+                <label class="active">Date avant le</label>
+            </div>
+            <div class="field label prefix border">
+                <i>today</i>
+                <input type="date" id="dateAfter" name="dateAfter">
+                <label class="active">Date après le</label>
+            </div>
+            <div class="field label">
+                <input type="number" id="amountMin" name="amountMin">
+                <label>Montant minimum</label>
+            </div>
+            <div class="field label">
+                <input type="text" id="amountMax" name="amountMax">
+                <label>Montant maximum</label>
+            </div>
+            <div class="field label">
+                <input type="tel" id="endingFoursCardNumbers" name="endingFoursCardNumbers" minlength=4 maxlength=4>
+                <label>Numéro de carte se terminant par</label>
+            </div>
+            <div class="field label suffix border">
+                <select>
+                    <option value="EUR">EUR</option>
+                    <option value="USD">USD</option>
+                    <option value="GBP">GBP</option>
+                    <option value="JPY">JPY</option>
+                    <option value="CHF">CHF</option>
+                    <option value="CAD">CAD</option>
+                    <option value="AUD">AUD</option>
+                    <option value="CNY">CNY</option>
+                    <option value="RUB">RUB</option>
+                </select>
+                <label class="active">Devise</label>
+                <i>arrow_drop_down</i>
+              </div>
             
             <!-- Search Button -->
             <button @click="search">Rechercher</button>
