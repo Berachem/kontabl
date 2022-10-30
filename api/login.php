@@ -1,5 +1,5 @@
 <?php   
-    // include "include/Connexion.inc.php"; à utiliser si on le test indépendament
+    // include "include/Connexion.inc.php"; //à utiliser si on le test indépendament
 
     if ((!isset($_POST['login'])) && (!isset($_POST['password']))) {
         exit("Veuillez passer par la page connexion");
@@ -9,19 +9,20 @@
     $password = $_POST['password'];
     $param = array(
         array(':login',$login,PDO::PARAM_STR),
-        array(':password',$password,PDO::PARAM_STR),
     );
+
+
     // cas utilisateur
-    $users = $db -> q("SELECT * FROM merchant WHERE idLogin = :login AND password= :password;", $param); 
+    $users = $db -> q("SELECT * FROM merchant WHERE idLogin = :login;", $param); 
 
     // cas admin
-    $admin = $db -> q("SELECT * FROM admin WHERE idAdmin = :login AND password= :password;", $param
+    $admin = $db -> q("SELECT * FROM admin WHERE idAdmin = :login;", $param
     ); 
     // cas Product Owner
-    $productowner = $db -> q("SELECT * FROM productowner WHERE idProductowner = :login AND password= :password;", $param); 
+    $productowner = $db -> q("SELECT * FROM productowner WHERE idProductowner = :login;", $param); 
 
     // si c'est un utilisateur
-    if ($users) { 
+    if ($users && password_verify($password, $users[0]->password)) { 
         $_SESSION['id']= $users[0]->idLogin;
         $response = [
             "success" => true,
@@ -30,7 +31,7 @@
         ];            
     } 
     // sinon si c'est un admin
-    else if ($admin) { 
+    else if ($admin && password_verify($password, $admin[0]->password)) { 
         $_SESSION['id']= $admin[0]->idAdmin;
         $response = [
             "success" => true,
@@ -39,7 +40,7 @@
         ];           
     } 
     // sinon si c'est un Product Owner
-    else if ($productowner) { 
+    else if ($productowner && password_verify($password, $productowner[0]->password)) { 
         $_SESSION['id']= $productowner[0]->idProductowner;
         $response = [
             "success" => true,
