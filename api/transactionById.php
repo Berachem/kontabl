@@ -27,8 +27,7 @@ if (isset($_GET['transactionId'])) {
     if ($transacResult && $invoiceResult) {
         $response = [
             "success" => true,
-            "transaction" => $transacResult,
-            "invoice" => $invoiceResult
+            "data" => array($transacResult, $invoiceResult)
 
         ];
     } else {

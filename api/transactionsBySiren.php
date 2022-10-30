@@ -68,15 +68,29 @@ if (isset($_GET["NumSiren"])){
         $invoiceResult = $db->q($sql, $cond);
         $invoices[] = $invoiceResult;
     }
-    
+
+    $data = array($transacResult, $invoices);
+
+    // keep only the invoice and transaction that are corresponding to the findOnlyUnpaid parameter
     if ($findOnlyUnpaid != null){
         
         if ($findOnlyUnpaid){
-            // keep only the unpaid transactions
-            $sql2 .= " AND sans = '-'";
+            // get the invoices that are not paid
+            for ($i = 0; $i < count($data[0]); $i++){
+                if ($data[1][$i]["sans"] !="-"){
+                    unset($data[0][$i]);
+                    unset($data[1][$i]);         
+                }
+            }
+            
         }else{
             // keep only the paid transactions
-            $sql2 .= " AND sans = '-'";
+            for ($i = 0; $i < count($data[0]); $i++){
+                if ($data[1][$i]["sans"] !="+"){
+                    unset($data[0][$i]);
+                    unset($data[1][$i]);         
+                }
+            }
         }
     }
 
@@ -84,8 +98,7 @@ if (isset($_GET["NumSiren"])){
     if ($transacResult) {
         $response = [
             "success" => true,
-            "transactions" => $transacResult,
-            "invoices" => $invoiceResult
+            "data" => $data
         ];
     } else {
         $response = [
