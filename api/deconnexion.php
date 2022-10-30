@@ -1,5 +1,5 @@
 <?php
 session_start();
 session_destroy();
-header('Location:..\index.php');
-?>
+header('Content-Type: application/json');
+return json_encode(["success" => true]);
