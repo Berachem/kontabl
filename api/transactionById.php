@@ -11,14 +11,14 @@ if (isset($_GET['transactionId'])) {
     $transactionId = $_GET['transactionId'];
 
     // get the transaction details
-    $sql = "SELECT * FROM transaction WHERE id = :transactionId";
+    $sql = "SELECT * FROM transaction WHERE numAuthorization = :transactionId";
     $cond = array(
         array(":transactionId", $transactionId)
     );
     $transacResult = $db->q($sql, $cond);
 
     // get the invoice linked to the transaction
-    $sql = "SELECT * FROM remise WHERE idTransaction = :transactionId";
+    $sql = "SELECT * FROM discount WHERE numTransaction = :transactionId";
     $cond = array(
         array(":transactionId", $transactionId)
     );

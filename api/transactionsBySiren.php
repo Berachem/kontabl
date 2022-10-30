@@ -28,16 +28,16 @@ if (isset($_GET["NumSiren"])){
     $currency = isset($_GET["currency"]) ? $_GET["currency"] : null;
 
     // get the transactions
-    $sql = "SELECT * FROM transaction WHERE NumSiren = :NumSiren";
+    $sql = "SELECT * FROM transaction WHERE numSiren = :NumSiren";
     $cond = array(
         array(":NumSiren", $NumSiren)
     );
     if ($dateBefore){
-        $sql .= " AND date < :dateBefore";
+        $sql .= " AND dateTransaction < :dateBefore";
         $cond[] = array(":dateBefore", $dateBefore);
     }
     if ($dateAfter){
-        $sql .= " AND date > :dateAfter";
+        $sql .= " AND dateTransaction > :dateAfter";
         $cond[] = array(":dateAfter", $dateAfter);
     }
     if ($amountMin){
@@ -61,7 +61,7 @@ if (isset($_GET["NumSiren"])){
     // for each transaction, get the invoice linked to the transaction
     $invoices = [];
     foreach ($transacResult as $transaction){
-        $sql = "SELECT * FROM remise WHERE idTransaction = :transactionId";
+        $sql = "SELECT * FROM discount WHERE numTransaction = :transactionId";
         $cond = array(
             array(":transactionId", $transaction["id"])
         );
