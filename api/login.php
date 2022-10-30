@@ -1,30 +1,31 @@
 <?php   
+    // include "include/Connexion.inc.php"; à utiliser si on le test indépendament
 
-    if ((!isset($_POST['nom'])) && (!isset($_POST['mdp']))) {
+    if ((!isset($_POST['login'])) && (!isset($_POST['password']))) {
         exit("Veuillez passer par la page connexion");
     }
     session_start();
-    $nom = $_POST['nom'];
-    $mdp = $_POST['mdp'];
+    $login = $_POST['login'];
+    $password = $_POST['password'];
     $param = array(
-        array(':nom',$nom,PDO::PARAM_STR),
-        array(':mdp',$mdp,PDO::PARAM_STR),
+        array(':login',$login,PDO::PARAM_STR),
+        array(':password',$password,PDO::PARAM_STR),
     );
     // cas utilisateur
-    $users = $db -> q("SELECT * FROM commercant WHERE nom = :nom AND mdp= :mdp;", $param); 
+    $users = $db -> q("SELECT * FROM merchant WHERE idLogin = :login AND password= :password;", $param); 
 
     // cas admin
-    $admin = $db -> q("SELECT * FROM admin WHERE nom = :nom AND mdp= :mdp;", $param
+    $admin = $db -> q("SELECT * FROM admin WHERE idAdmin = :login AND password= :password;", $param
     ); 
     // cas Product Owner
-    $productowner = $db -> q("SELECT * FROM productowner WHERE nom = :nom AND mdp= :mdp;", $param); 
+    $productowner = $db -> q("SELECT * FROM productowner WHERE idProductowner = :login AND password= :password;", $param); 
 
     // si c'est un utilisateur
     if ($users) { 
-        $_SESSION['id']= $users[0]->idConnexion;
+        $_SESSION['id']= $users[0]->idLogin;
         $response = [
             "success" => true,
-            "id" => $users[0]->idConnexion,
+            "id" => $users[0]->idLogin,
             "type" => 'utilisateur'
         ];            
     } 
@@ -39,10 +40,10 @@
     } 
     // sinon si c'est un Product Owner
     else if ($productowner) { 
-        $_SESSION['id']= $productowner[0]->id;
+        $_SESSION['id']= $productowner[0]->idProductowner;
         $response = [
             "success" => true,
-            "id" => $productowner[0]->id,
+            "id" => $productowner[0]->idProductowner,
             "type" => 'product owner'
         ];           
     } 
@@ -55,5 +56,4 @@
     }
     header('Content-Type: application/json');
     echo json_encode($response);
-    return json_encode($response);
     exit();
