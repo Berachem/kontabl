@@ -48,6 +48,9 @@ function getMontantTotal($db, $numSiren, $date){
         array_push($cond,array(":date", $date));
     }
     $result = $db->q($sql, $cond);
+    if ($result[0]->somme == null){
+        return 0;
+    }
     return $result[0]->somme;
 }
 
