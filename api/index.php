@@ -34,6 +34,10 @@ if (isset($_GET['action'])){
                 include("pOwnerDataTable.php");
             
             break;
+        case "discountDataTable":
+            
+            include("discountDataTable.php");
+            break;
     }
 }
 
