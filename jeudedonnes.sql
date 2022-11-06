@@ -48,7 +48,7 @@ INSERT INTO `admin` (`idAdmin`, `password`, `name`) VALUES
 
 CREATE TABLE `discount` (
   `numDiscount` int NOT NULL,
-  `numTrasaction` char(6) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
+  `numTransaction` char(6) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
   `sens` char(1) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
   `unpaidWording` char(20) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
   `numUnpaidFile` char(5) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
@@ -59,7 +59,7 @@ CREATE TABLE `discount` (
 -- Déchargement des données de la table `discount`
 --
 
-INSERT INTO `discount` (`numDiscount`, `numTrasaction`, `sens`, `unpaidWording`, `numUnpaidFile`, `dateDiscount`) VALUES
+INSERT INTO `discount` (`numDiscount`, `numTransaction`, `sens`, `unpaidWording`, `numUnpaidFile`, `dateDiscount`) VALUES
 (1, 'abcdef', '-', 'test', '1234', NULL),
 (2, '123456', '+', '', '', '2022-10-03 00:00:00'),
 (3, '123456', '+', '', '', '2022-10-17 00:00:00');
@@ -148,7 +148,7 @@ ALTER TABLE `admin`
 --
 ALTER TABLE `discount`
   ADD PRIMARY KEY (`numDiscount`),
-  ADD KEY `transaction` (`numTrasaction`);
+  ADD KEY `transaction` (`numTransaction`);
 
 --
 -- Index pour la table `merchant`
@@ -187,7 +187,7 @@ ALTER TABLE `discount`
 -- Contraintes pour la table `discount`
 --
 ALTER TABLE `discount`
-  ADD CONSTRAINT `transaction` FOREIGN KEY (`numTrasaction`) REFERENCES `transaction` (`numAuthorization`) ON DELETE RESTRICT ON UPDATE CASCADE;
+  ADD CONSTRAINT `transaction` FOREIGN KEY (`numTransaction`) REFERENCES `transaction` (`numAuthorization`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 --
 -- Contraintes pour la table `transaction`

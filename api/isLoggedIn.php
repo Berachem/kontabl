@@ -8,3 +8,7 @@ $response = [
 header('Content-Type: application/json');
 return json_encode($response);
 exit();
+
+
+
+?>
