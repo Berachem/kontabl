@@ -26,6 +26,7 @@ GET:
 
 include("include/Functions.inc.php");
 
+
 function getNbTransactions($db, $numSiren, $date_debut, $date_fin){
     $sql = "SELECT COUNT(*) nombre FROM transaction WHERE numSiren = :numSiren";
     $cond = array(
@@ -71,8 +72,7 @@ function getDevise($db, $numSiren){
     );
     $result = $db->q($sql, $cond);
     return $result[0]->currency;
-}
-
+};
 if (isset($_SESSION["id"])){
     $numSiren = isset($_GET["numSiren"]) ? $_GET["numSiren"] : null;
     $raisonSociale = isset($_GET["raisonSociale"]) ? $_GET["raisonSociale"] : null;
@@ -85,19 +85,11 @@ if (isset($_SESSION["id"])){
     $sql = "SELECT * FROM transaction";
     $cond = array();
     if ($numSiren){
-        $sql .= " WHERE siren = :numSiren";
+        $sql .= " WHERE numSiren = :numSiren";
         array_push($cond, array(":numSiren", $numSiren));
     }
-    if ($raisonSociale){
-        if ($numSiren){
-            $sql .= " AND name LIKE :raisonSociale";
-        } else {
-            $sql .= " WHERE name LIKE :raisonSociale";
-        }
-        array_push($cond, array(":raisonSociale", "%".$raisonSociale."%"));
-    }
     if ($date_debut){
-        if ($numSiren || $raisonSociale){
+        if ($numSiren){
             $sql .= " AND dateTransaction >= :date_debut";
         } else {
             $sql .= " WHERE dateTransaction >= :date_debut";
@@ -105,7 +97,7 @@ if (isset($_SESSION["id"])){
         array_push($cond, array(":date_debut", $date_debut));
     }
     if ($date_fin){
-        if ($numSiren || $raisonSociale || $date_debut){
+        if ($numSiren || $date_debut){
             $sql .= " AND dateTransaction <= :date_fin";
         } else {
             $sql .= " WHERE dateTransaction <= :date_fin";
@@ -123,18 +115,27 @@ if (isset($_SESSION["id"])){
         $result2 = $db->q($sql2, $cond2);
         $row->discount = $result2;
     }
+
+    $sql3 = "SELECT name FROM merchant WHERE siren = :numSiren";
+    $cond3 = array();
+    foreach ($result as $row){
+        $cond3 = array(
+            array(":numSiren", $row->numSiren)
+        );
+        $result3 = $db->q($sql3, $cond3);
+        $row->merchant = $result3;
+    }
     foreach($result as $row){
         $data=array(
-            "NumSiren" => $row->siren,
-            "RaisonSociale" => $row->name,
-            "Numero de remise"=>$row->discount->numDiscount,
-            "Date Traitement"=>$row->discount->dateDiscount,
-            "NombreTransactions" => getNbTransactions($db, $row->siren, $date_debut, $date_fin),
-            "Devise"=> getDevise($db, $row->siren),
-            "MontantTotal" => getMontantTotal($db, $row->siren, $date_debut, $date_fin),
-            "Sens"=>$row->discount->sens
+            "NumSiren" => $row->numSiren,
+            "RaisonSociale" => $row->merchant[0]->name,
+            "Numero de remise"=>$row->discount[0]->numDiscount,
+            "Date Traitement"=>$row->discount[0]->dateDiscount,
+            "NombreTransactions" => getNbTransactions($db, $row->numSiren, $date_debut, $date_fin),
+            "Devise"=> getDevise($db, $row->numSiren),
+            "MontantTotal" => getMontantTotal($db, $row->numSiren, $date_debut, $date_fin),
+            "Sens"=>$row->discount[0]->sens
         );
-        var_dump($data);
         header('Content-Type: application/json');
         echo json_encode($data);
         return json_encode($data);

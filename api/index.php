@@ -35,7 +35,6 @@ if (isset($_GET['action'])){
             
             break;
         case "discountDataTable":
-            
             include("discountDataTable.php");
             break;
     }
