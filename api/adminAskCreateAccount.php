@@ -19,6 +19,8 @@ session_start();
 
 
 
+
+
 // check if the user is admin
 if (isset($_SESSION['type']) && $_SESSION['type']== "admin"){
 

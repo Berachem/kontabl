@@ -36,9 +36,9 @@ function getSocialReason(){
         return $socialReasonList;
     }else{
         // return his own social reason
-        $sql = "SELECT * FROM merchant WHERE idLogin = :idLogin";
+        $sql = "SELECT * FROM merchant WHERE numSiren = :numSiren";
         $cond = array(
-            array(":idLogin", $_SESSION['num'])
+            array(":numSiren", $_SESSION['num'])
         );
         $hisSocialReason = $db->q($sql, $cond);
         return $hisSocialReason[0]->raisonSociale;

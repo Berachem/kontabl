@@ -37,6 +37,9 @@ if (isset($_GET['action'])){
         case "discountDataTable":
             include("discountDataTable.php");
             break;
+        case "merchantDataTable":
+            include("merchantDataTable.php");
+            break;
     }
 }
 
