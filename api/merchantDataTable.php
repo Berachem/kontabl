@@ -1,6 +1,6 @@
 <?php
 session_start();
-$_SESSION["num"] = 384560942;
+$_SESSION["num"] = 722003936;
 $_SESSION["type"] = "utilisateur";
 /*
 GET:
@@ -22,7 +22,6 @@ Return a JSON object with the following parameters:
         
     ]
 */
-include("include/Functions.inc.php");
 if (isset($_SESSION["num"]) && isset($_SESSION["type"])=="utilisateur"){ 
     global $db;
     $numSiren = $_SESSION["num"];

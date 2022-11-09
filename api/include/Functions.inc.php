@@ -45,6 +45,16 @@ function getSocialReason(){
     }
 }
 
+function numSirenInDB( $numSiren){
+    global $db;
+    $sql = "SELECT * FROM merchant WHERE siren = :numSiren";
+    $cond = array(
+        array(":numSiren", $numSiren)
+    );
+    $result = $db->q($sql, $cond);
+    return count($result) > 0;
+}
+
 
 
 ?>
