@@ -4,7 +4,8 @@ $_SESSION["num"] = 722003936;
 $_SESSION["type"] = "utilisateur";
 /*
 GET:
- - date (optional)
+ - date début (optional)
+ - date fin (optional)
 
 Return a JSON object with the following parameters:
     - success
@@ -25,15 +26,20 @@ Return a JSON object with the following parameters:
 if (isset($_SESSION["num"]) && isset($_SESSION["type"])=="utilisateur"){ 
     global $db;
     $numSiren = $_SESSION["num"];
-    $date = isset($_GET["date"]) ? $_GET["date"] : null;
+    $dateDebut = isset($_GET["dateDebut"]) ? $_GET["dateDebut"] : null;
+    $dateFin = isset($_GET["dateFin"]) ? $_GET["dateFin"] : null;
 
     $sql = "SELECT raisonSociale, siren, transaction.currency, COUNT(*) AS nbTransaction, SUM(amount) AS totalAmount FROM merchant JOIN transaction ON numSiren = siren WHERE numSiren = :numSiren;";
     $cond = array(
         array(":numSiren", $numSiren)
     );
-    if ($date){
-        $sql .= " AND dateTransaction = :date";
-        array_push($cond,array(":date", $date));
+    if ($dateDebut){
+        $sql .= " AND dateTransaction < :date";
+        array_push($cond,array(":date", $dateDebut));
+    }
+    if ($dateFin){
+        $sql .= " AND dateTransaction > :date";
+        array_push($cond,array(":date", $dateFin));
     }
     $response = $db->q($sql, $cond);
     $response = $response[0]; // pour avoir la data
