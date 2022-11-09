@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Client :  sqletud.u-pem.fr
--- Généré le :  Mer 09 Novembre 2022 à 20:35
+-- Généré le :  Mer 09 Novembre 2022 à 20:53
 -- Version du serveur :  5.7.30-log
 -- Version de PHP :  7.0.33-0+deb9u7
 
@@ -47,7 +47,7 @@ INSERT INTO `admin` (`idAdmin`, `password`, `name`) VALUES
 
 CREATE TABLE `discount` (
   `numDiscount` int(11) NOT NULL,
-  `numAuthorization` char(6) NOT NULL,
+  `numTransaction` int(11) NOT NULL,
   `sens` char(1) NOT NULL,
   `unpaidWording` varchar(75) DEFAULT NULL COMMENT 'c''est le libellé du pourquoi c''est un impayé',
   `numUnpaidFile` char(5) DEFAULT NULL COMMENT 'num dossier impayé',
@@ -58,13 +58,15 @@ CREATE TABLE `discount` (
 -- Contenu de la table `discount`
 --
 
-INSERT INTO `discount` (`numDiscount`, `numAuthorization`, `sens`, `unpaidWording`, `numUnpaidFile`, `dateDiscount`) VALUES
-(1, 'PL2593', '-', 'solde insuffisant', '1234', '2022-11-09 08:40:08'),
-(2, 'D5F689', '+', '', '', '2022-10-19 07:36:12'),
-(3, 'D5F689', '+', '', '', '2022-10-29 13:22:14'),
-(11, 'PL2593', '-', 'erreur bancaire', 'DP236', '2022-08-16 10:49:45'),
-(12, 'Y465L2', '+', '', '', '2020-08-01 10:49:45'),
-(13, 'UI8568', '-', 'plafond bancaire atteint', '2365F', '2022-09-05 11:13:32');
+INSERT INTO `discount` (`numDiscount`, `numTransaction`, `sens`, `unpaidWording`, `numUnpaidFile`, `dateDiscount`) VALUES
+(1, 2, '-', 'solde insuffisant', '1234', '2022-11-09 08:40:08'),
+(2, 3, '+', '', '', '2022-10-19 07:36:12'),
+(3, 1, '+', '', '', '2022-10-29 13:22:14'),
+(11, 6, '-', 'erreur bancaire', 'DP236', '2022-08-16 10:49:45'),
+(12, 4, '+', '', '', '2020-08-01 10:49:45'),
+(13, 7, '-', 'plafond bancaire atteint', '2365F', '2022-09-05 11:13:32'),
+(14, 6, '+', NULL, NULL, '2022-11-09 09:45:37'),
+(15, 7, '+', NULL, NULL, '2022-11-25 16:30:26');
 
 -- --------------------------------------------------------
 
@@ -171,7 +173,7 @@ ALTER TABLE `admin`
 --
 ALTER TABLE `discount`
   ADD PRIMARY KEY (`numDiscount`),
-  ADD KEY `transaction` (`numAuthorization`);
+  ADD KEY `numT` (`numTransaction`);
 
 --
 -- Index pour la table `merchant`
@@ -207,7 +209,7 @@ ALTER TABLE `transaction`
 -- AUTO_INCREMENT pour la table `discount`
 --
 ALTER TABLE `discount`
-  MODIFY `numDiscount` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `numDiscount` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 --
 -- AUTO_INCREMENT pour la table `transaction`
 --
@@ -221,7 +223,7 @@ ALTER TABLE `transaction`
 -- Contraintes pour la table `discount`
 --
 ALTER TABLE `discount`
-  ADD CONSTRAINT `transaction` FOREIGN KEY (`numAuthorization`) REFERENCES `transaction` (`numAuthorization`) ON UPDATE CASCADE;
+  ADD CONSTRAINT `numT` FOREIGN KEY (`numTransaction`) REFERENCES `transaction` (`idTransaction`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Contraintes pour la table `transaction`

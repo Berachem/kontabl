@@ -3,12 +3,12 @@
 POST 
  - idLogin
  - password`
-GET:
-    - `raisonSociale` ,
-    - `siren` ,
-    - `currency`, 
-    - `numCarte`,
-    - `network` ,
+ - siren
+- `siren` ,
+- `currency`, 
+- `numCarte`,
+- `network` ,
+
 
 add a temporary merchant account
 

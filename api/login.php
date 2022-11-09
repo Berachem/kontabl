@@ -23,7 +23,7 @@
 
     // si c'est un utilisateur
     if ($users && password_verify($password, $users[0]->password)) { 
-        $_SESSION['id']= $users[0]->idLogin;
+        $_SESSION['numSiren']= $users[0]->idLogin;
         $_SESSION['type']= "user";
         $response = [
             "success" => true,
@@ -33,7 +33,7 @@
     } 
     // sinon si c'est un admin
     else if ($admin && password_verify($password, $admin[0]->password)) { 
-        $_SESSION['id']= $admin[0]->idAdmin;
+        $_SESSION['numSiren']= $admin[0]->idAdmin;
         $_SESSION['type']= "admin";
         $response = [
             "success" => true,
@@ -43,7 +43,7 @@
     } 
     // sinon si c'est un Product Owner
     else if ($productowner && password_verify($password, $productowner[0]->password)) { 
-        $_SESSION['id']= $productowner[0]->idProductowner;
+        $_SESSION['numSiren']= $productowner[0]->idProductowner;
         $_SESSION['type']= "productowner";
         $response = [
             "success" => true,
