@@ -35,9 +35,77 @@ Return a JSON object with the following parameters:
 include("include/Functions.inc.php");
 include("discountDataTable.php");
 
+function getDateVente($db, $numRemise){
+    $sql = "SELECT dateTransaction FROM transaction,discount WHERE numTransaction = idTransaction AND numRemise = :numRemise";
+    $cond = array(
+        array(":numSiren", $numRemise)
+    );
+    $result = $db->q($sql, $cond);
+    return $result[0]->dateVente;
+}
 
-// IL FAUT REUTILISER LE FICHIER DISCOUNTDATATABLE.
-// (tu as un attribut "sens", donc tu pourras filtrer)
+function getDateRemise($db,$numRemise ){
+    $sql = "SELECT dateDiscount FROM discount WHERE numDiscount = :numRemise";
+    $cond = array(
+        array(":numRemise", $numRemise)
+    );
+    $result = $db->q($sql, $cond);
+    return $result[0]->dateRemise;
+}
+
+
+
+function getNumCarte($db, $numSiren){
+    $sql = "SELECT numCarte FROM merchant WHERE siren = :numSiren";
+    $cond = array(
+        array(":numSiren", $numSiren)
+    );
+    $result = $db->q($sql, $cond);
+    return $result[0]->numCarte;
+}
+
+function getReseau($db, $numSiren){
+    $sql = "SELECT reseau FROM merchant WHERE siren = :numSiren";
+    $cond = array(
+        array(":numSiren", $numSiren)
+    );
+    $result = $db->q($sql, $cond);
+    return $result[0]->reseau;
+}
+
+
+function getUnpaidFile($db, $numRemise) {
+    $sql = "SELECT numUnpaidFile FROM discount WHERE numDiscount = :numRemise";
+    $cond = array(
+        array(":numRemise", $numRemise)
+    );
+    $result = $db->q($sql, $cond);
+    return $result[0]->numUnpaidFile;
+}
+
+
+function getLibImpaye($db, $numRemise) {
+    $sql = "SELECT unpaidWording FROM discount WHERE numDiscount = :numRemise";
+    $cond = array(
+        array(":numRemise", $numRemise)
+    );
+    $result = $db->q($sql, $cond);
+    return $result[0]->libUnpaidFile;
+}
+
+
+
+
+function getMontant($db, $numRemise){
+    $sql = "SELECT amount FROM transaction,discount WHERE numTransaction = idTransaction AND numRemise = :numRemise";
+    $cond = array(
+        array(":numRemise", $numRemise)
+    );
+    $result = $db->q($sql, $cond);
+    return $result[0]->amount;
+}
+
+
 
 $finaldata = array();
 $data = array();
@@ -49,24 +117,33 @@ if ($response["success"] == true){
         return $row["sens"] == "-";
     });
 
+
     // renvoie le json avec le numSiren, la dateVente, la dateRemise, le numCarte, le reseau, le numDossierImpayé, la devise, le montant et le libImpayé
 
     foreach ($data as $row){
         $finaldata[] = array(
-            "NumSiren" => $row["numSiren"],
-            "DateVente" => $row["dateVente"],
-            "DateRemise" => $row["dateRemise"],
-            "NumCarte" => $row["numCarte"],
-            "Reseau" => $row["reseau"],
-            "numDossierImpayé" => $row["numDossierImpayé"],
+            "NumSiren" => $row["numSiren"], 
+            "DateVente" => getDateVente($db, $row["Numero de remise"]), 
+            "DateRemise" => getDateRemise($db, $row["Numero de remise"]), 
+            "NumCarte" => getNumCarte($db, $row["numSiren"]), 
+            "Reseau" => getReseau($db, $row["numSiren"]),
+            "numDossierImpayé" => getUnpaidFile($db, $row["Numero de remise"]),
             "Devise"=> $row["devise"],
-            "Montant" => $row["montant"],
-            "LibImpayé" => $row["libImpayé"]
+            "Montant" => getMontant($db, $row["Numero de remise"]),
+            "LibImpayé" => getLibImpaye($db, $row["Numero de remise"])
         );
+        
     }
 
+    $response = [
+        "success" => true,
+        "data" => $finaldata
+    ];
+    header('Content-Type: application/json');
+    return json_encode($response);
+    exit();
 
-   
+
 }
 
 
