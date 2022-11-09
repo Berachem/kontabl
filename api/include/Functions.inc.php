@@ -36,15 +36,12 @@ function getSocialReason(){
         return $socialReasonList;
     }else{
         // return his own social reason
-        $sql = "SELECT * FROM merchant WHERE idLogin = :idLogin";
+        $sql = "SELECT * FROM merchant WHERE numSiren = :numSiren";
         $cond = array(
-            array(":idLogin", $_SESSION['numSiren'])
+            array(":numSiren", $_SESSION['numSiren'])
         );
         $hisSocialReason = $db->q($sql, $cond);
         return $hisSocialReason[0]->name;
     }
 }
-
-
-
 ?>
