@@ -52,14 +52,13 @@
             <h6 class="max center-align">Filtre de sélection</h6>
             <div class="field suffix border">
                 <select id="selection" name="selection" size="1">
-                    <option value="NumSiren">Numéro de Siren</option>
-                    <option value="findOnlyUnpaid">Les Impayés</option>
+                    <option value="aucun">Aucun</option>
+                    <option value="numSiren">Numéro de Siren</option>
+                    <option value="raisonSociale">Raison sociale</option>
+                    <option value="date">Date</option>
                     <option value="dateBefore">Date avant</option>
                     <option value="dateAfter">Date après</option>
-                    <option value="amountMin">Montant minimum</option>
-                    <option value="amountMax">Montant maximum</option>
-                    <option value="endingFoursCardNumbers">Numéro de carte se terminant par</option>
-                    <option value="currency">Devise</option>
+                    <option value="dossierUnpaid">N° dossier impayé</option>
                 </select>
                 <i>arrow_drop_down</i>
             </div>
@@ -69,8 +68,17 @@
 
             <!-- Section avec tous les inputs affichés par défaut des sélections -->
             <div class="field label">
-                <input type="tel" id="NumSiren" name="NumSiren">
+                <input type="tel" id="numSiren" name="numSiren">
                 <label>Numéro de Siren</label>
+            </div>
+            <div class="field label">
+                <input type="text" id="raisonSociale" name="raisonSociale">
+                <label>Raison sociale</label>
+            </div>
+            <div class="field label prefix border">
+                <i>today</i>
+                <input type="date" id="date" name="date">
+                <label class="active">Date</label>
             </div>
             <div class="field label prefix border">
                 <i>today</i>
@@ -83,32 +91,9 @@
                 <label class="active">Date après le</label>
             </div>
             <div class="field label">
-                <input type="number" id="amountMin" name="amountMin">
-                <label>Montant minimum</label>
+                <input type="tel" id="dossierUnpaid" name="dossierUnpaid">
+                <label>N° dossier impayé</label>
             </div>
-            <div class="field label">
-                <input type="text" id="amountMax" name="amountMax">
-                <label>Montant maximum</label>
-            </div>
-            <div class="field label">
-                <input type="tel" id="endingFoursCardNumbers" name="endingFoursCardNumbers" minlength=4 maxlength=4>
-                <label>Numéro de carte se terminant par</label>
-            </div>
-            <div class="field label suffix border">
-                <select>
-                    <option value="EUR">EUR</option>
-                    <option value="USD">USD</option>
-                    <option value="GBP">GBP</option>
-                    <option value="JPY">JPY</option>
-                    <option value="CHF">CHF</option>
-                    <option value="CAD">CAD</option>
-                    <option value="AUD">AUD</option>
-                    <option value="CNY">CNY</option>
-                    <option value="RUB">RUB</option>
-                </select>
-                <label class="active">Devise</label>
-                <i>arrow_drop_down</i>
-              </div>
             
             <!-- Search Button -->
             <button @click="search">Rechercher</button>
