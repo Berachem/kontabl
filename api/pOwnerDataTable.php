@@ -27,6 +27,8 @@ include("include/Functions.inc.php");
 
 
 
+
+
 function getNbTransactions($db, $numSiren, $date){
     $sql = "SELECT COUNT(*) nombre FROM transaction WHERE numSiren = :numSiren";
     $cond = array(
@@ -68,7 +70,7 @@ function getDevise($db, $numSiren){
     return $result[0]->currency;
 }
 
-if (1){  // isset($_SESSION["id"]) && isset($_SESSION["type"])=="productowner"
+if (isset($_SESSION["id"]) && isset($_SESSION["type"])=="productowner"){  
     // check GET parameters
     $numSiren = isset($_GET["numSiren"]) ? $_GET["numSiren"] : null;
     $raisonSociale = isset($_GET["raisonSociale"]) ? $_GET["raisonSociale"] : null;
