@@ -1,10 +1,13 @@
 document.addEventListener('alpine:init', () => {
     Alpine.data('search', ($router) => ({
-        // init() {
-        //     // detect if user is logged in
-        //     // if not logged in, show login page
-        //     $router.push('/login');
-        // }
+        userType: localStorage.getItem('userType'),
+        selectedTab: 'tr',
+
+        init() {
+            // detect if user is logged in
+            // if not logged in, show login page
+            // $router.push('/login');
+        }
     }));
 
     Alpine.data('login', ($router) => ({
