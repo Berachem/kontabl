@@ -31,6 +31,10 @@ if (isset($_GET['action'])){
         case "unPaidDiscountDataTable":
                 include("/discount/unPaidDiscountDataTable.php");
             break;
+        case "createMerchantTemporarily":
+                include("/merchant_creation/adminAskCreateAccount.php");
+            break;
+        
         
         
     }
