@@ -45,9 +45,15 @@ if (isset($_SESSION['type']) && $_SESSION['type'] == 'productowner' && isset($_G
     } else {
         $response = [
             "success" => false,
-            "error" => "merchant does not exist in the temporary table"
+            "error" => "Le numéro de SIREN n'existe pas dans la table temporaire"
         ];
     }
+    header('Content-Type: application/json');
+    echo json_encode($response);
+
+
+
+
 }
 
 

@@ -22,7 +22,7 @@ Return a JSON object with the following parameters:
         
     ]
 */
-include("include/Functions.inc.php");
+include("../include/Functions.inc.php");
 
 
 
@@ -105,12 +105,12 @@ if (isset($_SESSION["id"]) && isset($_SESSION["type"])=="productowner"){
     $result = $db->q($sql, $cond);
 
     if (!$result){
-        return json_encode(array(
+        echo json_encode(array(
             "success" => false,
             "error" => "Aucun marchand trouvé"
         ));
-         //echo json_encode(array("success" => false, "error" => "No merchant found"));
         exit();
+        
     }
 
     // get the data
@@ -130,23 +130,17 @@ if (isset($_SESSION["id"]) && isset($_SESSION["type"])=="productowner"){
         "data" => $data
     );
 
-    header('Content-Type: application/json');
-    //echo json_encode($response);
-    return json_encode($response);
-    exit();
-
-
 }
 else{
     $response = [
         "success" => false,
         "error" => "Vous n'êtes pas connecté en tant que product owner"
     ];
-    header('Content-Type: application/json');
-    echo json_encode($response);
-    exit();
-}
 
+    
+}
+header('Content-Type: application/json');
+echo json_encode($response);
 
 
 

@@ -6,8 +6,7 @@ $response = [
     "isLoggedIn" => isset($_SESSION["id"])
 ];
 header('Content-Type: application/json');
-return json_encode($response);
-exit();
+echo json_encode($response);
 
 
 

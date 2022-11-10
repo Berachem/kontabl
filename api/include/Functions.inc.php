@@ -56,5 +56,77 @@ function numSirenInDB( $numSiren){
 }
 
 
+function getDiscounts($numSiren, $raisonSociale, $date_debut, $date_fin, $sens, $numUnpaidFile){
+    global $db;
+    $sql = "SELECT * FROM transaction";
+    $cond = array();
+    if ($numSiren){
+        $sql .= " WHERE numSiren = :numSiren";
+        array_push($cond, array(":numSiren", $numSiren));
+    }
+    if ($date_debut){
+        if ($numSiren){
+            $sql .= " AND dateTransaction >= :date_debut";
+        } else {
+            $sql .= " WHERE dateTransaction >= :date_debut";
+        }
+        array_push($cond, array(":date_debut", $date_debut));
+    }
+    if ($date_fin){
+        if ($numSiren || $date_debut){
+            $sql .= " AND dateTransaction <= :date_fin";
+        } else {
+            $sql .= " WHERE dateTransaction <= :date_fin";
+        }
+        array_push($cond, array(":date_fin", $date_fin));
+    }
+
+    $result = $db->q($sql, $cond);
+
+    $sql2="SELECT * FROM discount WHERE numTransaction = :numTransaction";
+    $cond2 = array();
+    foreach ($result as $row){
+        $cond2 = array(
+            array(":numTransaction", $row->numAuthorization)
+        );
+        $result2 = $db->q($sql2, $cond2);
+        $row->discount = $result2;
+    }
+
+    if ($sens){
+        $sql2.=" AND sens LIKE :sens";
+        array_push($cond2, array(":sens", $sens));
+    }
+
+    if ($numUnpaidFile){
+        $sql2.=" AND numUnpaidFile = :numUnpaidFile";
+        array_push($cond2, array(":numUnpaidFile", $numUnpaidFile));
+    }
+
+    $sql3 = "SELECT name FROM merchant WHERE siren = :numSiren";
+    $cond3 = array();
+    foreach ($result as $row){
+        $cond3 = array(
+            array(":numSiren", $row->numSiren)
+        );
+        $result3 = $db->q($sql3, $cond3);
+        $row->merchant = $result3;
+    }
+    foreach($result as $row){
+        array_push($data,array(
+            "NumSiren" => $row->numSiren,
+            "RaisonSociale" => $row->merchant[0]->name,
+            "Numero de remise"=>$row->discount[0]->numDiscount,
+            "Date Traitement"=>$row->discount[0]->dateDiscount,
+            "NombreTransactions" => getNbTransactions($db, $row->numSiren, $date_debut, $date_fin),
+            "Devise"=> getDevise($db, $row->numSiren),
+            "MontantTotal" => getMontantTotal($db, $row->numSiren, $date_debut, $date_fin),
+            "Sens"=>$row->discount[0]->sens
+        ));
+    }
+    return $data;
+}
+
+
 
 ?>

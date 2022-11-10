@@ -14,7 +14,7 @@ add a temporary merchant account
 
 */
 
-include("include/Functions.inc.php");
+include("../include/Functions.inc.php");
 session_start();
 
 
