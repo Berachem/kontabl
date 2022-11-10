@@ -1,7 +1,5 @@
 <?php
-session_start();
-$_SESSION["num"] = 722003936;
-$_SESSION["type"] = "utilisateur";
+
 /*
 GET:
  - date début (optional)
@@ -43,14 +41,25 @@ if (isset($_SESSION["num"]) && isset($_SESSION["type"])=="utilisateur"){
     }
     $response = $db->q($sql, $cond);
     $response = $response[0]; // pour avoir la data
+    $response = array(
+        $response->raisonSociale,
+        $response->siren,
+        $response->currency,
+        $response->nbTransaction,
+        $response->totalAmount,
+    );
+    $response = [
+        "success" => true,
+        "data" => $response 
+    ];
 } else{
     $response = [
         "success" => false,
-        "error" => "You are not logged in as a user"
+        "error" => "Vous n'êtes pas connecté"
     ];
 }
 header('Content-Type: application/json');
-echo json_encode($response);
+// echo json_encode($response);
 return json_encode($response);
 exit();
 ?>
