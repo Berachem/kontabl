@@ -40,7 +40,7 @@ if (isset($_SESSION['type']) && $_SESSION['type']== "admin"){
             if ($merchant){
                 $response = [
                     "success" => false,
-                    "error" => "merchant already exists"
+                    "error" => "Le marchand existe déjà"
                 ]; 
             }
             else{
@@ -52,7 +52,7 @@ if (isset($_SESSION['type']) && $_SESSION['type']== "admin"){
                 if ($merchant){
                     $response = [
                         "success" => false,
-                        "error" => "merchant already exists in the temporary table"
+                        "error" => "Le marchand a déjà fait une demande"
                     ]; 
                 }
 
@@ -66,7 +66,7 @@ if (isset($_SESSION['type']) && $_SESSION['type']== "admin"){
                      // return error
                     $response = [
                         "success" => false,
-                        "error" => "siren already exists"
+                        "error" => "Son numéro de SIREN existe déjà dans la base de données"
                     ];
                 }
                 else{
@@ -80,7 +80,7 @@ if (isset($_SESSION['type']) && $_SESSION['type']== "admin"){
                         // return error
                         $response = [
                             "success" => false,
-                            "error" => "siren already exists in the temporary table"
+                            "error" => "Son numéro de SIREN existe déjà dans la table temporaire"
                         ];
 
                     }

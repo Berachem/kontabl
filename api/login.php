@@ -55,7 +55,7 @@
     else { 
         $response = [
             "success" => false,
-            "error" => "no user match with your login, password"
+            "error" => "Identifiant ou mot de passe incorrect"
         ];           
     }
     header('Content-Type: application/json');

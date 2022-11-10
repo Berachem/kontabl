@@ -29,16 +29,11 @@ if (isset($_GET['action'])){
                 include("clientDataTable.php");
             } 
             break;
-        case "pOwnerDataTable":
-
-                include("pOwnerDataTable.php");
-            
-            break;
         case "discountDataTable":
             include("discountDataTable.php");
             break;
-        case "merchantDataTable":
-            include("merchantDataTable.php");
+        case "treasuryDataTable":
+            include("treasuryDataTable.php");
             break;
     }
 }

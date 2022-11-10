@@ -1,5 +1,5 @@
 <?php
-session_start();
+
 /*
 GET:
  - numSiren (optional)
@@ -107,9 +107,9 @@ if (isset($_SESSION["id"]) && isset($_SESSION["type"])=="productowner"){
     if (!$result){
         return json_encode(array(
             "success" => false,
-            "error" => "No merchant found"
+            "error" => "Aucun marchand trouvé"
         ));
-        echo json_encode(array("success" => false, "error" => "No merchant found"));
+         //echo json_encode(array("success" => false, "error" => "No merchant found"));
         exit();
     }
 
@@ -125,10 +125,14 @@ if (isset($_SESSION["id"]) && isset($_SESSION["type"])=="productowner"){
     }
 
     // return the response
+    $response = array(
+        "success" => true,
+        "data" => $data
+    );
 
     header('Content-Type: application/json');
-    echo json_encode($data);
-    return json_encode($data);
+    //echo json_encode($response);
+    return json_encode($response);
     exit();
 
 
@@ -136,7 +140,7 @@ if (isset($_SESSION["id"]) && isset($_SESSION["type"])=="productowner"){
 else{
     $response = [
         "success" => false,
-        "error" => "You are not logged in as a product owner"
+        "error" => "Vous n'êtes pas connecté en tant que product owner"
     ];
     header('Content-Type: application/json');
     return json_encode($response);
