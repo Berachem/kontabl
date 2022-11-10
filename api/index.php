@@ -46,10 +46,3 @@ if (isset($_GET['action'])){
 
 ?>
 
-<!--
-<form action="Login.php" action="insertion_form_BD.php" method="POST">
-    <b>indentifiant:</b> <input type="text" name="login" required value="7745511214"/>
-    <b>Mot de passe:</b><input type="text" name="password" required value="7745511214"/><br />
-    <input type="reset" name="reset" value="Effacez" class = "boutton_formulaire"/> <input type="submit" name="submit" value="Validez" class = "boutton_formulaire"/>
-</form> -->
-
