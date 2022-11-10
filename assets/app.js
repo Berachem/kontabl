@@ -23,6 +23,7 @@ document.addEventListener('alpine:init', () => {
             })
                 .then(res => res.json());
             if (res.success) {
+                localStorage.setItem('userType', res.type);
                 $router.push('/search');
                 return;
             }
