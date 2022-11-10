@@ -34,3 +34,10 @@ document.addEventListener('alpine:init', () => {
         }
     }));
 });
+
+document.addEventListener('DOMContentLoaded', () => {
+    const hash = window.location.hash;
+    if (!hash) {
+        window.location.hash = '#/';
+    }
+});
