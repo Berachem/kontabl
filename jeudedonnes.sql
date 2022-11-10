@@ -1,13 +1,14 @@
 -- phpMyAdmin SQL Dump
--- version 4.6.6deb4
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
--- Client :  sqletud.u-pem.fr
--- Généré le :  Mer 09 Novembre 2022 à 20:53
--- Version du serveur :  5.7.30-log
--- Version de PHP :  7.0.33-0+deb9u7
+-- Hôte : localhost:3306
+-- Généré le : jeu. 10 nov. 2022 à 13:15
+-- Version du serveur : 8.0.30
+-- Version de PHP : 7.4.32
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+START TRANSACTION;
 SET time_zone = "+00:00";
 
 
@@ -17,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de données :  `berachem.markria_db`
+-- Base de données : `projet_qualite_dev`
 --
 
 -- --------------------------------------------------------
@@ -30,10 +31,10 @@ CREATE TABLE `admin` (
   `idAdmin` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
   `name` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 --
--- Contenu de la table `admin`
+-- Déchargement des données de la table `admin`
 --
 
 INSERT INTO `admin` (`idAdmin`, `password`, `name`) VALUES
@@ -46,16 +47,16 @@ INSERT INTO `admin` (`idAdmin`, `password`, `name`) VALUES
 --
 
 CREATE TABLE `discount` (
-  `numDiscount` int(11) NOT NULL,
-  `numTransaction` int(11) NOT NULL,
+  `numDiscount` int NOT NULL,
+  `numTransaction` int NOT NULL,
   `sens` char(1) NOT NULL,
   `unpaidWording` varchar(75) DEFAULT NULL COMMENT 'c''est le libellé du pourquoi c''est un impayé',
   `numUnpaidFile` char(5) DEFAULT NULL COMMENT 'num dossier impayé',
   `dateDiscount` datetime DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 --
--- Contenu de la table `discount`
+-- Déchargement des données de la table `discount`
 --
 
 INSERT INTO `discount` (`numDiscount`, `numTransaction`, `sens`, `unpaidWording`, `numUnpaidFile`, `dateDiscount`) VALUES
@@ -66,7 +67,12 @@ INSERT INTO `discount` (`numDiscount`, `numTransaction`, `sens`, `unpaidWording`
 (12, 4, '+', '', '', '2020-08-01 10:49:45'),
 (13, 7, '-', 'plafond bancaire atteint', '2365F', '2022-09-05 11:13:32'),
 (14, 6, '+', NULL, NULL, '2022-11-09 09:45:37'),
-(15, 7, '+', NULL, NULL, '2022-11-25 16:30:26');
+(15, 7, '+', NULL, NULL, '2022-11-25 16:30:26'),
+(16, 5, '+', NULL, NULL, '2022-11-01 14:10:12'),
+(17, 10, '-', 'Ceiling reached', 'BAD4A', NULL),
+(18, 8, '-', 'Account empty', 'A1FTG', NULL),
+(19, 9, '', 'Bad review', 'RFTYH', NULL),
+(20, 11, '', 'Unknow error', 'MPS5V', NULL);
 
 -- --------------------------------------------------------
 
@@ -82,17 +88,19 @@ CREATE TABLE `merchant` (
   `network` char(2) NOT NULL,
   `password` varchar(350) NOT NULL,
   `idLogin` varchar(350) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 --
--- Contenu de la table `merchant`
+-- Déchargement des données de la table `merchant`
 --
 
 INSERT INTO `merchant` (`raisonSociale`, `siren`, `currency`, `numCarte`, `network`, `password`, `idLogin`) VALUES
+('Action Contre la faim', '123456789', 'EUR', '5879', 'fr', '$2y$10$yr.XKAmVAxKTpkYHOzN4/uJEnzQz0tRW7zq0.P01w5pvohrgqAoaK', 'test'),
 ('Louis Vuitton Services', '347662454', 'USD', '4589', 'MC', '', 'louisvi'),
 ('Leroy Merlin Noisy', '384560942', 'EUR', '7485', 'AE', '$2y$10$bb5LScjly5Y.YtCavNcAmOnvTYDkMm8cJqDjai.JhzynTOwyyvd4m', '7745511214'),
 ('Gucci France', '632032348', 'EUR', '9685', 'VS', '', 'guccifrance'),
-('McDonald Champs sur Marne', '722003936', 'EUR', '1796', 'VS', '$2y$10$9pm/PQ3lnu11mo57tgjzluOr.KYJdLMEPRU5klHN6zPjgXRGx4tmK', '8755269857');
+('McDonald Champs sur Marne', '722003936', 'EUR', '1796', 'VS', '$2y$10$9pm/PQ3lnu11mo57tgjzluOr.KYJdLMEPRU5klHN6zPjgXRGx4tmK', '8755269857'),
+('Burger King', '987654321', 'USD', '8565', 'en', '$2y$10$hNOOjneT/qvL3szZvdCb9.kz0g5VrmZ5U0HThVPGUfvJN4MX00/CC\r\n', 'anglais');
 
 -- --------------------------------------------------------
 
@@ -108,7 +116,7 @@ CREATE TABLE `merchant_temp` (
   `network` char(2) NOT NULL,
   `password` varchar(350) NOT NULL,
   `idLogin` varchar(350) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 -- --------------------------------------------------------
 
@@ -120,10 +128,10 @@ CREATE TABLE `productowner` (
   `idProductowner` varchar(255) NOT NULL,
   `name` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 --
--- Contenu de la table `productowner`
+-- Déchargement des données de la table `productowner`
 --
 
 INSERT INTO `productowner` (`idProductowner`, `name`, `password`) VALUES
@@ -136,17 +144,17 @@ INSERT INTO `productowner` (`idProductowner`, `name`, `password`) VALUES
 --
 
 CREATE TABLE `transaction` (
-  `idTransaction` int(11) NOT NULL,
+  `idTransaction` int NOT NULL,
   `numAuthorization` char(6) NOT NULL,
   `dateTransaction` datetime NOT NULL,
   `endingFoursCardNumbers` char(4) NOT NULL,
   `currency` varchar(3) NOT NULL,
   `numSiren` char(9) NOT NULL,
-  `amount` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `amount` int NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 --
--- Contenu de la table `transaction`
+-- Déchargement des données de la table `transaction`
 --
 
 INSERT INTO `transaction` (`idTransaction`, `numAuthorization`, `dateTransaction`, `endingFoursCardNumbers`, `currency`, `numSiren`, `amount`) VALUES
@@ -156,10 +164,14 @@ INSERT INTO `transaction` (`idTransaction`, `numAuthorization`, `dateTransaction
 (4, 'Y465L2', '2022-11-19 04:31:18', '3657', 'EUR', '722003936', 1200000),
 (5, 'UI8568', '2022-11-11 20:10:27', '9856', 'EUR', '632032348', 890000),
 (6, '23FD89', '2022-10-13 10:24:16', '4156', 'EUR', '347662454', 213000),
-(7, '78MP36', '2022-10-16 10:24:16', '6515', 'EUR', '347662454', 56000);
+(7, '78MP36', '2022-10-16 10:24:16', '6515', 'EUR', '347662454', 56000),
+(8, 'THD4GR', '2022-11-10 13:06:26', '4578', 'EUR', '632032348', 10000),
+(9, 'UJLDAE', '2022-11-10 13:06:26', '7458', 'EUR', '632032348', 5400),
+(10, 'RFZE48', '2022-11-10 13:07:32', '4512', 'USD', '347662454', 8000),
+(11, 'GBT47M', '2022-11-10 13:07:32', '9632', 'USD', '347662454', 5200);
 
 --
--- Index pour les tables exportées
+-- Index pour les tables déchargées
 --
 
 --
@@ -202,21 +214,23 @@ ALTER TABLE `transaction`
   ADD KEY `siren` (`numSiren`);
 
 --
--- AUTO_INCREMENT pour les tables exportées
+-- AUTO_INCREMENT pour les tables déchargées
 --
 
 --
 -- AUTO_INCREMENT pour la table `discount`
 --
 ALTER TABLE `discount`
-  MODIFY `numDiscount` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `numDiscount` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+
 --
 -- AUTO_INCREMENT pour la table `transaction`
 --
 ALTER TABLE `transaction`
-  MODIFY `idTransaction` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `idTransaction` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+
 --
--- Contraintes pour les tables exportées
+-- Contraintes pour les tables déchargées
 --
 
 --
@@ -230,8 +244,8 @@ ALTER TABLE `discount`
 --
 ALTER TABLE `transaction`
   ADD CONSTRAINT `siren` FOREIGN KEY (`numSiren`) REFERENCES `merchant` (`siren`) ON UPDATE CASCADE;
+COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
-
