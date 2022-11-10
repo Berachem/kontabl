@@ -18,7 +18,6 @@
             </div>
 
             <!-- Adresse mail input text -->
-            <!-- Dimensionner le field à 75 % de l'écran -->
             <div class="field label small">
                 <input type="text" x-model="user" autocomplete="username">
                 <label>Identifiant</label>
@@ -26,9 +25,11 @@
 
             <!-- Mot de passe input text -->
             <div class="field label suffix small">
-                <input type="password" x-model="password" autocomplete="current-password">
+                <input x-bind:type="inputType" x-model="password" autocomplete="current-password">
                 <label>Password</label>
-                <i>visibility</i>
+                <a href="javascript:void(0);" @click="inputType = inputType == 'password' ? 'text' : 'password'">
+                    <p class="max center-align">Voir mot de passe <i>visibility</i></p>
+                </a>
             </div>
             <!-- Bouton connexion -->
             <span x-text="errMsg" x-if="errMsg"></span>

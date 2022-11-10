@@ -14,6 +14,7 @@ document.addEventListener('alpine:init', () => {
         errMsg: "",
         user: "",
         password: "",
+        inputType: "password",
 
         async login() {
             // send data via POST params
