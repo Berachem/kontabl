@@ -40,14 +40,14 @@ if (isset($_SESSION["num"]) && isset($_SESSION["type"])=="utilisateur"){
         array_push($cond,array(":date", $dateFin));
     }
     $response = $db->q($sql, $cond);
-    $response = $response[0]; // pour avoir la data
-    $response = array(
-        $response->raisonSociale,
-        $response->siren,
-        $response->currency,
-        $response->nbTransaction,
-        $response->totalAmount,
-    );
+    $response = $response[0]; // pour avoir la data 
+    $response = array(array(
+        "raisonSociale" => $response->raisonSociale,
+        "siren" => $response->siren,
+        "currency" => $response->currency,
+        "nbTransaction" => $response->nbTransaction,
+        "totalAmount" => $response->totalAmount,
+    ));
     $response = [
         "success" => true,
         "data" => $response 
@@ -59,7 +59,6 @@ if (isset($_SESSION["num"]) && isset($_SESSION["type"])=="utilisateur"){
     ];
 }
 header('Content-Type: application/json');
-// echo json_encode($response);
-return json_encode($response);
+echo json_encode($response);
 exit();
 ?>

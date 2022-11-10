@@ -143,7 +143,7 @@ else{
         "error" => "Vous n'êtes pas connecté en tant que product owner"
     ];
     header('Content-Type: application/json');
-    return json_encode($response);
+    echo json_encode($response);
     exit();
 }
 

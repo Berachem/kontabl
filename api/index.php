@@ -35,6 +35,9 @@ if (isset($_GET['action'])){
         case "treasuryDataTable":
             include("treasuryDataTable.php");
             break;
+        case "unPaidDiscountDataTable":
+            include("unPaidDiscountDataTable.php");
+            break;
     }
 }
 

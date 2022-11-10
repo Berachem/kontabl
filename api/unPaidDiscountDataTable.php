@@ -1,5 +1,4 @@
 <?php 
-session_start();
 
 
 /*
@@ -18,12 +17,12 @@ Return a JSON object with the following parameters:
         [
             "NumSiren" => "string", ex: "123456789"
             "DateVente" => "string", ex: "2019-01-01"
-            "DateRemise" => "string", ex: "2019-02-01"
-            "numRemise" => "int", ex: 5
+            "DateDiscount" => "string", ex: "2019-02-01"
+            "numDiscount" => "int", ex: 5
             "NumCarte" => "string", ex: "1234567890123456"
             "Reseau" => "string", ex: "VISA"
             "numDossierImpayé" => "string", ex: "1234567890123456"
-            "Devise"=> "string", ex: "EUR"
+            "currency"=> "string", ex: "EUR"
             "Montant" => "int", ex: - 123 450
             "LibImpayé" => "string", ex: "Impayé"
         ],...
@@ -32,29 +31,33 @@ Return a JSON object with the following parameters:
 */
 
 
+$inUnpaidDinscountDataTable = true;
+
 include("discountDataTable.php");
-
-function getDateVente($db, $numRemise){
-    $sql = "SELECT dateTransaction FROM transaction,discount WHERE numTransaction = idTransaction AND numRemise = :numRemise";
+function getDateVente($numDiscount){
+    global $db;
+    $sql = "SELECT dateTransaction FROM transaction,discount WHERE numTransaction = idTransaction AND numDiscount = :numDiscount";
     $cond = array(
-        array(":numSiren", $numRemise)
+        array(":numDiscount", $numDiscount)
     );
     $result = $db->q($sql, $cond);
-    return $result[0]->dateVente;
+    return $result[0]->dateTransaction;
 }
 
-function getDateRemise($db,$numRemise ){
-    $sql = "SELECT dateDiscount FROM discount WHERE numDiscount = :numRemise";
+function getDateDiscount($numDiscount ){
+    global $db;
+    $sql = "SELECT dateDiscount FROM discount WHERE numDiscount = :numDiscount";
     $cond = array(
-        array(":numRemise", $numRemise)
+        array(":numDiscount", $numDiscount)
     );
     $result = $db->q($sql, $cond);
-    return $result[0]->dateRemise;
+    return $result[0]->dateDiscount;
 }
 
 
 
-function getNumCarte($db, $numSiren){
+function getNumCarte($numSiren){
+    global $db;
     $sql = "SELECT numCarte FROM merchant WHERE siren = :numSiren";
     $cond = array(
         array(":numSiren", $numSiren)
@@ -63,42 +66,46 @@ function getNumCarte($db, $numSiren){
     return $result[0]->numCarte;
 }
 
-function getReseau($db, $numSiren){
-    $sql = "SELECT reseau FROM merchant WHERE siren = :numSiren";
+function getReseau($numSiren){
+    global $db;
+    $sql = "SELECT network FROM merchant WHERE siren = :numSiren";
     $cond = array(
         array(":numSiren", $numSiren)
     );
     $result = $db->q($sql, $cond);
-    return $result[0]->reseau;
+    return $result[0]->network;
 }
 
 
-function getUnpaidFile($db, $numRemise) {
-    $sql = "SELECT numUnpaidFile FROM discount WHERE numDiscount = :numRemise";
+function getUnpaidFile($numDiscount) {
+    global $db;
+    $sql = "SELECT numUnpaidFile FROM discount WHERE numDiscount = :numDiscount";
     $cond = array(
-        array(":numRemise", $numRemise)
+        array(":numDiscount", $numDiscount)
     );
     $result = $db->q($sql, $cond);
     return $result[0]->numUnpaidFile;
 }
 
 
-function getLibImpaye($db, $numRemise) {
-    $sql = "SELECT unpaidWording FROM discount WHERE numDiscount = :numRemise";
+function getLibImpaye($numDiscount) {
+    global $db; 
+    $sql = "SELECT unpaidWording FROM discount WHERE numDiscount = :numDiscount";
     $cond = array(
-        array(":numRemise", $numRemise)
+        array(":numDiscount", $numDiscount)
     );
     $result = $db->q($sql, $cond);
-    return $result[0]->libUnpaidFile;
+    return $result[0]->unpaidWording;
 }
 
 
 
 
-function getMontant($db, $numRemise){
-    $sql = "SELECT amount FROM transaction,discount WHERE numTransaction = idTransaction AND numRemise = :numRemise";
+function getMontant($numDiscount){
+    global $db; 
+    $sql = "SELECT amount FROM transaction,discount WHERE numTransaction = idTransaction AND numDiscount = :numDiscount";
     $cond = array(
-        array(":numRemise", $numRemise)
+        array(":numDiscount", $numDiscount)
     );
     $result = $db->q($sql, $cond);
     return $result[0]->amount;
@@ -109,30 +116,28 @@ function getMontant($db, $numRemise){
 $finaldata = array();
 $data = array();
 
-include("discountDataTable.php");
-
-
 
 if ($response["success"] == true){
+    //echo "lol";
     // filtrer la réponse en gardant que les lignes dont le sens est "impayé"
     $data = array_filter((array) $response["data"], function($row){
-        return $row["sens"] == "-";
+        return $row["Sens"] == '-';
     });
 
 
-    // renvoie le json avec le numSiren, la dateVente, la dateRemise, le numCarte, le reseau, le numDossierImpayé, la devise, le montant et le libImpayé
+    // renvoie le json avec le numSiren, la dateVente, la dateDiscount, le numCarte, le reseau, le numDossierImpayé, la currency, le montant et le libImpayé
 
     foreach ($data as $row){
         $finaldata[] = array(
-            "NumSiren" => $row["numSiren"], 
-            "DateVente" => getDateVente($db, $row["Numero de remise"]), 
-            "DateRemise" => getDateRemise($db, $row["Numero de remise"]), 
-            "NumCarte" => getNumCarte($db, $row["numSiren"]), 
-            "Reseau" => getReseau($db, $row["numSiren"]),
-            "numDossierImpayé" => getUnpaidFile($db, $row["Numero de remise"]),
-            "Devise"=> $row["devise"],
-            "Montant" => getMontant($db, $row["Numero de remise"]),
-            "LibImpayé" => getLibImpaye($db, $row["Numero de remise"])
+            "NumSiren" => $row["NumSiren"], 
+            "DateVente" => getDateVente($row["numDiscount"]), 
+            "DateDiscount" => getDateDiscount($row["numDiscount"]), 
+            "NumCarte" => getNumCarte($row["NumSiren"]), 
+            "Reseau" => getReseau($row["NumSiren"]),
+            "numDossierImpayé" => getUnpaidFile($row["numDiscount"]),
+            "currency"=> $row["Currency"],
+            "Montant" => getMontant($row["numDiscount"]),
+            "LibImpayé" => getLibImpaye($row["numDiscount"])
         );
         
     }
@@ -142,7 +147,7 @@ if ($response["success"] == true){
         "data" => $finaldata
     ];
     header('Content-Type: application/json');
-    return json_encode($response);
+    echo json_encode($response);
     exit();
 
 
