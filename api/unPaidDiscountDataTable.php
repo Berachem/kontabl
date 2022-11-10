@@ -32,7 +32,6 @@ Return a JSON object with the following parameters:
 */
 
 
-include("include/Functions.inc.php");
 include("discountDataTable.php");
 
 function getDateVente($db, $numRemise){
@@ -110,10 +109,13 @@ function getMontant($db, $numRemise){
 $finaldata = array();
 $data = array();
 
+include("discountDataTable.php");
+
+
 
 if ($response["success"] == true){
     // filtrer la réponse en gardant que les lignes dont le sens est "impayé"
-    $data = array_filter($response["data"], function($row){
+    $data = array_filter((array) $response["data"], function($row){
         return $row["sens"] == "-";
     });
 
