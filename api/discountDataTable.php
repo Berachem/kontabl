@@ -1,7 +1,5 @@
 <?php
 session_start();
-$session_num=347662454;
-$user_type="productowner";
 /*
 GET:
  - numSiren (optional)
@@ -58,58 +56,8 @@ function getDevise($db, $numSiren){
     );
     $result = $db->q($sql, $cond);
     return $result[0]->currency;
-};
-$numSiren = isset($_GET["numSiren"]) ? $_GET["numSiren"] : null;
-$raisonSociale = isset($_GET["raisonSociale"]) ? $_GET["raisonSociale"] : null;
-$date_debut = isset($_GET["date_debut"]) ? $_GET["date_debut"] : null;
-$date_fin = isset($_GET["date_fin"]) ? $_GET["date_fin"] : null;
-if (($user_type == "productowner")||($user_type == "user" && $session_num==$numSiren)){
-    $data = array();
-    $sql = "SELECT * FROM transaction";
-    $cond = array();
-    if ($numSiren){
-        $sql .= " WHERE numSiren = :numSiren";
-        array_push($cond, array(":numSiren", $numSiren));
-    }
-    $result = $db->q($sql, $cond);
-    foreach($result as $row){
-        $trans=array();
-        $trans["NumSiren"] = $row->numSiren;
-        $sql2 = "SELECT raisonSociale FROM merchant WHERE siren = :numSiren";
-        $cond2 = array(array(":numSiren", $row->numSiren));
-        $result2 = $db->q($sql2, $cond2);
-        $trans["RaisonSociale"] = $result2[0]->raisonSociale;
-        $sql3="SELECT * FROM discount WHERE numTransaction = :numTransaction";
-        $cond3 = array(array(":numTransaction", $row->idTransaction));
-        if ($date_debut){
-            $sql3 .= " AND dateDiscount >= :date_debut";
-            array_push($cond3, array(":date_debut", $date_debut));
-        }
-        if ($date_fin){
-            $sql3 .= " AND dateDiscount <= :date_fin";
-            array_push($cond3, array(":date_fin", $date_fin));
-        }
-        $result3 = $db->q($sql3, $cond3);
-        if ($result3){
-            $trans["numRemise"]=$result3[0]->numDiscount;
-            $trans["dateRemise"]=$result3[0]->dateDiscount;
-        }
-        else{
-            continue;
-        }
-        $trans["NombreTransactions"] = getNbTransactions($db, $row->numSiren, $date_debut, $date_fin);
-        $trans["Devise"] = getDevise($db, $row->numSiren);
-        $trans["MontantTotal"] = getMontantTotal($db, $row->numSiren, $date_debut, $date_fin);
-        if ($result3){
-            $trans["Sens"]=$result3[0]->sens;
-        }
-        array_push($data, $trans);
-    }
-    header('Content-Type: application/json');
-    echo json_encode($data);
-    return json_encode($data);
-    exit();
-}else{
+}
+if($user_type==null){
     $response = [
         "success" => false,
         "error" => "You are not logged in"
@@ -118,4 +66,76 @@ if (($user_type == "productowner")||($user_type == "user" && $session_num==$numS
     return json_encode($response);
     exit();
 }
+else{
+    if($_SESSION["id"]=="productowner"){
+        $numSiren = isset($_GET["numSiren"]) ? $_GET["numSiren"] : null;
+        $raisonSociale = isset($_GET["raisonSociale"]) ? $_GET["raisonSociale"] : null;
+    }else{
+        $numSiren = $_SESSION["numSiren"];
+        $raisonSociale = null;
+    }
+    $date_debut = isset($_GET["date_debut"]) ? $_GET["date_debut"] : null;
+    $date_fin = isset($_GET["date_fin"]) ? $_GET["date_fin"] : null;
+        $data = array();
+        $sql = "SELECT * FROM transaction";
+        $cond = array();
+        if ($raisonSociale){
+            $sql4="SELECT siren FROM merchant WHERE raisonSociale LIKE :raisonSociale";
+            $cond4=array(
+                array(":raisonSociale", "%".$raisonSociale."%")
+            );
+            $result4=$db->q($sql4, $cond4);
+            if($result4){
+                $numSiren=$result4[0]->siren;
+            }
+        }
+        if ($numSiren){
+            $sql .= " WHERE numSiren = :numSiren";
+            array_push($cond, array(":numSiren", $numSiren));
+        }
+        $result = $db->q($sql, $cond);
+        foreach($result as $row){
+            $trans=array();
+            $trans["NumSiren"] = $row->numSiren;
+            $sql2 = "SELECT raisonSociale FROM merchant WHERE siren = :numSiren";
+            $cond2 = array(array(":numSiren", $row->numSiren));
+            $result2 = $db->q($sql2, $cond2);
+            $trans["RaisonSociale"] = $result2[0]->raisonSociale;
+            $sql3="SELECT * FROM discount WHERE numTransaction = :numTransaction";
+            $cond3 = array(array(":numTransaction", $row->idTransaction));
+            if ($date_debut){
+                $sql3 .= " AND dateDiscount >= :date_debut";
+                array_push($cond3, array(":date_debut", $date_debut));
+            }
+            if ($date_fin){
+                $sql3 .= " AND dateDiscount <= :date_fin";
+                array_push($cond3, array(":date_fin", $date_fin));
+            }
+            $result3 = $db->q($sql3, $cond3);
+            if ($result3){
+                $trans["numRemise"]=$result3[0]->numDiscount;
+                $trans["dateRemise"]=$result3[0]->dateDiscount;
+            }
+            else{
+                continue;
+            }
+            $trans["NombreTransactions"] = getNbTransactions($db, $row->numSiren);
+            $trans["Devise"] = getDevise($db, $row->numSiren);
+            $trans["MontantTotal"] = getMontantTotal($db, $row->numSiren);
+            if ($result3){
+                $trans["Sens"]=$result3[0]->sens;
+            }
+            array_push($data, $trans);
+        }
+        // return the response
+    $response = array(
+        "success" => true,
+        "data" => $data
+    );
+
+    header('Content-Type: application/json');
+    //echo json_encode($response);
+    return json_encode($response);
+    exit();
+    }
 ?>
