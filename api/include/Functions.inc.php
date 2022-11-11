@@ -55,8 +55,20 @@ function numSirenInDB( $numSiren){
     return count($result) > 0;
 }
 
+/*FONCTION DE CLEMENT qui renvoie une liste de dictionnaire contenants les clés :
+    -  NumSiren
+    -  RaisonSociale
+    - Numero de remise
+    - Date Traitement
+    - NombreTransactions
+    - Devise
+    - MontantTotal
+    - Sens
 
+En fonction des paramètres donnés
+*/
 function getDiscounts($numSiren, $raisonSociale, $date_debut, $date_fin, $sens, $numUnpaidFile){
+    
     global $db;
     $sql = "SELECT * FROM transaction";
     $cond = array();
@@ -115,7 +127,7 @@ function getDiscounts($numSiren, $raisonSociale, $date_debut, $date_fin, $sens, 
     foreach($result as $row){
         array_push($data,array(
             "NumSiren" => $row->numSiren,
-            "RaisonSociale" => $row->merchant[0]->name,
+            "RaisonSociale" => $row->merchant[0]->raisonSociale,
             "Numero de remise"=>$row->discount[0]->numDiscount,
             "Date Traitement"=>$row->discount[0]->dateDiscount,
             "NombreTransactions" => getNbTransactions($db, $row->numSiren, $date_debut, $date_fin),

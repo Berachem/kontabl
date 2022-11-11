@@ -32,7 +32,7 @@ Return a JSON object with the following parameters:
 */
 
 
-include("../include/Functions.inc.php");
+include("include/Functions.inc.php");
 
 
 function getDateVente($db, $numRemise){

@@ -21,7 +21,7 @@ Return a JSON object with the following parameters:
         
     ]
 */
-if (isset($_SESSION["num"]) && isset($_SESSION["type"])=="utilisateur"){ 
+if (isset($_SESSION["num"]) && $_SESSION["type"]=="user"){ 
     global $db;
     $numSiren = $_SESSION["num"];
     $dateDebut = isset($_GET["dateDebut"]) ? $_GET["dateDebut"] : null;

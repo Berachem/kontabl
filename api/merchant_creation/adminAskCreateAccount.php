@@ -14,7 +14,7 @@ add a temporary merchant account
 
 */
 
-include("../include/Functions.inc.php");
+include("include/Functions.inc.php");
 session_start();
 
 
@@ -113,11 +113,17 @@ if (isset($_SESSION['type']) && $_SESSION['type']== "admin"){
 
         
 
-}}}
+}}
+}// if the user is not admin
+else{
+    $response = [
+        "success" => false,
+        "error" => "Vous n'êtes pas administateur"
+    ];
+}
 
-
-
-
-
+// return the response
+header('Content-Type: application/json');
+echo json_encode($response);
 
 ?>

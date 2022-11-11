@@ -22,7 +22,7 @@ Return a JSON object with the following parameters:
         
     ]
 */
-include("../include/Functions.inc.php");
+include("include/Functions.inc.php");
 
 
 
@@ -70,7 +70,7 @@ function getDevise($db, $numSiren){
     return $result[0]->currency;
 }
 
-if (isset($_SESSION["id"]) && isset($_SESSION["type"])=="productowner"){  
+if (isset($_SESSION["id"]) && $_SESSION["type"]=="product owner"){  
     // check GET parameters
     $numSiren = isset($_GET["numSiren"]) ? $_GET["numSiren"] : null;
     $raisonSociale = isset($_GET["raisonSociale"]) ? $_GET["raisonSociale"] : null;

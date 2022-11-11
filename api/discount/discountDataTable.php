@@ -24,7 +24,7 @@ GET:
     ]
 */
 
-include("../include/Functions.inc.php");
+include("include/Functions.inc.php");
 
 
 function getNbTransactions($db, $numSiren, $date_debut, $date_fin){
@@ -87,7 +87,7 @@ if (isset($_SESSION["id"])){
 
 
     $response = array(
-        "status" => "success",
+        "success" => true,
         "data" => $data
     );
 

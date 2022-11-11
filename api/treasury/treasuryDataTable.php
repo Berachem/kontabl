@@ -17,9 +17,9 @@ if (!(isset($_SESSION["num"]))){
 
 
 if ($_SESSION["type"] == "user") {
-    include("/treasury/merchantDataTable.php");
-} else if ($_SESSION["type"] == "productowner" || $_SESSION["type"] == "admin") {
-    include("/treasury/pOwnerDataTable.php");
+    include("treasury/merchantDataTable.php");
+} else if ($_SESSION["type"] == "product owner" || $_SESSION["type"] == "admin") {
+    include("treasury/pOwnerDataTable.php");
 }
 
 header('Content-Type: application/json');
