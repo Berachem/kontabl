@@ -32,10 +32,10 @@ if (isset($_GET['action'])){
                 include("discount/unPaidDiscountDataTable.php");
             break;
         case "createMerchantTemporarily":
-                include("merchant_creation/adminAskCreateAccount.php");
+                include("merchant_creation/createMerchantTemporarily.php");
             break;
         case "acceptMerchantCreation":
-                include("merchant_creation/pOwnerAcceptAccountCreation.php");
+                include("merchant_creation/acceptMerchantCreation.php");
             break;
         
         

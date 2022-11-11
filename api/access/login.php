@@ -1,10 +1,15 @@
 <?php   
     // include "include/Connexion.inc.php"; //à utiliser si on le test indépendament
 
-    if ((!isset($_POST['login'])) && (!isset($_POST['password']))) {
-        exit("Veuillez passer par la page connexion");
-    }
-    session_start();
+
+
+    if ((!isset($_POST['login'])) || (!isset($_POST['password']))) {
+        $response = [
+            "success" => false,
+            "error" => "Vous n'avais pas renseigné de login ou de mot de passe"
+        ];
+    }else{
+        session_start();
     $login = $_POST['login'];
     $password = $_POST['password'];
     $param = array(
@@ -58,5 +63,7 @@
             "error" => "Identifiant ou mot de passe incorrect"
         ];           
     }
+    }
+    
     header('Content-Type: application/json');
-    echo json_encode($response);
+    echo json_encode($response, JSON_UNESCAPED_UNICODE);

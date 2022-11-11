@@ -29,7 +29,7 @@ include("include/Functions.inc.php");
 
 
 
-function getNbTransactions($db, $numSiren, $date){
+function getNbTransactionsByOneDate($db, $numSiren, $date){
     $sql = "SELECT COUNT(*) nombre FROM transaction WHERE numSiren = :numSiren";
     $cond = array(
         array(":numSiren", $numSiren)
@@ -42,7 +42,7 @@ function getNbTransactions($db, $numSiren, $date){
     return $result[0]->nombre;
 }
 
-function getMontantTotal($db, $numSiren, $date){
+function getMontantTotalByOneDate($db, $numSiren, $date){
     $sql = "SELECT SUM(amount) somme FROM transaction WHERE numSiren = :numSiren";
     $cond = array(
         array(":numSiren", $numSiren)
@@ -60,17 +60,8 @@ function getMontantTotal($db, $numSiren, $date){
 
 
 
-function getDevise($db, $numSiren){
-    // get the currency of the merchant
-    $sql = "SELECT currency FROM merchant WHERE siren = :numSiren";
-    $cond = array(
-        array(":numSiren", $numSiren)
-    );
-    $result = $db->q($sql, $cond);
-    return $result[0]->currency;
-}
 
-if (isset($_SESSION["id"]) && $_SESSION["type"]=="product owner"){  
+if (isset($_SESSION["num"]) && ($_SESSION["type"]=="product owner" || $_SESSION["type"]=="admin")){  
     // check GET parameters
     $numSiren = isset($_GET["numSiren"]) ? $_GET["numSiren"] : null;
     $raisonSociale = isset($_GET["raisonSociale"]) ? $_GET["raisonSociale"] : null;
@@ -108,20 +99,20 @@ if (isset($_SESSION["id"]) && $_SESSION["type"]=="product owner"){
         echo json_encode(array(
             "success" => false,
             "error" => "Aucun marchand trouvé"
-        ));
+        ), JSON_UNESCAPED_UNICODE);
         exit();
         
     }
 
     // get the data
     foreach ($result as $merchant){
-        $data[] = array(
+        array_push($data,array(
             "NumSiren" => $merchant->siren,
             "RaisonSociale" => $merchant->raisonSociale,
-            "NombreTransactions" => getNbTransactions($db, $merchant->siren, $date),
+            "NombreTransactions" => getNbTransactionsByOneDate($db, $merchant->siren, $date),
             "Devise"=> getDevise($db, $merchant->siren),
-            "MontantTotal" => getMontantTotal($db, $merchant->siren, $date)
-        );
+            "MontantTotal" => getMontantTotalByOneDate($db, $merchant->siren, $date)
+        ));
     }
 
     // return the response
@@ -134,13 +125,13 @@ if (isset($_SESSION["id"]) && $_SESSION["type"]=="product owner"){
 else{
     $response = [
         "success" => false,
-        "error" => "Vous n'êtes pas connecté en tant que product owner"
+        "error" => "Vous n'êtes pas connecté en tant que product owner ou admin"
     ];
 
     
 }
 header('Content-Type: application/json');
-echo json_encode($response);
+echo json_encode($response, JSON_UNESCAPED_UNICODE);
 
 
 

@@ -25,16 +25,16 @@ session_start();
 if (isset($_SESSION['type']) && $_SESSION['type']== "admin"){
 
     // Check if all the parameters are set
-    if (isset($_GET["raisonSociale"]) && isset($_GET["siren"]) && isset($_GET["currency"]) && isset($_GET["numCarte"]) && isset($_GET["network"]) 
+    if (isset($_POST["raisonSociale"]) && isset($_POST["siren"]) && isset($_POST["currency"]) && isset($_POST["numCarte"]) && isset($_POST["network"]) 
     && isset($_POST["idLogin"]) && isset($_POST["password"])){
 
         // Check if the parameters are not empty
-        if (!empty($_GET["raisonSociale"]) && !empty($_GET["siren"]) && !empty($_GET["currency"]) && !empty($_GET["numCarte"]) && !empty($_GET["network"])
+        if (!empty($_POST["raisonSociale"]) && !empty($_POST["siren"]) && !empty($_POST["currency"]) && !empty($_POST["numCarte"]) && !empty($_POST["network"])
         && !empty($_POST["idLogin"]) && !empty($_POST["password"])){
 
             // Check if the merchant already exists
             $param = array(
-                array(':idLogin',$_GET['idLogin'],PDO::PARAM_STR),
+                array(':idLogin',$_POST['idLogin'],PDO::PARAM_STR),
             );
             $merchant = $db -> q("SELECT * FROM merchant WHERE idLogin = :idLogin;", $param); 
             if ($merchant){
@@ -46,7 +46,7 @@ if (isset($_SESSION['type']) && $_SESSION['type']== "admin"){
             else{
                 // Check if the merchant is already in the temporary table
                 $param = array(
-                    array(':idLogin',$_GET['idLogin'],PDO::PARAM_STR),
+                    array(':idLogin',$_POST['idLogin'],PDO::PARAM_STR),
                 );
                 $merchant = $db -> q("SELECT * FROM merchant_temp WHERE idLogin = :idLogin;", $param); 
                 if ($merchant){
@@ -58,7 +58,7 @@ if (isset($_SESSION['type']) && $_SESSION['type']== "admin"){
 
                 // Check if the siren already exists
                 $param = array(
-                    array(':siren',$_GET['siren'],PDO::PARAM_STR),
+                    array(':siren',$_POST['siren'],PDO::PARAM_STR),
                 );
                 $merchant = $db -> q("SELECT * FROM merchant WHERE siren = :siren;", $param);
 
@@ -72,7 +72,7 @@ if (isset($_SESSION['type']) && $_SESSION['type']== "admin"){
                 else{
                     // check if the siren already exists in the temporary table
                     $param = array(
-                        array(':siren',$_GET['siren'],PDO::PARAM_STR),
+                        array(':siren',$_POST['siren'],PDO::PARAM_STR),
                     );
                     $merchant = $db -> q("SELECT * FROM merchant_temp WHERE siren = :siren;", $param);
 
@@ -91,20 +91,20 @@ if (isset($_SESSION['type']) && $_SESSION['type']== "admin"){
                 if (!isset($response)){
                     // add the merchant to the temporary table
                     $param = array(
-                        array(':raisonSociale',$_GET['raisonSociale'],PDO::PARAM_STR),
-                        array(':siren',$_GET['siren'],PDO::PARAM_STR),
-                        array(':currency',$_GET['currency'],PDO::PARAM_STR),
-                        array(':numCarte',$_GET['numCarte'],PDO::PARAM_STR),
-                        array(':network',$_GET['network'],PDO::PARAM_STR),
-                        array(':password',$_GET['password'],PDO::PARAM_STR),
-                        array(':idLogin',$_GET['idLogin'],PDO::PARAM_STR),
+                        array(':raisonSociale',$_POST['raisonSociale'],PDO::PARAM_STR),
+                        array(':siren',$_POST['siren'],PDO::PARAM_STR),
+                        array(':currency',$_POST['currency'],PDO::PARAM_STR),
+                        array(':numCarte',$_POST['numCarte'],PDO::PARAM_STR),
+                        array(':network',$_POST['network'],PDO::PARAM_STR),
+                        array(':password',$_POST['password'],PDO::PARAM_STR),
+                        array(':idLogin',$_POST['idLogin'],PDO::PARAM_STR),
                     );
                     $merchant = $db -> q("INSERT INTO merchant_temp (raisonSociale, siren, currency, numCarte, network, password, idLogin) VALUES (:raisonSociale, :siren, :currency, :numCarte, :network, :password, :idLogin);", $param);
 
                     // return success
                     $response = [
                         "success" => true,
-                        "numSiren" => $_GET['siren']
+                        "numSiren" => $_POST['siren']
                     ];
                 }
 
@@ -124,6 +124,6 @@ else{
 
 // return the response
 header('Content-Type: application/json');
-echo json_encode($response);
+echo json_encode($response, JSON_UNESCAPED_UNICODE);
 
 ?>

@@ -94,10 +94,11 @@ function getMontantTotal($db, $numSiren, $date_debut, $date_fin){
 
 function getDevise($db, $numSiren){
     // get the currency of the merchant
-    $sql = "SELECT currency FROM transaction WHERE numSiren = :numSiren";
+    $sql = "SELECT currency FROM merchant WHERE siren = :numSiren";
     $cond = array(
         array(":numSiren", $numSiren)
     );
+
     $result = $db->q($sql, $cond);
     return $result[0]->currency;
 };
@@ -115,7 +116,7 @@ function getDevise($db, $numSiren){
 
 En fonction des paramètres donnés
 */
-function getDiscounts($numSiren, $raisonSociale, $date_debut, $date_fin, $sens){
+function getDiscounts($numSiren, $raisonSociale, $date_debut, $date_fin, $sens, $numUnPaidFile){
     global $db;
     $data = array();
     $sql = "SELECT * FROM transaction";
@@ -145,6 +146,12 @@ function getDiscounts($numSiren, $raisonSociale, $date_debut, $date_fin, $sens){
         $cond3 = array(
             array(":numTransaction", $transaction->idTransaction)
         );
+
+        if ($numUnPaidFile){
+            $sql3 .= " AND numUnPaidFile = :numUnPaidFile";
+            array_push($cond3, array(":numUnPaidFile", $numUnPaidFile));
+        }
+
         $result3 = $db->q($sql3, $cond3);
         if($result3){
             foreach($result3 as $discount){

@@ -1,7 +1,9 @@
 <?php
 session_start();
-$session_num=347662454;
-$session_type='productowner';
+
+
+
+
 /*
 GET:
  - numSiren (optional)
@@ -28,12 +30,12 @@ GET:
 
 include("include/Functions.inc.php");
 
-if($session_type){
-    if ($session_type == "productowner") {
+if(isset($_SESSION['num'])){
+    if ($_SESSION["type"] == "product owner" || $_SESSION["type"] == "admin") {
         $numSiren = isset($_GET["numSiren"]) ? $_GET["numSiren"] : null;
         $raisonSociale = isset($_GET["raisonSociale"]) ? $_GET["raisonSociale"] : null;
     } else {
-        $numSiren = $session_num;
+        $numSiren = $_SESSION['num'];
         $raisonSociale = null;
     }
 
@@ -42,7 +44,7 @@ if($session_type){
         $sens=isset($_GET["sens"]) ? $_GET["sens"] : null;
         $data = array();
 
-        $data = getDiscounts($numSiren, $raisonSociale, $date_debut, $date_fin, $sens);
+        $data = getDiscounts($numSiren, $raisonSociale, $date_debut, $date_fin, $sens,null);
 
         $response = array(
             "success" => true,
@@ -51,11 +53,12 @@ if($session_type){
 } else{
     $response = [
         "success" => false,
-        "error" => "You are not logged in"
+        "error" => "Vous n'êtes pas connecté",
+        "notLogged" => true
     ];
 }
 
 header('Content-Type: application/json');
-echo json_encode($response);
+echo json_encode($response, JSON_UNESCAPED_UNICODE);
 
 ?>
