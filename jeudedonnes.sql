@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : localhost:3306
--- Généré le : sam. 15 oct. 2022 à 17:30
+-- Généré le : jeu. 10 nov. 2022 à 13:15
 -- Version du serveur : 8.0.30
--- Version de PHP : 8.1.10
+-- Version de PHP : 7.4.32
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -29,42 +29,94 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `admin` (
   `idAdmin` varchar(255) NOT NULL,
-  `mdp` varchar(255) NOT NULL,
-  `nom` varchar(255) NOT NULL
+  `password` varchar(255) NOT NULL,
+  `name` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 --
 -- Déchargement des données de la table `admin`
 --
 
-INSERT INTO `admin` (`idAdmin`, `mdp`, `nom`) VALUES
-('2001458436', '2001458436', 'ScrumMaster');
+INSERT INTO `admin` (`idAdmin`, `password`, `name`) VALUES
+('2001458436', '$2y$10$it0cUEoKsJxX1KsTmGkWUOeY7nzgNlB1oFKtmu/22FGdymIioFtxW\n', 'ScrumMaster');
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `commerçant`
+-- Structure de la table `discount`
 --
 
-CREATE TABLE `commerçant` (
-  `nom` varchar(30) NOT NULL,
-  `siren` char(9) NOT NULL,
-  `nbtransaction` int NOT NULL,
-  `devise` varchar(3) NOT NULL,
-  `montantTotal` int NOT NULL,
-  `numCarte` char(16) NOT NULL,
-  `réseau` char(2) NOT NULL,
-  `mdp` varchar(350) NOT NULL,
-  `idConnexion` varchar(350) NOT NULL
+CREATE TABLE `discount` (
+  `numDiscount` int NOT NULL,
+  `numTransaction` int NOT NULL,
+  `sens` char(1) NOT NULL,
+  `unpaidWording` varchar(75) DEFAULT NULL COMMENT 'c''est le libellé du pourquoi c''est un impayé',
+  `numUnpaidFile` char(5) DEFAULT NULL COMMENT 'num dossier impayé',
+  `dateDiscount` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 --
--- Déchargement des données de la table `commerçant`
+-- Déchargement des données de la table `discount`
 --
 
-INSERT INTO `commerçant` (`nom`, `siren`, `nbtransaction`, `devise`, `montantTotal`, `numCarte`, `réseau`, `mdp`, `idConnexion`) VALUES
-('Leroy Merlin Noisy', '384560942', 0, 'EUR', 0, '7485', 'VS', '2001458436', '2001458436'),
-('McDonald Champs sur Marne', '722003936', 0, 'EUR', 0, '1796', 'VS', '8755269857', '8755269857');
+INSERT INTO `discount` (`numDiscount`, `numTransaction`, `sens`, `unpaidWording`, `numUnpaidFile`, `dateDiscount`) VALUES
+(1, 2, '-', 'solde insuffisant', '1234', '2022-11-09 08:40:08'),
+(2, 3, '+', '', '', '2022-10-19 07:36:12'),
+(3, 1, '+', '', '', '2022-10-29 13:22:14'),
+(11, 6, '-', 'erreur bancaire', 'DP236', '2022-08-16 10:49:45'),
+(12, 4, '+', '', '', '2020-08-01 10:49:45'),
+(13, 7, '-', 'plafond bancaire atteint', '2365F', '2022-09-05 11:13:32'),
+(14, 6, '+', NULL, NULL, '2022-11-09 09:45:37'),
+(15, 7, '+', NULL, NULL, '2022-11-25 16:30:26'),
+(16, 5, '+', NULL, NULL, '2022-11-01 14:10:12'),
+(17, 10, '-', 'Ceiling reached', 'BAD4A', NULL),
+(18, 8, '-', 'Account empty', 'A1FTG', NULL),
+(19, 9, '', 'Bad review', 'RFTYH', NULL),
+(20, 11, '', 'Unknow error', 'MPS5V', NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `merchant`
+--
+
+CREATE TABLE `merchant` (
+  `raisonSociale` varchar(30) NOT NULL,
+  `siren` char(9) NOT NULL,
+  `currency` varchar(3) NOT NULL,
+  `numCarte` char(4) NOT NULL,
+  `network` char(2) NOT NULL,
+  `password` varchar(350) NOT NULL,
+  `idLogin` varchar(350) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+
+--
+-- Déchargement des données de la table `merchant`
+--
+
+INSERT INTO `merchant` (`raisonSociale`, `siren`, `currency`, `numCarte`, `network`, `password`, `idLogin`) VALUES
+('Action Contre la faim', '123456789', 'EUR', '5879', 'fr', '$2y$10$yr.XKAmVAxKTpkYHOzN4/uJEnzQz0tRW7zq0.P01w5pvohrgqAoaK', 'test'),
+('Louis Vuitton Services', '347662454', 'USD', '4589', 'MC', '', 'louisvi'),
+('Leroy Merlin Noisy', '384560942', 'EUR', '7485', 'AE', '$2y$10$bb5LScjly5Y.YtCavNcAmOnvTYDkMm8cJqDjai.JhzynTOwyyvd4m', '7745511214'),
+('Gucci France', '632032348', 'EUR', '9685', 'VS', '', 'guccifrance'),
+('McDonald Champs sur Marne', '722003936', 'EUR', '1796', 'VS', '$2y$10$9pm/PQ3lnu11mo57tgjzluOr.KYJdLMEPRU5klHN6zPjgXRGx4tmK', '8755269857'),
+('Burger King', '987654321', 'USD', '8565', 'en', '$2y$10$hNOOjneT/qvL3szZvdCb9.kz0g5VrmZ5U0HThVPGUfvJN4MX00/CC\r\n', 'anglais');
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `merchant_temp`
+--
+
+CREATE TABLE `merchant_temp` (
+  `raisonSociale` varchar(30) NOT NULL,
+  `siren` char(9) NOT NULL,
+  `currency` varchar(3) NOT NULL,
+  `numCarte` char(16) NOT NULL,
+  `network` char(2) NOT NULL,
+  `password` varchar(350) NOT NULL,
+  `idLogin` varchar(350) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 -- --------------------------------------------------------
 
@@ -73,41 +125,17 @@ INSERT INTO `commerçant` (`nom`, `siren`, `nbtransaction`, `devise`, `montantTo
 --
 
 CREATE TABLE `productowner` (
-  `id` varchar(255) NOT NULL,
-  `nom` varchar(255) NOT NULL,
-  `mdp` varchar(255) NOT NULL
+  `idProductowner` varchar(255) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `password` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 --
 -- Déchargement des données de la table `productowner`
 --
 
-INSERT INTO `productowner` (`id`, `nom`, `mdp`) VALUES
-('4526452419', 'M.Tran', '4526452419');
-
--- --------------------------------------------------------
-
---
--- Structure de la table `remise`
---
-
-CREATE TABLE `remise` (
-  `numRemise` int NOT NULL,
-  `idTransaction` int NOT NULL,
-  `sans` char(1) NOT NULL,
-  `libelleImpayer` char(20) NOT NULL,
-  `numDossierImpayer` char(5) NOT NULL,
-  `dateRemise` date DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
-
---
--- Déchargement des données de la table `remise`
---
-
-INSERT INTO `remise` (`numRemise`, `idTransaction`, `sans`, `libelleImpayer`, `numDossierImpayer`, `dateRemise`) VALUES
-(1, 1, '+', 'jesaispas', '', '2022-10-02'),
-(2, 2, '+', 'jesisvrmpas', '', '2022-01-02'),
-(3, 3, '-', 'jesaistjpas', '12345', NULL);
+INSERT INTO `productowner` (`idProductowner`, `name`, `password`) VALUES
+('4526452419', 'M.Tran', '$2y$10$f.ZqIIR9x4uWp/oRJRbpfO0AiqFlXgFfEbLuOuI2UsoXVcrcxfOsy');
 
 -- --------------------------------------------------------
 
@@ -116,23 +144,31 @@ INSERT INTO `remise` (`numRemise`, `idTransaction`, `sans`, `libelleImpayer`, `n
 --
 
 CREATE TABLE `transaction` (
-  `id` int NOT NULL,
-  `numAutorisation` char(6) NOT NULL,
-  `date` date NOT NULL,
-  `cb` char(4) NOT NULL,
-  `montant` int NOT NULL,
-  `devise` char(3) NOT NULL,
-  `numSiren` char(9) NOT NULL
+  `idTransaction` int NOT NULL,
+  `numAuthorization` char(6) NOT NULL,
+  `dateTransaction` datetime NOT NULL,
+  `endingFoursCardNumbers` char(4) NOT NULL,
+  `currency` varchar(3) NOT NULL,
+  `numSiren` char(9) NOT NULL,
+  `amount` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 --
 -- Déchargement des données de la table `transaction`
 --
 
-INSERT INTO `transaction` (`id`, `numAutorisation`, `date`, `cb`, `montant`, `devise`, `numSiren`) VALUES
-(1, '123456', '2022-09-14', '1245', 1000, 'EUR', '384560942'),
-(2, 'abcdef', '2022-10-10', '1458', 2000, 'EUR', '722003936'),
-(3, '1542za', '2017-10-26', '1488', 5, 'EUR', '722003936');
+INSERT INTO `transaction` (`idTransaction`, `numAuthorization`, `dateTransaction`, `endingFoursCardNumbers`, `currency`, `numSiren`, `amount`) VALUES
+(1, 'D5F689', '2022-09-15 12:11:30', '1245', 'EUR', '384560942', 300000),
+(2, 'B735S5', '2017-10-10 23:29:46', '1488', 'EUR', '722003936', 740000),
+(3, 'PL2593', '2022-07-19 07:35:10', '1458', 'EUR', '722003936', 25000),
+(4, 'Y465L2', '2022-11-19 04:31:18', '3657', 'EUR', '722003936', 1200000),
+(5, 'UI8568', '2022-11-11 20:10:27', '9856', 'EUR', '632032348', 890000),
+(6, '23FD89', '2022-10-13 10:24:16', '4156', 'EUR', '347662454', 213000),
+(7, '78MP36', '2022-10-16 10:24:16', '6515', 'EUR', '347662454', 56000),
+(8, 'THD4GR', '2022-11-10 13:06:26', '4578', 'EUR', '632032348', 10000),
+(9, 'UJLDAE', '2022-11-10 13:06:26', '7458', 'EUR', '632032348', 5400),
+(10, 'RFZE48', '2022-11-10 13:07:32', '4512', 'USD', '347662454', 8000),
+(11, 'GBT47M', '2022-11-10 13:07:32', '9632', 'USD', '347662454', 5200);
 
 --
 -- Index pour les tables déchargées
@@ -145,29 +181,36 @@ ALTER TABLE `admin`
   ADD PRIMARY KEY (`idAdmin`);
 
 --
--- Index pour la table `commerçant`
+-- Index pour la table `discount`
 --
-ALTER TABLE `commerçant`
+ALTER TABLE `discount`
+  ADD PRIMARY KEY (`numDiscount`),
+  ADD KEY `numT` (`numTransaction`);
+
+--
+-- Index pour la table `merchant`
+--
+ALTER TABLE `merchant`
+  ADD PRIMARY KEY (`siren`);
+
+--
+-- Index pour la table `merchant_temp`
+--
+ALTER TABLE `merchant_temp`
   ADD PRIMARY KEY (`siren`);
 
 --
 -- Index pour la table `productowner`
 --
 ALTER TABLE `productowner`
-  ADD PRIMARY KEY (`id`);
-
---
--- Index pour la table `remise`
---
-ALTER TABLE `remise`
-  ADD PRIMARY KEY (`numRemise`),
-  ADD KEY `transaction` (`idTransaction`);
+  ADD PRIMARY KEY (`idProductowner`);
 
 --
 -- Index pour la table `transaction`
 --
 ALTER TABLE `transaction`
-  ADD PRIMARY KEY (`id`),
+  ADD PRIMARY KEY (`idTransaction`),
+  ADD UNIQUE KEY `numAuthorization` (`numAuthorization`),
   ADD KEY `siren` (`numSiren`);
 
 --
@@ -175,32 +218,32 @@ ALTER TABLE `transaction`
 --
 
 --
--- AUTO_INCREMENT pour la table `remise`
+-- AUTO_INCREMENT pour la table `discount`
 --
-ALTER TABLE `remise`
-  MODIFY `numRemise` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+ALTER TABLE `discount`
+  MODIFY `numDiscount` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT pour la table `transaction`
 --
 ALTER TABLE `transaction`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `idTransaction` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- Contraintes pour les tables déchargées
 --
 
 --
--- Contraintes pour la table `remise`
+-- Contraintes pour la table `discount`
 --
-ALTER TABLE `remise`
-  ADD CONSTRAINT `transaction` FOREIGN KEY (`idTransaction`) REFERENCES `transaction` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `discount`
+  ADD CONSTRAINT `numT` FOREIGN KEY (`numTransaction`) REFERENCES `transaction` (`idTransaction`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Contraintes pour la table `transaction`
 --
 ALTER TABLE `transaction`
-  ADD CONSTRAINT `siren` FOREIGN KEY (`numSiren`) REFERENCES `commerçant` (`siren`) ON DELETE RESTRICT ON UPDATE CASCADE;
+  ADD CONSTRAINT `siren` FOREIGN KEY (`numSiren`) REFERENCES `merchant` (`siren`) ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

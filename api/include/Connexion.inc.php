@@ -42,7 +42,7 @@ class Connexion {
 
         if($cond){
             foreach ($cond as $v) {
-                $stmt->bindParam($v[0],$v[1], PDO::PARAM_STR);
+                $stmt->bindParam($v[0],$v[1]);
             }
         }
 
