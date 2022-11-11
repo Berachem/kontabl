@@ -1,5 +1,7 @@
 <?php
 session_start();
+$session_num=347662454;
+$session_type='productowner';
 /*
 GET:
  - numSiren (optional)
@@ -26,73 +28,26 @@ GET:
 
 include("include/Functions.inc.php");
 
-
-function getNbTransactions($db, $numSiren, $date_debut, $date_fin){
-    $sql = "SELECT COUNT(*) nombre FROM transaction WHERE numSiren = :numSiren";
-    $cond = array(
-        array(":numSiren", $numSiren)
-    );
-    if ($date_debut){
-        $sql .= " AND dateTransaction >= :date_debut";
-        $cond[] = array(":date_debut", $date_debut);
+if($session_type){
+    if ($session_type == "productowner") {
+        $numSiren = isset($_GET["numSiren"]) ? $_GET["numSiren"] : null;
+        $raisonSociale = isset($_GET["raisonSociale"]) ? $_GET["raisonSociale"] : null;
+    } else {
+        $numSiren = $session_num;
+        $raisonSociale = null;
     }
-    if ($date_fin){
-        $sql .= " AND dateTransaction <= :date_fin";
-        $cond[] = array(":date_fin", $date_fin);
-    }
-    $result = $db->q($sql, $cond);
-    return $result[0]->nombre;
-}
 
-function getMontantTotal($db, $numSiren, $date_debut, $date_fin){
-    $sql = "SELECT SUM(amount) somme FROM transaction WHERE numSiren = :numSiren";
-    $cond = array(
-        array(":numSiren", $numSiren)
-    );
-    if ($date_debut){
-        $sql .= " AND dateTransaction >= :date_debut";
-        $cond[] = array(":date_debut", $date_debut);
-    }
-    if ($date_fin){
-        $sql .= " AND dateTransaction <= :date_fin";
-        $cond[] = array(":date_fin", $date_fin);
-    }
-    $result = $db->q($sql, $cond);
-    if ($result[0]->somme == null){
-        return 0;
-    }
-    return $result[0]->somme;
-}
+        $date_debut = isset($_GET["date_debut"]) ? $_GET["date_debut"] : null;
+        $date_fin = isset($_GET["date_fin"]) ? $_GET["date_fin"] : null;
+        $sens=isset($_GET["sens"]) ? $_GET["sens"] : null;
+        $data = array();
 
-function getDevise($db, $numSiren){
-    // get the currency of the merchant
-    $sql = "SELECT currency FROM merchant WHERE siren = :numSiren";
-    $cond = array(
-        array(":numSiren", $numSiren)
-    );
-    $result = $db->q($sql, $cond);
-    return $result[0]->currency;
-};
+        $data = getDiscounts($numSiren, $raisonSociale, $date_debut, $date_fin, $sens);
 
-
-
-if (isset($_SESSION["id"])){
-    $numSiren = isset($_GET["numSiren"]) ? $_GET["numSiren"] : null;
-    $raisonSociale = isset($_GET["raisonSociale"]) ? $_GET["raisonSociale"] : null;
-    $date_debut = isset($_GET["date_debut"]) ? $_GET["date_debut"] : null;
-    $date_fin = isset($_GET["date_fin"]) ? $_GET["date_fin"] : null;
-    $data = array();
-
-    $data = getDiscounts($numSiren, $raisonSociale, $date_debut, $date_fin, null, null);
-
-
-    $response = array(
-        "success" => true,
-        "data" => $data
-    );
-
-
-    
+        $response = array(
+            "success" => true,
+            "data" => $data
+        );
 } else{
     $response = [
         "success" => false,
