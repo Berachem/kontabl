@@ -18,13 +18,13 @@
             </div>
 
             <!-- Adresse mail input text -->
-            <div class="field label small">
+            <div class="field label fill large">
                 <input type="text" x-model="user" autocomplete="username">
                 <label>Identifiant</label>
             </div>
 
             <!-- Mot de passe input text -->
-            <div class="field label suffix small">
+            <div class="field label suffix fill large">
                 <input x-bind:type="inputType" x-model="password" autocomplete="current-password">
                 <label>Password</label>
                 <a href="javascript:void(0);" @click="inputType = inputType == 'password' ? 'text' : 'password'">
@@ -33,7 +33,9 @@
             </div>
             <!-- Bouton connexion -->
             <span x-text="errMsg" x-if="errMsg"></span>
-            <button @click="login">M'identifier</button>
+            <br>
+            <button class="responsive no-margin" @click="login">M'identifier</button>
 
         </div>
     </div>
+</div>
