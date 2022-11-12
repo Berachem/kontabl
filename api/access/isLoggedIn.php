@@ -15,7 +15,7 @@ if (isset($_SESSION['num'])) {
     $response = array(
         'success' => false,
         'message' => 'L\'utilisateur n\'est pas connecté',
-        "notLogged" => true
+        "isLogged" => false
     );
 }
 header('Content-Type: application/json');
