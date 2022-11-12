@@ -85,7 +85,7 @@ function getNetworkMerchant($numSiren){
 
 
 if(isset($_SESSION['num'])){
-    if ($_SESSION["type"] == "product owner" || $_SESSION["type"] == "admin") {
+    if ($_SESSION["type"] == "productowner" || $_SESSION["type"] == "admin") {
         $numSiren = isset($_GET["numSiren"]) ? $_GET["numSiren"] : null;
         $raisonSociale = isset($_GET["raisonSociale"]) ? $_GET["raisonSociale"] : null;
     } else {

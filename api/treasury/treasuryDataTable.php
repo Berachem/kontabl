@@ -19,7 +19,7 @@ if (!(isset($_SESSION["num"])) || !(isset($_SESSION["type"]))){
 }else{
     if ($_SESSION["type"] == "user") {
         include("treasury/merchantDataTable.php");
-    } else if ($_SESSION["type"] == "product owner" || $_SESSION["type"] == "admin") {
+    } else if ($_SESSION["type"] == "productowner" || $_SESSION["type"] == "admin") {
         include("treasury/pOwnerDataTable.php");
     }
 }
