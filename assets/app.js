@@ -9,7 +9,7 @@ const _logout = async () => {
 
 const _isLoggedIn = async () => {
     const res = await fetch('/api/?action=isLoggedIn').then(x => x.json());
-    return !res.notLogged;
+    return res.isLogged;
 };
 
 document.addEventListener('alpine:init', () => {
@@ -45,8 +45,8 @@ document.addEventListener('alpine:init', () => {
         async login() {
             // send data via POST params
             const formData = new FormData();
-            formData.append('nom', this.user);
-            formData.append('mdp', this.password);
+            formData.append('login', this.user);
+            formData.append('password', this.password);
             const res = await fetch('/api/?action=login', {
                 method: 'POST',
                 body: formData
@@ -54,7 +54,7 @@ document.addEventListener('alpine:init', () => {
                 .then(res => res.json());
             if (res.success) {
                 localStorage.setItem('userType', res.type);
-                $router.push('/search');
+                $router.push('/');
                 return;
             }
             this.errMsg = res.error || "";
