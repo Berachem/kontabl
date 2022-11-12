@@ -61,7 +61,7 @@ function getMontantTotalByOneDate($db, $numSiren, $date){
 
 
 
-if (isset($_SESSION["num"]) && ($_SESSION["type"]=="product owner" || $_SESSION["type"]=="admin")){  
+if (isset($_SESSION["num"]) && ($_SESSION["type"]=="productowner" || $_SESSION["type"]=="admin")){  
     // check GET parameters
     $numSiren = isset($_GET["numSiren"]) ? $_GET["numSiren"] : null;
     $raisonSociale = isset($_GET["raisonSociale"]) ? $_GET["raisonSociale"] : null;
@@ -125,7 +125,7 @@ if (isset($_SESSION["num"]) && ($_SESSION["type"]=="product owner" || $_SESSION[
 else{
     $response = [
         "success" => false,
-        "error" => "Vous n'êtes pas connecté en tant que product owner ou admin"
+        "error" => "Vous n'êtes pas connecté en tant que productowner ou admin"
     ];
 
     

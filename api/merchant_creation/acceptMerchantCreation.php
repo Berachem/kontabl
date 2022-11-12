@@ -7,11 +7,11 @@ GET:
 
 */
 
-// check if it is the product owner
+// check if it is the productowner
 
 
 
-if (isset($_SESSION['type']) && $_SESSION['type'] == 'product owner' && isset($_GET["numSiren"])) {
+if (isset($_SESSION['type']) && $_SESSION['type'] == 'productowner' && isset($_GET["numSiren"])) {
     
     // transfer the merchant from merchant_temp to merchant
     // merchant : name, siren, currency, numCarte, network,password, idLogin 
@@ -59,7 +59,7 @@ if (isset($_SESSION['type']) && $_SESSION['type'] == 'product owner' && isset($_
 }else{
     $response = [
         "success" => false,
-        "error" => "Vous n'êtes pas product owner"
+        "error" => "Vous n'êtes pas productowner"
     ];
     header('Content-Type: application/json');
     echo json_encode($response, JSON_UNESCAPED_UNICODE);

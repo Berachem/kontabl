@@ -30,9 +30,9 @@ if (isset($_SESSION["num"]) && $_SESSION["type"]=="user"){
     $dateDebut = isset($_GET["dateDebut"]) ? $_GET["dateDebut"] : null;
     $dateFin = isset($_GET["dateFin"]) ? $_GET["dateFin"] : null;
 
-    $sql = "SELECT raisonSociale, siren, transaction.currency, COUNT(siren) AS nbTransaction, SUM(amount) AS totalAmount FROM merchant JOIN transaction ON numSiren = siren WHERE numSiren = :numSiren GROUP BY raisonSociale, siren, transaction.currency;";
+    $sql = "SELECT raisonSociale, siren, transaction.currency, COUNT(siren) AS nbTransaction, SUM(amount) AS totalAmount FROM merchant JOIN transaction ON numSiren = siren WHERE idLogin = :idLogin GROUP BY raisonSociale, siren, transaction.currency;";
     $cond = array(
-        array(":numSiren", $numSiren)
+        array(":idLogin", $numSiren)
     );
     if ($dateDebut){
         $sql .= " AND dateTransaction < :date";
@@ -59,8 +59,8 @@ if (isset($_SESSION["num"]) && $_SESSION["type"]=="user"){
         ];
     }else{
         $response = [
-            "success" => false,
-            "error" => "Aucune donnée trouvée"
+            "success" => true,
+            "data" => array()
         ];
     }
 

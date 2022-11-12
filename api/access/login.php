@@ -53,7 +53,7 @@
         $response = [
             "success" => true,
             "id" => $productowner[0]->idProductowner,
-            "type" => 'product owner'
+            "type" => 'productowner'
         ];           
     } 
     // SINON -> cas incorrect

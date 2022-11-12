@@ -4,9 +4,10 @@ session_start();
 
 
 // TEST
-/* 
-$_SESSION["num"] = 722003936;
-$_SESSION["type"] = "utilisateur"; */
+/*
+$_SESSION["num"] = 8755269857;
+$_SESSION["type"]="user";
+*/
 
 // if it is a user include the file merchantDataTable.php
 if (!(isset($_SESSION["num"])) || !(isset($_SESSION["type"]))){
@@ -19,7 +20,7 @@ if (!(isset($_SESSION["num"])) || !(isset($_SESSION["type"]))){
 }else{
     if ($_SESSION["type"] == "user") {
         include("treasury/merchantDataTable.php");
-    } else if ($_SESSION["type"] == "product owner" || $_SESSION["type"] == "admin") {
+    } else if ($_SESSION["type"] == "productowner" || $_SESSION["type"] == "admin") {
         include("treasury/pOwnerDataTable.php");
     }
 }

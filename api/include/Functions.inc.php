@@ -2,7 +2,7 @@
 
 function getSirenList() {
     global $db;
-    // only if user is logged in and is a product owner
+    // only if user is logged in and is a productowner
     if (isset($_SESSION['num']) && $_SESSION['type'] == 'productowner') {
         $sql = "SELECT * FROM merchant";
         $result = $db->q($sql);
@@ -25,7 +25,7 @@ function getSirenList() {
 
 function getSocialReason(){
     global $db;
-    // only if user is logged in and is a product owner
+    // only if user is logged in and is a productowner
     if (isset($_SESSION['num']) && $_SESSION['type'] == 'productowner') {
         $sql = "SELECT * FROM merchant";
         $result = $db->q($sql);
