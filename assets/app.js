@@ -1,12 +1,31 @@
+const _logout = async () => {
+    const res = await fetch('/api/?action=logout').then(x => x.json());
+    if (res.success) {
+        window.location.href = '/';
+    } else {
+        alert("Erreur au moment de la déconnexion");
+    }
+};
+
+const _isLoggedIn = async () => {
+    const res = await fetch('/api/?action=isLoggedIn').then(x => x.json());
+    return res.isLogged;
+};
+
 document.addEventListener('alpine:init', () => {
     Alpine.data('search', ($router) => ({
         userType: localStorage.getItem('userType'),
         selectedTab: 'tr',
 
-        init() {
-            // detect if user is logged in
-            // if not logged in, show login page
-            // $router.push('/login');
+        async init() {
+            console.log(await _isLoggedIn());
+            if (!await _isLoggedIn()) {
+                $router.push('/login?reqauth=1');
+            }
+        },
+
+        async logout() {
+            await _logout();
         }
     }));
 
@@ -16,11 +35,18 @@ document.addEventListener('alpine:init', () => {
         password: "",
         inputType: "password",
 
+        init() {
+            const urlParams = new URLSearchParams(window.location.href.split('?')[1]);
+            if (urlParams.has('reqauth')) {
+                this.errMsg = "Vous devez vous connecter pour accéder à cette page";
+            }
+        },
+
         async login() {
             // send data via POST params
             const formData = new FormData();
-            formData.append('nom', this.user);
-            formData.append('mdp', this.password);
+            formData.append('login', this.user);
+            formData.append('password', this.password);
             const res = await fetch('/api/?action=login', {
                 method: 'POST',
                 body: formData
@@ -28,7 +54,7 @@ document.addEventListener('alpine:init', () => {
                 .then(res => res.json());
             if (res.success) {
                 localStorage.setItem('userType', res.type);
-                $router.push('/search');
+                $router.push('/');
                 return;
             }
             this.errMsg = res.error || "";

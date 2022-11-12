@@ -1,6 +1,7 @@
 /* Background */
 body {
-    background-color: #F1F1F1;;
+    background-color: #F1F1F1;
+    ;
     margin: 0;
     padding: 0;
 }
@@ -8,6 +9,13 @@ body {
 /* Main with margins*/
 .main {
     margin: 20px 20px;
+}
+
+@media (min-width: 768px) {
+    .main {
+        margin: 20px auto;
+        max-width: 450px;
+    }
 }
 
 /* Image icon dimensions 40px and center */

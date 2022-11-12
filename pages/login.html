@@ -10,7 +10,7 @@
         </header>
 
         <!-- Main -->
-        <div class="main">
+        <form class="main" @submit.prevent="login">
 
             <!-- Connexion Title -->
             <div class="medium no-padding left-align top-align">
@@ -18,22 +18,27 @@
             </div>
 
             <!-- Adresse mail input text -->
-            <div class="field label small">
-                <input type="text" x-model="user" autocomplete="username">
+            <div class="field label fill large">
+                <input type="text" x-model="user" autocomplete="username" required>
                 <label>Identifiant</label>
             </div>
 
             <!-- Mot de passe input text -->
-            <div class="field label suffix small">
-                <input x-bind:type="inputType" x-model="password" autocomplete="current-password">
+            <div class="field label suffix fill large">
+                <input x-bind:type="inputType" x-model="password" autocomplete="current-password" required>
                 <label>Password</label>
                 <a href="javascript:void(0);" @click="inputType = inputType == 'password' ? 'text' : 'password'">
                     <p class="max center-align">Voir mot de passe <i>visibility</i></p>
                 </a>
             </div>
             <!-- Bouton connexion -->
-            <span x-text="errMsg" x-if="errMsg"></span>
-            <button @click="login">M'identifier</button>
+            <br>
+            <button class="responsive no-margin">M'identifier</button>
 
-        </div>
+            <article x-if="errMsg" class="no-elevate tertiary">
+                <span x-text="errMsg"></span>
+            </article>
+
+        </form>
     </div>
+</div>
