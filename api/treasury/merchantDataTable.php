@@ -59,8 +59,8 @@ if (isset($_SESSION["num"]) && $_SESSION["type"]=="user"){
         ];
     }else{
         $response = [
-            "success" => false,
-            "error" => "Aucune donnée trouvée"
+            "success" => true,
+            "data" => array()
         ];
     }
 
