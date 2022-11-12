@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : localhost:3306
--- Généré le : sam. 12 nov. 2022 à 10:55
+-- Généré le : sam. 12 nov. 2022 à 13:36
 -- Version du serveur : 8.0.30
 -- Version de PHP : 7.4.32
 
@@ -168,7 +168,9 @@ INSERT INTO `transaction` (`idTransaction`, `numAuthorization`, `dateTransaction
 (8, 'THD4GR', '2022-11-10 13:06:26', '4578', 'EUR', '632032348', 10000),
 (9, 'UJLDAE', '2022-11-10 13:06:26', '7458', 'EUR', '632032348', 5400),
 (10, 'RFZE48', '2022-11-10 13:07:32', '4512', 'USD', '347662454', 8000),
-(11, 'GBT47M', '2022-11-10 13:07:32', '9632', 'USD', '347662454', 5200);
+(11, 'GBT47M', '2022-11-10 13:07:32', '9632', 'USD', '347662454', 5200),
+(12, 'DE74RF', '2022-11-12 13:33:52', '4596', 'EUR', '123456789', 1000),
+(13, 'GT41DE', '2022-11-12 13:33:52', '7846', 'EUR', '987654321', 2000);
 
 --
 -- Index pour les tables déchargées
@@ -227,7 +229,7 @@ ALTER TABLE `discount`
 -- AUTO_INCREMENT pour la table `transaction`
 --
 ALTER TABLE `transaction`
-  MODIFY `idTransaction` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `idTransaction` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- Contraintes pour les tables déchargées
