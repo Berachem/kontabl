@@ -16,12 +16,34 @@ document.addEventListener('alpine:init', () => {
     Alpine.data('search', ($router) => ({
         userType: localStorage.getItem('userType'),
         selectedTab: 'tr',
+        sirenNumbers: [],
+        siren: "",
+        socialName: "",
+        date: "",
+        results: [],
+        loading: false,
 
         async init() {
-            console.log(await _isLoggedIn());
             if (!await _isLoggedIn()) {
                 $router.push('/login?reqauth=1');
             }
+
+            const res = await fetch('/api/?action=treasuryDataTable').then(x => x.json());
+            if (res.success) {
+                this.sirenNumbers = res.data.map(x => x.NumSiren);
+            }
+        },
+
+        async search() {
+            this.loading = true;
+            this.results = [];
+            if (this.selectedTab === 'tr') {
+                const res = await fetch(`/api/?action=treasuryDataTable&numSiren=${this.siren}&raisonSociale=${this.socialName}&date=${this.date}`).then(x => x.json());
+                if (res.success) {
+                    this.results = res.data;
+                }
+            }
+            this.loading = false;
         },
 
         async logout() {

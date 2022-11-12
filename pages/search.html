@@ -43,39 +43,78 @@
             <div class="line"></div>
 
             <!-- Section avec tous les inputs affichés par défaut des sélections -->
-            <div class="field label" x-show="userType == 'productowner' && selectedTab == 'tr'">
-                <input type="tel" id="numSiren" name="numSiren">
-                <label>Numéro de Siren</label>
+            <div class="field suffix border" x-show="userType == 'productowner' && selectedTab == 'tr'">
+                <select x-model="siren">
+                    <option value="" selected>Tous les numéros de Siren</option>
+                    <template x-for="siren in sirenNumbers" :key="siren">
+                        <option :value="siren" x-text="siren"></option>
+                    </template>
+                </select>
+                <a class="loader" x-show="sirenNumbers.length == 0"></a>
+                <i x-show="sirenNumbers.length != 0">arrow_drop_down</i>
             </div>
-            <div class="field label" x-show="userType == 'productowner' && selectedTab == 'tr'">
-                <input type="text" id="raisonSociale" name="raisonSociale">
+
+            <div class="field label suffix border" x-show="userType == 'productowner' && selectedTab == 'tr'">
+                <input type="text" id="socialName" name="socialName" x-model="socialName">
                 <label>Raison sociale</label>
             </div>
+
             <div class="field label prefix border" x-show="selectedTab == 'tr'"
                 @click="document.getElementById('date').showPicker()">
                 <i>today</i>
-                <input type="date" id="date" name="date">
+                <input type="date" id="date" name="date" x-model="date">
                 <label class="active">Date</label>
             </div>
+
             <div class="field label prefix border" x-show="selectedTab != 'tr'"
                 @click="document.getElementById('dateBefore').showPicker()">
                 <i>today</i>
                 <input type="date" id="dateBefore" name="dateBefore">
                 <label class="active">Date avant le</label>
             </div>
+
             <div class="field label prefix border" x-show="selectedTab != 'tr'"
                 @click="document.getElementById('dateAfter').showPicker()">
                 <i>today</i>
                 <input type="date" id="dateAfter" name="dateAfter">
                 <label class="active">Date après le</label>
             </div>
-            <div class="field label border" x-show="selectedTab == 'tr'">
+
+            <div class="field label border" x-show="selectedTab == 'im'">
                 <input type="tel" id="dossierUnpaid" name="dossierUnpaid">
                 <label>N° dossier impayé</label>
             </div>
 
             <!-- Search Button -->
             <button class="responsive no-margin" @click="search">Rechercher</button>
+
+            <div class="center-align">
+                <br>
+                <a class="loader small" x-show="loading"></a>
+            </div>
+            <template x-for="(item, i) in results" :key="i">
+                <article class="no-elevate fill">
+                    <details>
+                        <summary class="none">
+                            <div class="row">
+                                <div class="max">
+                                    <h5 x-text="item.RaisonSociale"></h5>
+                                </div>
+                                <i>arrow_drop_down</i>
+                            </div>
+                        </summary>
+                        <div>
+                            <br>
+                            <p>Siren <span x-text="item.NumSiren"></span></p>
+                            <p><span x-text="item.NombreTransactions"></span> transaction(s) au total</p>
+                            <h6
+                                x-text="new Intl.NumberFormat('fr-FR', { style: 'currency', currency: item.Devise }).format(item.MontantTotal)">
+                            </h6>
+                        </div>
+                    </details>
+                </article>
+            </template>
+
         </div>
     </div>
 
