@@ -32,9 +32,12 @@
                 </a>
             </div>
             <!-- Bouton connexion -->
-            <span x-text="errMsg" x-if="errMsg"></span>
             <br>
             <button class="responsive no-margin" @click="login">M'identifier</button>
+
+            <article x-if="errMsg" class="no-elevate tertiary">
+                <span x-text="errMsg"></span>
+            </article>
 
         </div>
     </div>
