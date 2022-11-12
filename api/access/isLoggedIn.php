@@ -8,9 +8,8 @@ session_start();
 if (isset($_SESSION['num'])) {
     $response = array(
         'success' => true,
-        'message' => 'L\'utilisateur est connecté',
         'id' => $_SESSION['num'],
-        "notLogged" => true
+        "isLogged" => true
     );
 } else {
     $response = array(
