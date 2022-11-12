@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : localhost:3306
--- Généré le : jeu. 10 nov. 2022 à 13:15
+-- Généré le : sam. 12 nov. 2022 à 10:55
 -- Version du serveur : 8.0.30
 -- Version de PHP : 7.4.32
 
@@ -96,9 +96,9 @@ CREATE TABLE `merchant` (
 
 INSERT INTO `merchant` (`raisonSociale`, `siren`, `currency`, `numCarte`, `network`, `password`, `idLogin`) VALUES
 ('Action Contre la faim', '123456789', 'EUR', '5879', 'fr', '$2y$10$yr.XKAmVAxKTpkYHOzN4/uJEnzQz0tRW7zq0.P01w5pvohrgqAoaK', 'test'),
-('Louis Vuitton Services', '347662454', 'USD', '4589', 'MC', '', 'louisvi'),
+('Louis Vuitton Services', '347662454', 'USD', '4589', 'MC', '$2y$10$rJJzcYpZ7TPh.uRl2ix7f.umGB3oykXjKFFDIYXI2ZYIY1R40eAaS', 'louisvi'),
 ('Leroy Merlin Noisy', '384560942', 'EUR', '7485', 'AE', '$2y$10$bb5LScjly5Y.YtCavNcAmOnvTYDkMm8cJqDjai.JhzynTOwyyvd4m', '7745511214'),
-('Gucci France', '632032348', 'EUR', '9685', 'VS', '', 'guccifrance'),
+('Gucci France', '632032348', 'EUR', '9685', 'VS', '$2y$10$ykiEOKAU5d7RkIh6jkXNPe5RxiV.c.y4APmkg.ZCLHJm9DNp3tQMy', 'guccifrance'),
 ('McDonald Champs sur Marne', '722003936', 'EUR', '1796', 'VS', '$2y$10$9pm/PQ3lnu11mo57tgjzluOr.KYJdLMEPRU5klHN6zPjgXRGx4tmK', '8755269857'),
 ('Burger King', '987654321', 'USD', '8565', 'en', '$2y$10$hNOOjneT/qvL3szZvdCb9.kz0g5VrmZ5U0HThVPGUfvJN4MX00/CC\r\n', 'anglais');
 
