@@ -5,7 +5,7 @@ session_start();
 
 // TEST
 /*
-$_SESSION["num"] = 8755269857;
+$_SESSION["num"] = "test";
 $_SESSION["type"]="user";
 */
 

@@ -47,11 +47,11 @@ if (isset($_SESSION["num"]) && $_SESSION["type"]=="user"){
     if ($result){
         $result = $result[0]; // pour avoir la data 
         $responseData = array(array(
-            "raisonSociale" => $result->raisonSociale,
-            "siren" => $result->siren,
-            "currency" => $result->currency,
-            "nbTransaction" => $result->nbTransaction,
-            "totalAmount" => $result->totalAmount,
+            "RaisonSociale" => $result->raisonSociale,
+            "numSiren" => $result->siren,
+            "Devise" => $result->currency,
+            "NombreTransaction" => $result->nbTransaction,
+            "MontantTotal" => $result->totalAmount,
         ));
         $response = [
             "success" => true,
