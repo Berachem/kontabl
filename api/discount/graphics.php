@@ -21,6 +21,7 @@ $get_invoices = $file["data"][1];
 $date_1 = $_GET['date_1'];
 $date_2 = $_GET['date_2'];
 
+}
 
 
 // create x_axis and y _axis for the transactions
