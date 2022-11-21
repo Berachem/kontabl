@@ -12,8 +12,6 @@ session_start();
 
 
 
-
-
 if(isset($_SESSION['num'])){
     if ($_SESSION["type"] == "productowner" || $_SESSION["type"] == "admin") {
         $numSiren = isset($_GET["numSiren"]) ? $_GET["numSiren"] : null;
@@ -29,17 +27,21 @@ if(isset($_SESSION['num'])){
 
         $data = getDiscounts($numSiren, $raisonSociale, $date_debut, $date_fin, "-", null);
         $montant = array();
+
+        //echo json_encode($data);
         // récupération des données
         foreach ($data as $key => $value) {
             // on récupère les mois dans une date
-            $date = new DateTime($value["Date"]);
-            $mois = $date->format("m");
+            $date = new DateTime($value["DateTraitement"]);
+            $mois = (int) $date->format("m");
+            // cast en int pour pouvoir faire des calculs
+            
 
             // ajoute en tant que clé pour éviter les doublons
             if (isset($montant[$mois])) {
-                $montant[$mois] += $value["MontantTotal"];
+                $montant[$mois] += (int) $value["MontantTotal"];
             } else {
-                $montant[$mois] = $value["MontantTotal"];
+                $montant[$mois] = (int) $value["MontantTotal"];
             }
         }
 

@@ -2,9 +2,7 @@
 session_start();
 
 
-// testing mode :
-$_SESSION['num'] = "347662454";
-$_SESSION['type'] = "productowner";
+
 
 /*
 GET:
