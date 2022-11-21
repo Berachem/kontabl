@@ -37,6 +37,9 @@ if (isset($_GET['action'])){
         case "acceptMerchantCreation":
                 include("merchant_creation/acceptMerchantCreation.php");
             break;
+        case "graphics":
+                include("discount/graphics.php");
+            break;
         
         
         

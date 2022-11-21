@@ -1,90 +1,76 @@
-<?php 
+<?php
+
+/*
+Renvoie un json avec une liste d'abscisse et une liste d'ordonnées
+clés : mois
+valeurs : montant total des remises
+
+*/
+
+include("include/Functions.inc.php");
+session_start();
 
 
 
-include("transactionsBySiren.php");
 
 
-$json = file_get_contents($reponse);
-$file = json_decode($json, true);
+if(isset($_SESSION['num'])){
+    if ($_SESSION["type"] == "productowner" || $_SESSION["type"] == "admin") {
+        $numSiren = isset($_GET["numSiren"]) ? $_GET["numSiren"] : null;
+        $raisonSociale = isset($_GET["raisonSociale"]) ? $_GET["raisonSociale"] : null;
+    } else {
+        $numSiren = $_SESSION['num'];
+        $raisonSociale = null;
+    }
 
+        $date_debut = isset($_GET["date_debut"]) ? $_GET["date_debut"] : null;
+        $date_fin = isset($_GET["date_fin"]) ? $_GET["date_fin"] : null;
+        $data = array();
 
-// ------------------- Create data dashboard total amount depending on the date --------------------
+        $data = getDiscounts($numSiren, $raisonSociale, $date_debut, $date_fin, "-", null);
+        $montant = array();
+        // récupération des données
+        foreach ($data as $key => $value) {
+            // on récupère les mois dans une date
+            $date = new DateTime($value["Date"]);
+            $mois = $date->format("m");
 
-if ($file['success'] == true )  {
-
-// get the transactions and the invoices 
-
-$get_transactions = $file["data"][0];
-$get_invoices = $file["data"][1];
-
-$date_1 = $_GET['date_1'];
-$date_2 = $_GET['date_2'];
-
-}
-
-
-// create x_axis and y _axis for the transactions
-
-$x_axis = [];
-$y_axis = [];
-
-function getTotalAmount($date) {
-
-    $totalAmount = 0; 
-    for ($i = 0; $i < count($get_transactions); $i++){
-        if ($get_transactions[$i]["date"] == $date){
-            $totalAmount += $get_transactions[$i]["montant"];
+            // ajoute en tant que clé pour éviter les doublons
+            if (isset($montant[$mois])) {
+                $montant[$mois] += $value["MontantTotal"];
+            } else {
+                $montant[$mois] = $value["MontantTotal"];
+            }
         }
-    }
-    return $totalAmount;
-}
 
+        // on trie les données par mois
+        ksort($montant);
 
+        // on récupère les clés et les valeurs
+        $mois = array_keys($montant);
+        $montant = array_values($montant);
 
-// get the amount of trancsactions in function of the month 
-
-for ($i = 0; $i < count($get_transactions); $i++){
-
-    // compare date1 and date2 with the date of the transaction
-    if ($get_transactions[$i]["date"] >= $date_1 && $get_transactions[$i]["date"] <= $date_2){
-
-        $get_date = $get_transactions[$i]["date"];
-        $x_axis[] = $get_date;
-        $y_axis[] = getTotalAmount($get_date);
-    }
-
-}
-
-$data_dashboard = array($x_axis, $y_axis);
-
-
-// check if x_axis and y_axis is not empty and return the data for a dashboard 
-
-    if (empty($x_axis) || empty($y_axis)){
-        $response_dashboard = [
-            "success" => false,
-            "error" => "no transactions found"
-        ];
-    }else{
-        $response = [
+        $response = array(
             "success" => true,
-            "data" => $data_dashboard
-        ];
+            "mois" => $mois,
+            "montant" => $montant
+        );
 
-    }
 
-// if "sucess" is false 
 
-else {
+
+
+} else{
     $response = [
         "success" => false,
-        "error" => "no transactions found"
+        "error" => "Vous n'êtes pas connecté",
+        "notLogged" => true
     ];
-    header('Content-Type: application/json');
-    echo json_encode($response);
 }
 
-// -------------------------------------------------------------------------------------------------
+header('Content-Type: application/json ; charset=utf-8');
+echo json_encode($response, JSON_UNESCAPED_UNICODE);
+
+
 
 ?>
