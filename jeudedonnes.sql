@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : localhost:3306
--- Généré le : sam. 12 nov. 2022 à 13:36
+-- Généré le : sam. 12 nov. 2022 à 14:00
 -- Version du serveur : 8.0.30
 -- Version de PHP : 7.4.32
 
@@ -72,7 +72,9 @@ INSERT INTO `discount` (`numDiscount`, `numTransaction`, `sens`, `unpaidWording`
 (17, 10, '-', 'Ceiling reached', 'BAD4A', NULL),
 (18, 8, '-', 'Account empty', 'A1FTG', NULL),
 (19, 9, '', 'Bad review', 'RFTYH', NULL),
-(20, 11, '', 'Unknow error', 'MPS5V', NULL);
+(20, 11, '', 'Unknow error', 'MPS5V', NULL),
+(21, 12, '+', NULL, NULL, '2022-11-10 14:58:34'),
+(22, 13, '+', NULL, NULL, '2022-11-01 14:58:34');
 
 -- --------------------------------------------------------
 
@@ -223,7 +225,7 @@ ALTER TABLE `transaction`
 -- AUTO_INCREMENT pour la table `discount`
 --
 ALTER TABLE `discount`
-  MODIFY `numDiscount` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `numDiscount` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT pour la table `transaction`
