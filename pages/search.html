@@ -23,105 +23,178 @@
                 <h4>Bonjour Tran,</h4> <!-- TODO: A remplacer par le nom de l'utilisateur -->
             </div>
 
-            <!-- Slider Buttons Section in a table -->
-            <div class="row scroll">
-                <button class="extra small-elevate fill" :selected="selectedTab == 'tr'" @click="selectedTab = 'tr'">
-                    <img class="icon" src="/img/tresorerie.svg">
-                    <h5 class="max center-align">Trésorerie</h5>
-                </button>
-                <button class="extra small-elevate fill" :selected="selectedTab == 're'" @click="selectedTab = 're'">
-                    <img class="icon" src="/img/remise.svg">
-                    <h5 class="max center-align">Remises</h5>
-                </button>
-                <button class="extra small-elevate fill" :selected="selectedTab == 'im'" @click="selectedTab = 'im'">
-                    <img class="icon" src="/img/unpaid.svg">
-                    <h5 class="max center-align">Impayés</h5>
-                </button>
-            </div>
-
-            <!-- Line -->
-            <div class="line"></div>
-
-            <!-- Section avec tous les inputs affichés par défaut des sélections -->
-            <div class="field suffix border" x-show="userType == 'productowner' && selectedTab == 'tr'">
-                <select x-model="siren">
-                    <option value="" selected>Tous les numéros de Siren</option>
-                    <template x-for="siren in sirenNumbers" :key="siren">
-                        <option :value="siren" x-text="siren"></option>
-                    </template>
-                </select>
-                <a class="loader" x-show="sirenNumbers.length == 0"></a>
-                <i x-show="sirenNumbers.length != 0">arrow_drop_down</i>
-            </div>
-
-            <div class="field label suffix border" x-show="userType == 'productowner' && selectedTab == 'tr'">
-                <input type="text" id="socialName" name="socialName" x-model="socialName">
-                <label>Raison sociale</label>
-            </div>
-
-            <div class="field label prefix border" x-show="selectedTab == 'tr'"
-                @click="document.getElementById('date').showPicker()">
-                <i>today</i>
-                <input type="date" id="date" name="date" x-model="date">
-                <label class="active">Date</label>
-            </div>
-
-            <div class="field label prefix border" x-show="selectedTab != 'tr'"
-                @click="document.getElementById('dateBefore').showPicker()">
-                <i>today</i>
-                <input type="date" id="dateBefore" name="dateBefore">
-                <label class="active">Date avant le</label>
-            </div>
-
-            <div class="field label prefix border" x-show="selectedTab != 'tr'"
-                @click="document.getElementById('dateAfter').showPicker()">
-                <i>today</i>
-                <input type="date" id="dateAfter" name="dateAfter">
-                <label class="active">Date après le</label>
-            </div>
-
-            <div class="field label border" x-show="selectedTab == 'im'">
-                <input type="tel" id="dossierUnpaid" name="dossierUnpaid">
-                <label>N° dossier impayé</label>
-            </div>
-
-            <!-- Search Button -->
-            <button class="responsive no-margin" @click="search">Rechercher</button>
-
-            <div class="center-align">
-                <br>
-                <a class="loader small" x-show="loading"></a>
-            </div>
-            <template x-for="(item, i) in results" :key="i">
-                <article class="no-elevate fill">
-                    <details>
-                        <summary class="none">
-                            <div class="row">
-                                <div class="max">
-                                    <h5 x-text="item.RaisonSociale"></h5>
-                                </div>
-                                <i>arrow_drop_down</i>
-                            </div>
-                        </summary>
-                        <div>
-                            <br>
-                            <p>Siren <span x-text="item.NumSiren"></span></p>
-                            <p><span x-text="item.NombreTransactions"></span> transaction(s) au total</p>
-                            <h6
-                                x-text="new Intl.NumberFormat('fr-FR', { style: 'currency', currency: item.Devise }).format(item.MontantTotal)">
-                            </h6>
-                        </div>
-                    </details>
+            <div class="flex">
+                <article class="no-elevate">
+                    <!-- Slider Buttons Section in a table -->
+                    <div class="tabs">
+                        <a href="javascript:void(0);" :class="selectedTab == 'tr' ? 'active' : ''"
+                            @click="selectedTab = 'tr'">
+                            <img class="icon" src="/img/tresorerie.svg">
+                            <span>Trésorerie</span>
+                        </a>
+                        <a href="javascript:void(0);" :class="selectedTab == 're' ? 'active' : ''"
+                            @click="selectedTab = 're'">
+                            <img class="icon" src="/img/remise.svg">
+                            <span>Remises</span>
+                        </a>
+                        <a href="javascript:void(0);" :class="selectedTab == 'im' ? 'active' : ''"
+                            @click="selectedTab = 'im'">
+                            <img class="icon" src="/img/unpaid.svg">
+                            <span>Impayés</span>
+                        </a>
+                    </div>
+                    <!-- Section avec tous les inputs affichés par défaut des sélections -->
+                    <div class="field suffix border" x-show="userType == 'productowner' && selectedTab == 'tr'">
+                        <select x-model="siren">
+                            <option value="" selected>Tous les numéros de Siren</option>
+                            <template x-for="siren in sirenNumbers" :key="siren">
+                                <option :value="siren" x-text="siren"></option>
+                            </template>
+                        </select>
+                        <a class="loader" x-show="sirenNumbers.length == 0"></a>
+                        <i x-show="sirenNumbers.length != 0">arrow_drop_down</i>
+                    </div>
+                    <div class="field label suffix border" x-show="userType == 'productowner' && selectedTab == 'tr'">
+                        <input type="text" id="socialName" name="socialName" x-model="socialName">
+                        <label>Raison sociale</label>
+                    </div>
+                    <div class="field label prefix border" x-show="selectedTab == 'tr'"
+                        @click="document.getElementById('date').showPicker()">
+                        <i>today</i>
+                        <input type="date" id="date" name="date" x-model="date">
+                        <label class="active">Date</label>
+                    </div>
+                    <div class="field label prefix border" x-show="selectedTab != 'tr'"
+                        @click="document.getElementById('dateBefore').showPicker()">
+                        <i>today</i>
+                        <input type="date" id="dateBefore" name="dateBefore" x-model="dateBefore">
+                        <label class="active">Date avant le</label>
+                    </div>
+                    <div class="field label prefix border" x-show="selectedTab != 'tr'"
+                        @click="document.getElementById('dateAfter').showPicker()">
+                        <i>today</i>
+                        <input type="date" id="dateAfter" name="dateAfter" x-model="dateAfter">
+                        <label class="active">Date après le</label>
+                    </div>
+                    <div class="field label border" x-show="selectedTab == 'im'">
+                        <input type="tel" id="dossierUnpaid" name="dossierUnpaid">
+                        <label>N° dossier impayé</label>
+                    </div>
+                    <!-- Search Button -->
+                    <button class="responsive no-margin" @click="search">Rechercher</button>
                 </article>
-            </template>
 
+                <article class="no-elevate">
+                    <div class="center-align">
+                        <br>
+                        <a class="loader small" x-show="loading"></a>
+                    </div>
+                    <div x-show="selectedTab == 'tr'">
+                        <template x-for="(item, i) in results" :key="i">
+                            <article class="no-elevate fill">
+                                <details>
+                                    <summary class="none">
+                                        <div class="row">
+                                            <div class="max">
+                                                <h5 x-text="item.RaisonSociale"></h5>
+                                            </div>
+                                            <i>arrow_drop_down</i>
+                                        </div>
+                                    </summary>
+                                    <div>
+                                        <br>
+                                        <p>Siren <span x-text="item.NumSiren"></span></p>
+                                        <p><span x-text="item.NombreTransactions"></span> transaction(s) au total</p>
+                                        <h6
+                                            x-text="new Intl.NumberFormat('fr-FR', { style: 'currency', currency: item.Devise }).format(item.MontantTotal)">
+                                        </h6>
+                                    </div>
+                                </details>
+                            </article>
+                        </template>
+                    </div>
+                    <div x-show="selectedTab == 're'">
+                        <table class="border">
+                            <thead>
+                                <tr>
+                                    <th>Numéro Siren</th>
+                                    <th>Raison sociale</th>
+                                    <th>Numéro remise</th>
+                                    <th>Date de traitement</th>
+                                    <th>Nombre de transactions</th>
+                                    <th>Montant total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <template x-for="(transaction, i) in transactions" :key="i">
+                                    <tr>
+                                        <td x-text="transaction.NumSiren"></td>
+                                        <td x-text="transaction.RaisonSociale"></td>
+                                        <td x-text="transaction.NumeroRemise"></td>
+                                        <td x-text="formatDate(transaction.DateTraitement)"></td>
+                                        <td x-text="transaction.NombreTransactions"></td>
+                                        <td
+                                            x-text="transaction.Sens + new Intl.NumberFormat('fr-FR', { style: 'currency', currency: transaction.Devise }).format(transaction.MontantTotal)">
+                                        </td>
+                                    </tr>
+                                </template>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div x-show="selectedTab == 'im'">
+                        <table class="border">
+                            <thead>
+                                <tr>
+                                    <th>Numéro Siren</th>
+                                    <th>Date de vente</th>
+                                    <th>Date de remise</th>
+                                    <th>Numéro de carte</th>
+                                    <th>Réseau</th>
+                                    <th>N° dossier</th>
+                                    <th>Devise</th>
+                                    <th>Montant</th>
+                                    <th>Libellé</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <template x-for="(transaction, i) in transactions" :key="i">
+                                    <tr>
+                                        <td x-text="transaction.NumSiren"></td>
+                                        <td x-text="transaction.DateVente"></td>
+                                        <td x-text="transaction.DateRemise"></td>
+                                        <td x-text="transaction.NumCarte"></td>
+                                        <td x-text="transaction.Reseau"></td>
+                                        <td x-text="transaction['numDossierImpayé']"></td>
+                                        <td
+                                            x-text="new Intl.NumberFormat('fr-FR', { style: 'currency', currency: transaction.Devise }).format(transaction.Montant)">
+                                        </td>
+                                        <td x-text="transaction['LibImpayé']"></td>
+                                    </tr>
+                                </template>
+                            </tbody>
+                        </table>
+                    </div>
+                </article>
+
+            </div>
         </div>
     </div>
 
     <style>
-        button.fill[selected=selected] {
-            background-color: var(--primary) !important;
-            color: var(--on-primary) !important;
+        .main {
+            padding: 20px;
+            max-width: 1300px;
+        }
+
+        .flex {
+            display: grid;
+            grid-template-columns: 460px 1fr;
+            gap: 20px;
+        }
+
+        article+article {
+            margin-top: 0;
+            width: 100%;
         }
     </style>
 </div>

@@ -20,8 +20,19 @@ document.addEventListener('alpine:init', () => {
         siren: "",
         socialName: "",
         date: "",
+        dateBefore: "",
+        dateAfter: "",
+        unpaidNumber: "",
         results: [],
+        transactions: [],
+        unpaid: [],
         loading: false,
+
+        formatDate(dateString) {
+            const date = new Date(dateString);
+            var months = ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"];
+            return "" + date.getDate() + " " + months[date.getMonth()] + " " + date.getFullYear();
+        },
 
         async init() {
             if (!await _isLoggedIn()) {
@@ -37,11 +48,26 @@ document.addEventListener('alpine:init', () => {
         async search() {
             this.loading = true;
             this.results = [];
-            if (this.selectedTab === 'tr') {
-                const res = await fetch(`/api/?action=treasuryDataTable&numSiren=${this.siren}&raisonSociale=${this.socialName}&date=${this.date}`).then(x => x.json());
-                if (res.success) {
-                    this.results = res.data;
-                }
+            let res;
+            switch (this.selectedTab) {
+                case 'tr':
+                    res = await fetch(`/api/?action=treasuryDataTable&numSiren=${this.siren}&raisonSociale=${this.socialName}&date=${this.date}`).then(x => x.json());
+                    if (res.success) {
+                        this.results = res.data;
+                    }
+                    break;
+                case 're':
+                    res = await fetch(`/api/?action=discountDataTable&date_debut=${this.dateAfter}&date_fin=${this.dateBefore}`).then(x => x.json());
+                    if (res.success) {
+                        this.transactions = res.data;
+                    }
+                    break;
+                case 'im':
+                    res = await fetch(`/api/?action=unPaidDiscountDataTable&date_debut=${this.dateAfter}&date_fin=${this.dateBefore}&numDossierImpaye=${this.unpaidNumber}`).then(x => x.json());
+                    if (res.success) {
+                        this.unpaid = res.data;
+                    }
+                    break;
             }
             this.loading = false;
         },
