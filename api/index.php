@@ -40,6 +40,9 @@ if (isset($_GET['action'])){
         case "graphics":
                 include("discount/graphics.php");
             break;
+        case "deleteAcount":
+            include("admin/deleteAccount.php");
+            break;
         
         
         
