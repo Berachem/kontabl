@@ -28,6 +28,9 @@ document.addEventListener('alpine:init', () => {
         unpaid: [],
         loading: false,
         prevOrderDir: -1,
+        linkedTransactions: [],
+        loadingLinkedTransactions: false,
+        detailsModal: null,
 
         formatDate(dateString) {
             const date = new Date(dateString);
@@ -82,6 +85,17 @@ document.addEventListener('alpine:init', () => {
                     break;
             }
             this.loading = false;
+        },
+
+        async loadDetailsForSiren(siren) {
+            this.$refs.detailsModal.showModal();
+            this.loadingLinkedTransactions = true;
+            this.linkedTransactions = [];
+            const res = await fetch(`/api/?action=detailsTransactions&numSiren=${siren}`).then(x => x.json());
+            if (res.success) {
+                this.linkedTransactions = res.transactions;
+            }
+            this.loadingLinkedTransactions = false;
         },
 
         async logout() {

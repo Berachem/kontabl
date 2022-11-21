@@ -85,124 +85,170 @@
                 </article>
 
                 <article class="no-elevate">
-                    <div class="center-align">
-                        <br>
-                        <a class="loader small" x-show="loading"></a>
+                    <div x-show="loading" class="middle-align center-align" style="height: 300px;">
+                        <a class="loader"></a>
                     </div>
-                    <div x-show="selectedTab == 'tr'">
-                        <template x-for="(item, i) in results" :key="i">
-                            <article class="no-elevate fill">
-                                <details>
-                                    <summary class="none">
-                                        <div class="row">
-                                            <div class="max">
-                                                <h5 x-text="item.RaisonSociale"></h5>
+
+                    <div x-show="!loading">
+                        <div x-show="selectedTab == 'tr'">
+                            <template x-for="(item, i) in results" :key="i">
+                                <article class="no-elevate fill">
+                                    <details>
+                                        <summary class="none">
+                                            <div class="row">
+                                                <div class="max">
+                                                    <h5 x-text="item.RaisonSociale"></h5>
+                                                </div>
+                                                <i>arrow_drop_down</i>
                                             </div>
-                                            <i>arrow_drop_down</i>
+                                        </summary>
+                                        <div>
+                                            <br>
+                                            <p>Siren <span x-text="item.NumSiren"></span></p>
+                                            <p><span x-text="item.NombreTransactions"></span> transaction(s) au total
+                                            </p>
+                                            <h6
+                                                x-text="new Intl.NumberFormat('fr-FR', { style: 'currency', currency: item.Devise }).format(item.MontantTotal)">
+                                            </h6>
                                         </div>
-                                    </summary>
-                                    <div>
-                                        <br>
-                                        <p>Siren <span x-text="item.NumSiren"></span></p>
-                                        <p><span x-text="item.NombreTransactions"></span> transaction(s) au total</p>
-                                        <h6
-                                            x-text="new Intl.NumberFormat('fr-FR', { style: 'currency', currency: item.Devise }).format(item.MontantTotal)">
-                                        </h6>
-                                    </div>
-                                </details>
-                            </article>
-                        </template>
-                    </div>
-                    <div x-show="selectedTab == 're'">
-                        <table class="border">
-                            <thead>
-                                <tr>
-                                    <th>
-                                        <a @click="orderTableBy(transactions, 'NumSiren')" href="javascript:void(0);">
-                                            Numéro Siren
-                                        </a>
-                                    </th>
-                                    <th>
-                                        <a @click="orderTableBy(transactions, 'RaisonSociale')"
-                                            href="javascript:void(0);">
-                                            Raison sociale
-                                        </a>
-                                    </th>
-                                    <th>
-                                        <a @click="orderTableBy(transactions, 'NumeroRemise')"
-                                            href="javascript:void(0);">
-                                            Numéro remise
-                                        </a>
-                                    </th>
-                                    <th>
-                                        <a @click="orderTableBy(transactions, 'DateTraitement')"
-                                            href="javascript:void(0);">
-                                            Date de traitement
-                                        </a>
-                                    </th>
-                                    <th>
-                                        <a @click="orderTableBy(transactions, 'NombreTransactions')"
-                                            href="javascript:void(0);">
-                                            Nombre de transactions
-                                        </a>
-                                    </th>
-                                    <th>
-                                        <a @click="orderTableBy(transactions, 'MontantTotal')"
-                                            href="javascript:void(0);">
-                                            Montant total
-                                        </a>
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <template x-for="transaction in transactions" :key="transaction.NumeroRemise">
+                                    </details>
+                                </article>
+                            </template>
+                        </div>
+                        <dialog x-ref="detailsModal">
+                            <div class="center-align middle-align" style="height: 200px;"
+                                x-show="loadingLinkedTransactions">
+                                <a class="loader"></a>
+                            </div>
+                            <div x-show="!loadingLinkedTransactions">
+                                <h4>Détails transactions</h4>
+                                <p x-if="linkedTransactions.length > 0">SIREN n° <span
+                                        x-text="linkedTransactions[0].numSiren"></span></p>
+                                <table class="border">
+                                    <thead>
+                                        <tr>
+                                            <th>ID transaction</th>
+                                            <th>N° autorisation</th>
+                                            <th>Date</th>
+                                            <th>Carte</th>
+                                            <th>Montant</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <template x-for="transaction in linkedTransactions"
+                                            :key="transaction.idTransaction">
+                                            <tr>
+                                                <td x-text="transaction.idTransaction"></td>
+                                                <td x-text="transaction.numAuthorization"></td>
+                                                <td x-text="transaction.dateTransaction"></td>
+                                                <td>**** <span x-text="transaction.endingFoursCardNumbers"></span></td>
+                                                <td
+                                                    x-text="new Intl.NumberFormat('fr-FR', { style: 'currency', currency: transaction.currency }).format(transaction.amount)">
+                                                </td>
+                                            </tr>
+                                        </template>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <nav class="right-align">
+                                <form method="dialog">
+                                    <button class="border">Fermer</button>
+                                </form>
+                            </nav>
+                        </dialog>
+                        <div x-show="selectedTab == 're'">
+                            <table class="border">
+                                <thead>
                                     <tr>
-                                        <td x-text="transaction.NumSiren"></td>
-                                        <td x-text="transaction.RaisonSociale"></td>
-                                        <td x-text="transaction.NumeroRemise"></td>
-                                        <td x-text="formatDate(transaction.DateTraitement)"></td>
-                                        <td x-text="transaction.NombreTransactions"></td>
-                                        <td
-                                            x-text="transaction.Sens + new Intl.NumberFormat('fr-FR', { style: 'currency', currency: transaction.Devise }).format(transaction.MontantTotal)">
-                                        </td>
+                                        <th>
+                                            <a @click="orderTableBy(transactions, 'NumSiren')"
+                                                href="javascript:void(0);">
+                                                Numéro Siren
+                                            </a>
+                                        </th>
+                                        <th>
+                                            <a @click="orderTableBy(transactions, 'RaisonSociale')"
+                                                href="javascript:void(0);">
+                                                Raison sociale
+                                            </a>
+                                        </th>
+                                        <th>
+                                            <a @click="orderTableBy(transactions, 'NumeroRemise')"
+                                                href="javascript:void(0);">
+                                                Numéro remise
+                                            </a>
+                                        </th>
+                                        <th>
+                                            <a @click="orderTableBy(transactions, 'DateTraitement')"
+                                                href="javascript:void(0);">
+                                                Date de traitement
+                                            </a>
+                                        </th>
+                                        <th>
+                                            <a @click="orderTableBy(transactions, 'NombreTransactions')"
+                                                href="javascript:void(0);">
+                                                Nombre de transactions
+                                            </a>
+                                        </th>
+                                        <th>
+                                            <a @click="orderTableBy(transactions, 'MontantTotal')"
+                                                href="javascript:void(0);">
+                                                Montant total
+                                            </a>
+                                        </th>
                                     </tr>
-                                </template>
-                            </tbody>
-                        </table>
-                        <p><span x-text="transactions.length"></span> résultat(s)</p>
-                    </div>
-                    <div x-show="selectedTab == 'im'">
-                        <table class="border">
-                            <thead>
-                                <tr>
-                                    <th>Numéro Siren</th>
-                                    <th>Date de vente</th>
-                                    <th>Date de remise</th>
-                                    <th>Numéro de carte</th>
-                                    <th>Réseau</th>
-                                    <th>N° dossier</th>
-                                    <th>Devise</th>
-                                    <th>Montant</th>
-                                    <th>Libellé</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <template x-for="(transaction, i) in transactions" :key="i">
+                                </thead>
+                                <tbody>
+                                    <template x-for="transaction in transactions" :key="transaction.NumeroRemise">
+                                        <tr tabindex="0" role="button"
+                                            @click="loadDetailsForSiren(transaction.NumSiren)">
+                                            <td x-text="transaction.NumSiren"></td>
+                                            <td x-text="transaction.RaisonSociale"></td>
+                                            <td x-text="transaction.NumeroRemise"></td>
+                                            <td x-text="formatDate(transaction.DateTraitement)"></td>
+                                            <td x-text="transaction.NombreTransactions"></td>
+                                            <td
+                                                x-text="transaction.Sens + new Intl.NumberFormat('fr-FR', { style: 'currency', currency: transaction.Devise }).format(transaction.MontantTotal)">
+                                            </td>
+                                        </tr>
+                                    </template>
+                                </tbody>
+                            </table>
+                            <p><span x-text="transactions.length"></span> résultat(s)</p>
+                        </div>
+                        <div x-show="selectedTab == 'im'">
+                            <table class="border">
+                                <thead>
                                     <tr>
-                                        <td x-text="transaction.NumSiren"></td>
-                                        <td x-text="transaction.DateVente"></td>
-                                        <td x-text="transaction.DateRemise"></td>
-                                        <td x-text="transaction.NumCarte"></td>
-                                        <td x-text="transaction.Reseau"></td>
-                                        <td x-text="transaction['numDossierImpayé']"></td>
-                                        <td
-                                            x-text="new Intl.NumberFormat('fr-FR', { style: 'currency', currency: transaction.Devise }).format(transaction.Montant)">
-                                        </td>
-                                        <td x-text="transaction['LibImpayé']"></td>
+                                        <th>Numéro Siren</th>
+                                        <th>Date de vente</th>
+                                        <th>Date de remise</th>
+                                        <th>Numéro de carte</th>
+                                        <th>Réseau</th>
+                                        <th>N° dossier</th>
+                                        <th>Devise</th>
+                                        <th>Montant</th>
+                                        <th>Libellé</th>
                                     </tr>
-                                </template>
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody>
+                                    <template x-for="(transaction, i) in transactions" :key="i">
+                                        <tr>
+                                            <td x-text="transaction.NumSiren"></td>
+                                            <td x-text="transaction.DateVente"></td>
+                                            <td x-text="transaction.DateRemise"></td>
+                                            <td x-text="transaction.NumCarte"></td>
+                                            <td x-text="transaction.Reseau"></td>
+                                            <td x-text="transaction['numDossierImpayé']"></td>
+                                            <td
+                                                x-text="new Intl.NumberFormat('fr-FR', { style: 'currency', currency: transaction.Devise }).format(transaction.Montant)">
+                                            </td>
+                                            <td x-text="transaction['LibImpayé']"></td>
+                                        </tr>
+                                    </template>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </article>
 
