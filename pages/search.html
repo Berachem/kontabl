@@ -117,16 +117,45 @@
                         <table class="border">
                             <thead>
                                 <tr>
-                                    <th>Numéro Siren</th>
-                                    <th>Raison sociale</th>
-                                    <th>Numéro remise</th>
-                                    <th>Date de traitement</th>
-                                    <th>Nombre de transactions</th>
-                                    <th>Montant total</th>
+                                    <th>
+                                        <a @click="orderTableBy(transactions, 'NumSiren')" href="javascript:void(0);">
+                                            Numéro Siren
+                                        </a>
+                                    </th>
+                                    <th>
+                                        <a @click="orderTableBy(transactions, 'RaisonSociale')"
+                                            href="javascript:void(0);">
+                                            Raison sociale
+                                        </a>
+                                    </th>
+                                    <th>
+                                        <a @click="orderTableBy(transactions, 'NumeroRemise')"
+                                            href="javascript:void(0);">
+                                            Numéro remise
+                                        </a>
+                                    </th>
+                                    <th>
+                                        <a @click="orderTableBy(transactions, 'DateTraitement')"
+                                            href="javascript:void(0);">
+                                            Date de traitement
+                                        </a>
+                                    </th>
+                                    <th>
+                                        <a @click="orderTableBy(transactions, 'NombreTransactions')"
+                                            href="javascript:void(0);">
+                                            Nombre de transactions
+                                        </a>
+                                    </th>
+                                    <th>
+                                        <a @click="orderTableBy(transactions, 'MontantTotal')"
+                                            href="javascript:void(0);">
+                                            Montant total
+                                        </a>
+                                    </th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <template x-for="(transaction, i) in transactions" :key="i">
+                                <template x-for="transaction in transactions" :key="transaction.NumeroRemise">
                                     <tr>
                                         <td x-text="transaction.NumSiren"></td>
                                         <td x-text="transaction.RaisonSociale"></td>
@@ -140,6 +169,7 @@
                                 </template>
                             </tbody>
                         </table>
+                        <p><span x-text="transactions.length"></span> résultat(s)</p>
                     </div>
                     <div x-show="selectedTab == 'im'">
                         <table class="border">
@@ -195,6 +225,11 @@
         article+article {
             margin-top: 0;
             width: 100%;
+        }
+
+        th a:focus {
+            outline: 2px dashed #000;
+            outline-offset: 2px;
         }
     </style>
 </div>

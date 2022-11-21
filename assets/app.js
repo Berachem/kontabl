@@ -27,11 +27,23 @@ document.addEventListener('alpine:init', () => {
         transactions: [],
         unpaid: [],
         loading: false,
+        prevOrderDir: -1,
 
         formatDate(dateString) {
             const date = new Date(dateString);
             var months = ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"];
             return "" + date.getDate() + " " + months[date.getMonth()] + " " + date.getFullYear();
+        },
+
+        // TODO: Montant total stocké en absolu, ne marche pas avec le tri actuel.
+        orderTableBy(array, column) {
+            const direction = this.prevOrderDir === 1 ? -1 : 1;
+            array.sort((a, b) => {
+                a = parseInt(a[column]) || a[column];
+                b = parseInt(b[column]) || b[column];
+                return a > b ? direction : a < b ? -direction : 0;
+            });
+            this.prevOrderDir = direction;
         },
 
         async init() {
