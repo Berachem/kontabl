@@ -31,6 +31,8 @@ document.addEventListener('alpine:init', () => {
         linkedTransactions: [],
         loadingLinkedTransactions: false,
         detailsModal: null,
+        rowsCount: 10,
+        page: 1,
 
         formatDate(dateString) {
             const date = new Date(dateString);

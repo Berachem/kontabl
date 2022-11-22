@@ -199,7 +199,9 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <template x-for="transaction in transactions" :key="transaction.NumeroRemise">
+                                    <template
+                                        x-for="transaction in transactions.slice((page - 1) * rowsCount, page * rowsCount)"
+                                        :key="transaction.NumeroRemise">
                                         <tr tabindex="0" role="button"
                                             @click="loadDetailsForSiren(transaction.NumSiren)"
                                             @keyup.enter="loadDetailsForSiren(transaction.NumSiren)">
@@ -215,7 +217,12 @@
                                     </template>
                                 </tbody>
                             </table>
-                            <p><span x-text="transactions.length"></span> résultat(s)</p>
+                            <p>
+                                Page <input type="number" x-model="page" style="all: unset; width: 30px;">
+                                Afficher <input type="number" x-model="rowsCount" style="all: unset; width: 30px;">
+                                lignes par page
+                                <span x-text="transactions.length"></span> résultat(s)
+                            </p>
                         </div>
                         <div x-show="selectedTab == 'im'">
                             <table class="border">
