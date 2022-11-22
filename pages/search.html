@@ -201,7 +201,8 @@
                                 <tbody>
                                     <template x-for="transaction in transactions" :key="transaction.NumeroRemise">
                                         <tr tabindex="0" role="button"
-                                            @click="loadDetailsForSiren(transaction.NumSiren)">
+                                            @click="loadDetailsForSiren(transaction.NumSiren)"
+                                            @keyup.enter="loadDetailsForSiren(transaction.NumSiren)">
                                             <td x-text="transaction.NumSiren"></td>
                                             <td x-text="transaction.RaisonSociale"></td>
                                             <td x-text="transaction.NumeroRemise"></td>
