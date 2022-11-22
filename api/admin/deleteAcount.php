@@ -8,7 +8,11 @@ Return a JSON object with the following parameters:
     - error 
 */
 
+/* partie test
 $_GET["numSiren"] = 124578369;
+$_SESSION["num"] = 123;
+$_SESSION["type"]="admin";
+*/
 
 if (isset($_SESSION["num"]) && ($_SESSION["type"]=="admin")){  
     $cond = array();

@@ -44,7 +44,7 @@ if (isset($_GET['action'])){
             include("other/detailsTransactions.php");
         break;
         case "deleteAcount":
-            include("admin/deleteAccount.php");
+            include("admin/deleteAcount.php");
             break;
         
         
