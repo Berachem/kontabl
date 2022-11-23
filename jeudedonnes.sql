@@ -60,19 +60,19 @@ CREATE TABLE `discount` (
 --
 
 INSERT INTO `discount` (`numDiscount`, `numTransaction`, `sens`, `unpaidWording`, `numUnpaidFile`, `dateDiscount`) VALUES
-(1, 2, '-', 'solde insuffisant', '1234', '2022-11-09 08:40:08'),
-(2, 3, '+', '', '', '2022-10-19 07:36:12'),
-(3, 1, '+', '', '', '2022-10-29 13:22:14'),
-(11, 6, '-', 'erreur bancaire', 'DP236', '2022-08-16 10:49:45'),
+(1, 2, '-', 'Solde insuffisant', '1234', '2022-02-09 08:40:08'),
+(2, 3, '+', '', '', '2022-04-19 07:36:12'),
+(3, 1, '+', '', '', '2022-06-29 13:22:14'),
+(11, 6, '-', 'Plafond atteint', 'DP236', '2022-08-16 10:49:45'),
 (12, 4, '+', '', '', '2020-08-01 10:49:45'),
-(13, 7, '-', 'plafond bancaire atteint', '2365F', '2022-09-05 11:13:32'),
+(13, 7, '-', 'Plafond atteint', '2365F', '2022-09-05 11:13:32'),
 (14, 6, '+', NULL, NULL, '2022-11-09 09:45:37'),
 (15, 7, '+', NULL, NULL, '2022-11-25 16:30:26'),
 (16, 5, '+', NULL, NULL, '2022-11-01 14:10:12'),
-(17, 10, '-', 'Ceiling reached', 'BAD4A', NULL),
-(18, 8, '-', 'Account empty', 'A1FTG', NULL),
-(19, 9, '', 'Bad review', 'RFTYH', NULL),
-(20, 11, '', 'Unknow error', 'MPS5V', NULL),
+(17, 10, '-', 'Plafond atteint', 'BAD4A', NULL),
+(18, 8, '-', 'solde insuffisant', 'A1FTG', NULL),
+(19, 9, '', 'solde insuffisant', 'RFTYH', NULL),
+(20, 11, '', 'Erreur inconnue', 'MPS5V', NULL),
 (21, 12, '+', NULL, NULL, '2022-11-10 14:58:34'),
 (22, 13, '+', NULL, NULL, '2022-11-01 14:58:34');
 
