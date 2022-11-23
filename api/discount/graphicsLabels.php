@@ -7,8 +7,6 @@ Renvoie un json avec une liste de couple (label, nombre d'impayés)
 
 session_start();
 
-$_SESSION['num'] = "123456789";
-$_SESSION['type'] = "productowner";
 
 
 
