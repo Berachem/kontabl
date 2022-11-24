@@ -72,18 +72,15 @@ function getNbTransactions($db, $numSiren, $date_debut, $date_fin){
     return $result[0]->nombre;
 }
 
-function getMontantTotal($db, $numSiren, $date_debut, $date_fin){
+function getMontantTotal($db, $numSiren, $date){
     $sql = "SELECT SUM(amount) somme FROM transaction WHERE numSiren = :numSiren";
     $cond = array(
         array(":numSiren", $numSiren)
     );
-    if ($date_debut){
-        $sql .= " AND dateTransaction >= :date_debut";
-        $cond[] = array(":date_debut", $date_debut);
-    }
-    if ($date_fin){
-        $sql .= " AND dateTransaction <= :date_fin";
-        $cond[] = array(":date_fin", $date_fin);
+    if ($date){
+        // jointure avec la table discount
+        $sql .= " AND idTransaction IN (SELECT numTransaction FROM discount WHERE dateDiscount = :date)";
+        $cond[] = array(":date", $date);
     }
     $result = $db->q($sql, $cond);
     if ($result[0]->somme == null){
@@ -122,7 +119,7 @@ function getDiscounts($numSiren, $raisonSociale, $date_debut, $date_fin, $sens, 
     $sql = "SELECT * FROM transaction";
     $cond = array();
     if ($raisonSociale){
-        echo $raisonSociale;
+        //echo $raisonSociale;
         $sql2= "SELECT siren FROM merchant WHERE raisonSociale LIKE :raisonSociale";
         $cond2 = array(
             array(":raisonSociale","%".$raisonSociale."%")
@@ -130,6 +127,7 @@ function getDiscounts($numSiren, $raisonSociale, $date_debut, $date_fin, $sens, 
         $result = $db->q($sql2, $cond2);
         if ($result){
             $numSiren = $result[0]->siren;
+
         }
         else{
             return $data;
@@ -141,8 +139,9 @@ function getDiscounts($numSiren, $raisonSociale, $date_debut, $date_fin, $sens, 
         array_push($cond, array(":numSiren", $numSiren));
     }
     $result = $db->q($sql, $cond);
+    //var_dump($result);
     foreach ($result as $transaction){
-        $sql3="SElECT * FROM discount WHERE numTransaction = :numTransaction";
+        $sql3="SELECT * FROM discount WHERE numTransaction = :numTransaction";
         $cond3 = array(
             array(":numTransaction", $transaction->idTransaction)
         );
@@ -177,7 +176,7 @@ function getDiscounts($numSiren, $raisonSociale, $date_debut, $date_fin, $sens, 
                 $d['DateTraitement']=$discount->dateDiscount;
                 $d['NombreTransactions']=getNbTransactions($db, $transaction->numSiren, $date_debut, $date_fin);
                 $d['Devise']=getDevise($db, $transaction->numSiren);
-                $d['MontantTotal']=getMontantTotal($db, $transaction->numSiren, $date_debut, $date_fin);
+                $d['MontantTotal']=getMontantTotal($db, $transaction->numSiren, $discount->dateDiscount);
                 if($sens){
                     if($discount->sens==$sens){
                         $d['Sens']=$discount->sens;

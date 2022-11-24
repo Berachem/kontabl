@@ -10,6 +10,7 @@ GET:
  - raisonSociale (optional)
  - date_debut (optional)
  - date_fin (optional)
+ - numRemise (optional)
 
  Return a JSON object with the following parameters:
     - success
@@ -34,6 +35,7 @@ if(isset($_SESSION['num'])){
     if ($_SESSION["type"] == "productowner" || $_SESSION["type"] == "admin") {
         $numSiren = isset($_GET["numSiren"]) ? $_GET["numSiren"] : null;
         $raisonSociale = isset($_GET["raisonSociale"]) ? $_GET["raisonSociale"] : null;
+       
     } else {
         $numSiren = $_SESSION['num'];
         $raisonSociale = null;
@@ -42,9 +44,20 @@ if(isset($_SESSION['num'])){
         $date_debut = isset($_GET["date_debut"]) ? $_GET["date_debut"] : null;
         $date_fin = isset($_GET["date_fin"]) ? $_GET["date_fin"] : null;
         $sens=isset($_GET["sens"]) ? $_GET["sens"] : null;
+        $numRemise = isset($_GET["numRemise"]) ? $_GET["numRemise"] : null;
         $data = array();
 
+
         $data = getDiscounts($numSiren, $raisonSociale, $date_debut, $date_fin, $sens,null);
+        //var_dump($data);
+        if ($numRemise){
+            // On filtre les données pour ne garder que celles qui correspondent au numéro de remise
+            $data = array_filter($data, function($item) use ($numRemise){
+                //var_dump($item);
+                return $item["NumeroRemise"] == $numRemise;
+            });
+        }
+
 
         $response = array(
             "success" => true,

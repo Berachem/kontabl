@@ -20,8 +20,36 @@ document.addEventListener('alpine:init', () => {
         siren: "",
         socialName: "",
         date: "",
+        dateBefore: "",
+        dateAfter: "",
+        unpaidNumber: "",
         results: [],
+        transactions: [],
+        unpaid: [],
         loading: false,
+        prevOrderDir: -1,
+        linkedTransactions: [],
+        loadingLinkedTransactions: false,
+        detailsModal: null,
+        rowsCount: 10,
+        page: 1,
+
+        formatDate(dateString) {
+            const date = new Date(dateString);
+            var months = ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"];
+            return "" + date.getDate() + " " + months[date.getMonth()] + " " + date.getFullYear();
+        },
+
+        // TODO: Montant total stocké en absolu, ne marche pas avec le tri actuel.
+        orderTableBy(array, column) {
+            const direction = this.prevOrderDir === 1 ? -1 : 1;
+            array.sort((a, b) => {
+                a = parseInt(a[column]) || a[column];
+                b = parseInt(b[column]) || b[column];
+                return a > b ? direction : a < b ? -direction : 0;
+            });
+            this.prevOrderDir = direction;
+        },
 
         async init() {
             if (!await _isLoggedIn()) {
@@ -37,13 +65,39 @@ document.addEventListener('alpine:init', () => {
         async search() {
             this.loading = true;
             this.results = [];
-            if (this.selectedTab === 'tr') {
-                const res = await fetch(`/api/?action=treasuryDataTable&numSiren=${this.siren}&raisonSociale=${this.socialName}&date=${this.date}`).then(x => x.json());
-                if (res.success) {
-                    this.results = res.data;
-                }
+            let res;
+            switch (this.selectedTab) {
+                case 'tr':
+                    res = await fetch(`/api/?action=treasuryDataTable&numSiren=${this.siren}&raisonSociale=${this.socialName}&date=${this.date}`).then(x => x.json());
+                    if (res.success) {
+                        this.results = res.data;
+                    }
+                    break;
+                case 're':
+                    res = await fetch(`/api/?action=discountDataTable&date_debut=${this.dateAfter}&date_fin=${this.dateBefore}`).then(x => x.json());
+                    if (res.success) {
+                        this.transactions = res.data;
+                    }
+                    break;
+                case 'im':
+                    res = await fetch(`/api/?action=unPaidDiscountDataTable&date_debut=${this.dateAfter}&date_fin=${this.dateBefore}&numDossierImpaye=${this.unpaidNumber}`).then(x => x.json());
+                    if (res.success) {
+                        this.unpaid = res.data;
+                    }
+                    break;
             }
             this.loading = false;
+        },
+
+        async loadDetailsForSiren(siren) {
+            this.$refs.detailsModal.showModal();
+            this.loadingLinkedTransactions = true;
+            this.linkedTransactions = [];
+            const res = await fetch(`/api/?action=detailsTransactions&numSiren=${siren}`).then(x => x.json());
+            if (res.success) {
+                this.linkedTransactions = res.transactions;
+            }
+            this.loadingLinkedTransactions = false;
         },
 
         async logout() {
