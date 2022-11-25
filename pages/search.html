@@ -228,34 +228,81 @@
                             <table class="border">
                                 <thead>
                                     <tr>
-                                        <th>Numéro Siren</th>
-                                        <th>Date de vente</th>
-                                        <th>Date de remise</th>
-                                        <th>Numéro de carte</th>
-                                        <th>Réseau</th>
-                                        <th>N° dossier</th>
-                                        <th>Devise</th>
-                                        <th>Montant</th>
-                                        <th>Libellé</th>
+                                        <th>
+                                            <a @click="orderTableBy(transactions, 'NumSiren')"
+                                                href="javascript:void(0);">
+                                                Numéro Siren
+                                            </a>
+                                        </th>
+                                        <th>
+                                            <a @click="orderTableBy(transactions, 'DateVente')"
+                                                href="javascript:void(0);">
+                                                Date de vente
+                                            </a>
+                                        </th>
+                                        <th>
+                                            <a @click="orderTableBy(transactions, 'DateRemise')"
+                                                href="javascript:void(0);">
+                                                Date de remise
+                                            </a>
+                                        </th>
+                                        <th>
+                                            <a @click="orderTableBy(transactions, 'NumCarte')"
+                                                href="javascript:void(0);">
+                                                Numéro de carte
+                                            </a>
+                                        </th>
+                                        <th>
+                                            <a @click="orderTableBy(transactions, 'Reseau')"
+                                                href="javascript:void(0);">
+                                                Réseau
+                                            </a>
+                                        </th>
+                                        <th>
+                                            <a @click="orderTableBy(transactions, 'Devise')"
+                                                href="javascript:void(0);">
+                                                Devise
+                                            </a>
+                                        </th>
+                                        <th>
+                                            <a @click="orderTableBy(transactions, 'Montant')"
+                                                href="javascript:void(0);">
+                                                Montant
+                                            </a>
+                                        </th>
+                                        <th>
+                                            <a @click="orderTableBy(transactions, 'LibImpayé')"
+                                                href="javascript:void(0);">
+                                                Libellé
+                                            </a>
+                                        </th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <template x-for="(transaction, i) in transactions" :key="i">
-                                        <tr>
+                                    <template
+                                        x-for="transaction in transactions.slice((page - 1) * rowsCount, page * rowsCount)"
+                                        :key="transaction.NumeroRemise">
+                                        <tr tabindex="0" role="button"
+                                            @click="loadDetailsForSiren(transaction.NumSiren)"
+                                            @keyup.enter="loadDetailsForSiren(transaction.NumSiren)">
                                             <td x-text="transaction.NumSiren"></td>
-                                            <td x-text="transaction.DateVente"></td>
-                                            <td x-text="transaction.DateRemise"></td>
-                                            <td x-text="transaction.NumCarte"></td>
-                                            <td x-text="transaction.Reseau"></td>
-                                            <td x-text="transaction['numDossierImpayé']"></td>
+                                            <td x-text="transaction.RaisonSociale"></td>
+                                            <td x-text="transaction.NumeroRemise"></td>
+                                            <td x-text="formatDate(transaction.DateTraitement)"></td>
+                                            <td x-text="transaction.NombreTransactions"></td>
                                             <td
-                                                x-text="new Intl.NumberFormat('fr-FR', { style: 'currency', currency: transaction.Devise }).format(transaction.Montant)">
+                                                x-text="transaction.Sens + new Intl.NumberFormat('fr-FR', { style: 'currency', currency: transaction.Devise }).format(transaction.MontantTotal)">
                                             </td>
-                                            <td x-text="transaction['LibImpayé']"></td>
                                         </tr>
                                     </template>
                                 </tbody>
                             </table>
+                            <p>
+                                Page <input type="number" x-model="page" style="all: unset; width: 30px;">
+                                Afficher <input type="number" x-model="rowsCount" style="all: unset; width: 30px;">
+                                lignes par page
+                                <span x-text="transactions.length"></span> résultat(s)
+                            </p>
                         </div>
                     </div>
                 </article>
