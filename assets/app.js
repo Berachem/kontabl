@@ -25,7 +25,7 @@ document.addEventListener('alpine:init', () => {
         unpaidNumber: "",
         results: [],
         transactions: [],
-        unpaid: [],
+        unpaids: [],
         loading: false,
         prevOrderDir: -1,
         linkedTransactions: [],
@@ -82,7 +82,7 @@ document.addEventListener('alpine:init', () => {
                 case 'im':
                     res = await fetch(`/api/?action=unPaidDiscountDataTable&date_debut=${this.dateAfter}&date_fin=${this.dateBefore}&numDossierImpaye=${this.unpaidNumber}`).then(x => x.json());
                     if (res.success) {
-                        this.unpaid = res.data;
+                        this.unpaids = res.data;
                     }
                     break;
             }
