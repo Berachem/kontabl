@@ -49,6 +49,9 @@ if (isset($_GET['action'])){
         case "deleteAcount":
             include("admin/deleteAcount.php");
             break;
+        case "getAllAcount":
+            include("other/getAllAcount.php");
+            break;
         
         
     }
