@@ -210,8 +210,9 @@
                                             <td x-text="transaction.NumeroRemise"></td>
                                             <td x-text="formatDate(transaction.DateTraitement)"></td>
                                             <td x-text="transaction.NombreTransactions"></td>
-                                            <td
-                                                x-text="transaction.Sens + new Intl.NumberFormat('fr-FR', { style: 'currency', currency: transaction.Devise }).format(transaction.MontantTotal)">
+                                            <!-- If montant total is negative: red text -->
+                                            <td x-text="transaction.Sens + new Intl.NumberFormat('fr-FR', { style: 'currency', currency: transaction.Devise }).format(transaction.MontantTotal)"
+                                                :class="transaction.Sens == '-' ? 'red-text' : ''"></td>
                                             </td>
                                         </tr>
                                     </template>
