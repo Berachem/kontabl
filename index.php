@@ -57,6 +57,9 @@
     <script src="https://cdn.jsdelivr.net/npm/beercss@2.2.11/dist/cdn/beer.min.js" integrity="sha256-xzR/l8vcDeDcQ5fylcz9H0gl3JE31ho4nddII0gSMYw=" crossorigin="anonymous"></script>
     <script src="/assets/app.js?v=<?= md5_file('./assets/app.js') ?>"></script>
     <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.10.4/dist/cdn.min.js" integrity="sha256-6GXzaY8Bwd7jFZRPj4zcj0SZnnb37LkkvkthlOdYSwg=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/highcharts@10.3.1/highcharts.js" integrity="sha256-TNuOEzzC/7kcr+gSjQriz55hZqrcWq1d1rALfEXj51w=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/highcharts@10.3.1/modules/exporting.js" integrity="sha256-6cXCKCEbp8pKmzW/yTM+2BO70rhH1MYnqBksQYraMN4=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/highcharts@10.3.1/modules/accessibility.js" integrity="sha256-9aA/NBPNmcqEKb6Wn5HJdKz4wOAYpuryXRbsNx87NtI=" crossorigin="anonymous"></script>
 </body>
 
 </html>

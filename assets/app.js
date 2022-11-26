@@ -69,6 +69,47 @@ document.addEventListener('alpine:init', () => {
             if (res.success) {
                 this.sirenNumbers = res.data.map(x => x.NumSiren);
             }
+
+            const pieRes = await fetch('/api/?action=graphicsLabels').then(x => x.json());
+            if (!pieRes.success) return;
+            const data = [];
+            Object.keys(pieRes.data).forEach(function (key) {
+                data.push({ name: key, y: pieRes.data[key] });
+            });
+            Highcharts.chart('highcharts-pie-unpaids', {
+                chart: {
+                    plotBackgroundColor: null,
+                    plotBorderWidth: null,
+                    plotShadow: false,
+                    type: 'pie'
+                },
+                title: {
+                    text: ''
+                },
+                tooltip: {
+                    pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+                },
+                accessibility: {
+                    point: {
+                        valueSuffix: '%'
+                    }
+                },
+                plotOptions: {
+                    pie: {
+                        allowPointSelect: true,
+                        cursor: 'pointer',
+                        dataLabels: {
+                            enabled: true,
+                            format: '<b>{point.name}</b>: {point.percentage:.1f} %'
+                        }
+                    }
+                },
+                series: [{
+                    name: 'Motifs impayés',
+                    colorByPoint: true,
+                    data
+                }]
+            });
         },
 
         async search() {

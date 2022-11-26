@@ -290,8 +290,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <template
-                                        x-for="unpaid in unpaids.slice((page - 1) * rowsCount, page * rowsCount)"
+                                    <template x-for="unpaid in unpaids.slice((page - 1) * rowsCount, page * rowsCount)"
                                         :key="unpaid.numDossierImpayé">
                                         <tr tabindex="0" role="button" @click="loadDetailsForSiren(unpaid.NumSiren)"
                                             @keyup.enter="loadDetailsForSiren(unpaid.NumSiren)">
@@ -315,6 +314,11 @@
                             </p>
                         </div>
                     </div>
+                </article>
+
+                <div x-show="selectedTab == 'im'"></div>
+                <article class="no-elevate" x-show="selectedTab == 'im'">
+                    <div id="highcharts-pie-unpaids"></div>
                 </article>
 
             </div>
