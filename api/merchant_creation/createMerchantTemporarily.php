@@ -16,9 +16,16 @@ add a temporary merchant account
 
 include("include/Functions.inc.php");
 session_start();
-
-
-
+/*
+$_SESSION['type']= "admin";
+$_POST["raisonSociale"] = "testadd";
+$_POST["siren"] = "154685474";
+$_POST["currency"] = "EUR";
+$_POST["numCarte"] = "1234";
+$_POST["network"] = "fr";
+$_POST["idLogin"] = "testadd";
+$_POST["password"] = "testadd";
+*/
 
 
 // check if the user is admin

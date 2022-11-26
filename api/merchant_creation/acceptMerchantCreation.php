@@ -8,8 +8,10 @@ GET:
 */
 
 // check if it is the productowner
-
-
+/*
+$_SESSION['type']= "productowner";
+$_GET["numSiren"] = "154685474";
+*/
 
 if (isset($_SESSION['type']) && $_SESSION['type'] == 'productowner' && isset($_GET["numSiren"])) {
     
@@ -24,13 +26,13 @@ if (isset($_SESSION['type']) && $_SESSION['type'] == 'productowner' && isset($_G
     if ($merchant) {
         // insert the merchant in the merchant table
         $param = array(
-            array(':raisonSociale', $merchant[0]['raisonSociale'], PDO::PARAM_STR),
-            array(':siren', $merchant[0]['siren'], PDO::PARAM_STR),
-            array(':currency', $merchant[0]['currency'], PDO::PARAM_STR),
-            array(':numCarte', $merchant[0]['numCarte'], PDO::PARAM_STR),
-            array(':network', $merchant[0]['network'], PDO::PARAM_STR),
-            array(':password', $merchant[0]['password'], PDO::PARAM_STR),
-            array(':idLogin', $merchant[0]['idLogin'], PDO::PARAM_STR),
+            array(':raisonSociale', $merchant[0]->raisonSociale, PDO::PARAM_STR),
+            array(':siren', $merchant[0]->siren, PDO::PARAM_STR),
+            array(':currency', $merchant[0]->currency, PDO::PARAM_STR),
+            array(':numCarte', $merchant[0]->numCarte, PDO::PARAM_STR),
+            array(':network', $merchant[0]->network, PDO::PARAM_STR),
+            array(':password', $merchant[0]->password, PDO::PARAM_STR),
+            array(':idLogin', $merchant[0]->idLogin, PDO::PARAM_STR),
         );
         $db->q("INSERT INTO merchant (raisonSociale, siren, currency, numCarte, network, password, idLogin) VALUES (:raisonSociale, :siren, :currency, :numCarte, :network, :password, :idLogin);", $param);
 

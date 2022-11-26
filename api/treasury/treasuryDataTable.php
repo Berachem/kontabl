@@ -7,6 +7,9 @@ session_start();
 /*
 $_SESSION["num"] = "louisvi";
 $_SESSION["type"]="user";
+
+$_SESSION["num"] = "louisvi";
+$_SESSION["type"] = "productowner";
 */
 
 // if it is a user include the file merchantDataTable.php
