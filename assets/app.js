@@ -1,7 +1,7 @@
 const _logout = async () => {
     const res = await fetch('/api/?action=logout').then(x => x.json());
     if (res.success) {
-        window.location.href = '/';
+        window.location.href = '/#/login';
     } else {
         alert("Erreur au moment de la déconnexion");
     }
