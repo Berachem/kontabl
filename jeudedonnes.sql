@@ -70,8 +70,8 @@ INSERT INTO `discount` (`numDiscount`, `numTransaction`, `sens`, `unpaidWording`
 (15, 7, '+', NULL, NULL, '2022-11-25 16:30:26'),
 (16, 5, '+', NULL, NULL, '2022-11-01 14:10:12'),
 (17, 10, '-', 'Plafond atteint', 'BAD4A', NULL),
-(18, 8, '-', 'solde insuffisant', 'A1FTG', NULL),
-(19, 9, '', 'solde insuffisant', 'RFTYH', NULL),
+(18, 8, '-', 'Solde insuffisant', 'A1FTG', NULL),
+(19, 9, '', 'Solde insuffisant', 'RFTYH', NULL),
 (20, 11, '', 'Erreur inconnue', 'MPS5V', NULL),
 (21, 12, '+', NULL, NULL, '2022-11-10 14:58:34'),
 (22, 13, '+', NULL, NULL, '2022-11-01 14:58:34');
