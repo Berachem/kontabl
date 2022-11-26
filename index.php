@@ -9,6 +9,38 @@
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/beercss@2.2.11/dist/cdn/beer.min.css" integrity="sha256-lYnQDpcf+FFMWvFyNlfYM5Zis7/ENdFurMo6UK58k4E=" crossorigin="anonymous">
     <link rel="stylesheet" href="/assets/app.css?v=<?= md5_file('./assets/app.css') ?>">
+
+    <style>
+        body {
+            --primary: #006d3a;
+            --on-primary: #ffffff;
+            --primary-container: #99f6b4;
+            --on-primary-container: #00210c;
+            --secondary: #4f6353;
+            --on-secondary: #ffffff;
+            --secondary-container: #d1e8d3;
+            --on-secondary-container: #0c1f12;
+            --tertiary: #3a646f;
+            --on-tertiary: #ffffff;
+            --tertiary-container: #beeaf6;
+            --on-tertiary-container: #001f26;
+            --error: #ba1b1b;
+            --error-container: #ffdad4;
+            --on-error: #ffffff;
+            --on-error-container: #410001;
+            --background: #fbfdf7;
+            --on-background: #1a1c1a;
+            --surface: #fbfdf7;
+            --on-surface: #1a1c1a;
+            --surface-variant: #dde5db;
+            --on-surface-variant: #414941;
+            --outline: #707970;
+            --inverse-on-surface: #f0f1ec;
+            --inverse-surface: #2e312e;
+            --inverse-primary: #7dda9a;
+            --shadow: #000000;
+        }
+    </style>
 </head>
 
 <body x-data x-init="$router.config({ mode: 'hash' })">
