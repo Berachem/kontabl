@@ -175,9 +175,35 @@ document.addEventListener('alpine:init', () => {
             switch (this.selectedTab) {
                 case 'tr':
                     res = await fetch(`/api/?action=treasuryDataTable&numSiren=${this.siren}&raisonSociale=${this.socialName}&date=${this.date}`).then(x => x.json());
-                    if (res.success) {
-                        this.results = res.data;
-                    }
+                    if (!res.success) return;
+                    this.results = res.data;
+
+                    Highcharts.chart('highcharts-histogram-treasury', {
+                        chart: {
+                            type: 'column',
+                            height: 600,
+                        },
+                        credits: {
+                            enabled: false
+                        },
+                        title: {
+                            text: ''
+                        },
+                        xAxis: {
+                            categories: res.data.map(x => x.RaisonSociale),
+                            crosshair: true
+                        },
+                        yAxis: {
+                            title: {
+                                text: ''
+                            }
+                        },
+                        series: [{
+                            name: 'Montant de la trésorerie',
+                            data: res.data.map(x => +x.MontantTotal)
+                        }]
+                    });
+                    console.log(res.data.map(x => +x.MontantTotal));
                     break;
                 case 're':
                     res = await fetch(`/api/?action=discountDataTable&date_debut=${this.dateAfter}&date_fin=${this.dateBefore}`).then(x => x.json());
