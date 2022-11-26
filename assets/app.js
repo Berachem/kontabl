@@ -12,6 +12,15 @@ const _isLoggedIn = async () => {
     return res.isLogged;
 };
 
+const _downloadBlob = (blob, filename) => {
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename;
+    a.click();
+    window.URL.revokeObjectURL(url);
+};
+
 document.addEventListener('alpine:init', () => {
     Alpine.data('search', ($router) => ({
         userType: localStorage.getItem('userType'),
@@ -98,6 +107,34 @@ document.addEventListener('alpine:init', () => {
                 this.linkedTransactions = res.transactions;
             }
             this.loadingLinkedTransactions = false;
+        },
+
+        async exportTableIn(tableSelector, fileType) {
+            const table = document.querySelector(tableSelector);
+            const tableHeaders = [];
+            const tableRows = [];
+            table.querySelectorAll('thead th').forEach(th => tableHeaders.push(th.innerText));
+            table.querySelectorAll('tbody tr').forEach(tr => {
+                const row = [];
+                tr.querySelectorAll('td').forEach(td => row.push(td.innerText));
+                tableRows.push(row);
+            });
+            console.log(tableHeaders, tableRows);
+            switch (fileType) {
+                case 'csv':
+                    const csvText =
+                        tableHeaders.join(';') + ';exporté le ' + this.formatDate(+new Date()) + '\n' +
+                        tableRows.map(x => x.join(';')).join('\n');
+                    const csvBlob = new Blob([csvText], { type: 'text/csv' });
+                    _downloadBlob(csvBlob, 'export.csv');
+                    break;
+                case 'xls':
+                    alert('pas supporté pour le moment');
+                    break;
+                case 'pdf':
+                    window.print();
+                    break;
+            }
         },
 
         async logout() {

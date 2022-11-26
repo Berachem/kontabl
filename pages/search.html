@@ -4,7 +4,7 @@
     <div class="body">
 
         <!-- Header -->
-        <header class="primary-container">
+        <header class="primary-container hide-print">
             <nav>
                 <a href="javascript:void(0);" @click="logout">Déconnexion</a>
                 <h5 class="max center-align">Kontabl</h5>
@@ -19,12 +19,12 @@
         <div class="main">
 
             <!-- Welcome Title -->
-            <div class="medium no-padding left-align top-align">
+            <div class="medium no-padding left-align top-align hide-print">
                 <h4>Bonjour Tran,</h4> <!-- TODO: A remplacer par le nom de l'utilisateur -->
             </div>
 
             <div class="flex">
-                <article class="no-elevate">
+                <article class="no-elevate hide-print">
                     <!-- Slider Buttons Section in a table -->
                     <div class="tabs">
                         <a href="javascript:void(0);" :class="selectedTab == 'tr' ? 'active' : ''"
@@ -157,7 +157,16 @@
                             </nav>
                         </dialog>
                         <div x-show="selectedTab == 're'">
-                            <table class="border">
+                            <button class="hide-print">
+                                <span>Exporter les données</span>
+                                <i>arrow_drop_down</i>
+                                <div class="dropdown">
+                                    <a @click="exportTableIn('#transactions-table', 'csv')">.csv</a>
+                                    <a @click="exportTableIn('#transactions-table', 'xls')">.xls</a>
+                                    <a @click="exportTableIn('#transactions-table', 'pdf')">.pdf</a>
+                                </div>
+                            </button>
+                            <table class="border" id="transactions-table">
                                 <thead>
                                     <tr>
                                         <th>
@@ -226,65 +235,64 @@
                             </p>
                         </div>
                         <div x-show="selectedTab == 'im'">
-                            <table class="border">
+                            <button class="hide-print">
+                                <span>Exporter les données</span>
+                                <i>arrow_drop_down</i>
+                                <div class="dropdown">
+                                    <a @click="exportTableIn('#unpaids-table', 'csv')">.csv</a>
+                                    <a @click="exportTableIn('#unpaids-table', 'xls')">.xls</a>
+                                    <a @click="exportTableIn('#unpaids-table', 'pdf')">.pdf</a>
+                                </div>
+                            </button>
+                            <table class="border" id="unpaids-table">
                                 <thead>
                                     <tr>
                                         <th>
-                                            <a @click="orderTableBy(unpaids, 'NumSiren')"
-                                                href="javascript:void(0);">
+                                            <a @click="orderTableBy(unpaids, 'NumSiren')" href="javascript:void(0);">
                                                 Numéro Siren
                                             </a>
                                         </th>
                                         <th>
-                                            <a @click="orderTableBy(unpaids, 'DateVente')"
-                                                href="javascript:void(0);">
+                                            <a @click="orderTableBy(unpaids, 'DateVente')" href="javascript:void(0);">
                                                 Date de vente
                                             </a>
                                         </th>
                                         <th>
-                                            <a @click="orderTableBy(unpaids, 'DateRemise')"
-                                                href="javascript:void(0);">
+                                            <a @click="orderTableBy(unpaids, 'DateRemise')" href="javascript:void(0);">
                                                 Date de remise
                                             </a>
                                         </th>
                                         <th>
-                                            <a @click="orderTableBy(unpaids, 'NumCarte')"
-                                                href="javascript:void(0);">
+                                            <a @click="orderTableBy(unpaids, 'NumCarte')" href="javascript:void(0);">
                                                 Numéro de carte
                                             </a>
                                         </th>
                                         <th>
-                                            <a @click="orderTableBy(unpaids, 'Reseau')"
-                                                href="javascript:void(0);">
+                                            <a @click="orderTableBy(unpaids, 'Reseau')" href="javascript:void(0);">
                                                 Réseau
                                             </a>
                                         </th>
                                         <th>
-                                            <a @click="orderTableBy(unpaids, 'Devise')"
-                                                href="javascript:void(0);">
+                                            <a @click="orderTableBy(unpaids, 'Devise')" href="javascript:void(0);">
                                                 Devise
                                             </a>
                                         </th>
                                         <th>
-                                            <a @click="orderTableBy(unpaids, 'Montant')"
-                                                href="javascript:void(0);">
+                                            <a @click="orderTableBy(unpaids, 'Montant')" href="javascript:void(0);">
                                                 Montant
                                             </a>
                                         </th>
                                         <th>
-                                            <a @click="orderTableBy(unpaids, 'LibImpayé')"
-                                                href="javascript:void(0);">
+                                            <a @click="orderTableBy(unpaids, 'LibImpayé')" href="javascript:void(0);">
                                                 Libellé
                                             </a>
                                         </th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <template
-                                        x-for="unpaid in unpaids.slice((page - 1) * rowsCount, page * rowsCount)"
+                                    <template x-for="unpaid in unpaids.slice((page - 1) * rowsCount, page * rowsCount)"
                                         :key="unpaid.NumeroRemise">
-                                        <tr tabindex="0" role="button"
-                                            @click="loadDetailsForSiren(unpaid.NumSiren)"
+                                        <tr tabindex="0" role="button" @click="loadDetailsForSiren(unpaid.NumSiren)"
                                             @keyup.enter="loadDetailsForSiren(unpaid.NumSiren)">
                                             <td x-text="unpaid.NumSiren"></td>
                                             <td x-text="formatDate(unpaid.DateVente)"></td>
@@ -332,6 +340,12 @@
         th a:focus {
             outline: 2px dashed #000;
             outline-offset: 2px;
+        }
+
+        @media print {
+            .hide-print {
+                display: none;
+            }
         }
     </style>
 </div>
