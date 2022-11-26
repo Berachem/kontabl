@@ -282,7 +282,7 @@
                                 <tbody>
                                     <template
                                         x-for="unpaid in unpaids.slice((page - 1) * rowsCount, page * rowsCount)"
-                                        :key="unpaid.NumeroRemise">
+                                        :key="unpaid.numDossierImpayé">
                                         <tr tabindex="0" role="button"
                                             @click="loadDetailsForSiren(unpaid.NumSiren)"
                                             @keyup.enter="loadDetailsForSiren(unpaid.NumSiren)">
