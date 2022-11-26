@@ -110,6 +110,62 @@ document.addEventListener('alpine:init', () => {
                     data
                 }]
             });
+
+            const lineRes = await fetch('/api/?action=graphics').then(x => x.json());
+            if (!lineRes.success) return;
+            Highcharts.chart('highcharts-line-discounts', {
+
+                title: {
+                    text: ''
+                },
+
+                yAxis: {
+                    title: {
+                        text: 'Montant total'
+                    }
+                },
+
+                xAxis: {
+                    accessibility: {
+                        rangeDescription: 'Mois'
+                    }
+                },
+
+                legend: {
+                    layout: 'vertical',
+                    align: 'right',
+                    verticalAlign: 'middle'
+                },
+
+                plotOptions: {
+                    series: {
+                        label: {
+                            connectorAllowed: false
+                        },
+                        pointStart: 1
+                    }
+                },
+
+                series: [{
+                    name: 'Remises',
+                    data: lineRes.montant
+                }],
+
+                responsive: {
+                    rules: [{
+                        condition: {
+                            maxWidth: 500
+                        },
+                        chartOptions: {
+                            legend: {
+                                layout: 'horizontal',
+                                align: 'center',
+                                verticalAlign: 'bottom'
+                            }
+                        }
+                    }]
+                }
+            });
         },
 
         async search() {
