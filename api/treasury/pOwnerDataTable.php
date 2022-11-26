@@ -43,19 +43,28 @@ function getNbTransactionsByOneDate($db, $numSiren, $date){
 }
 
 function getMontantTotalByOneDate($db, $numSiren, $date){
-    $sql = "SELECT SUM(amount) somme FROM transaction WHERE numSiren = :numSiren";
+    $sqlpositive = "SELECT SUM(amount) somme FROM transaction JOIN discount ON discount.numTransaction = idTransaction WHERE numSiren = :numSiren AND sens = '+'";
+    $cond = array(
+        array(":numSiren", $numSiren)
+    );
+    if ($date) {
+        $sqlpositive .= " AND dateTransaction = :date";
+        array_push($cond,array(":date", $date));
+    }
+    $resultpositive = $db->q($sqlpositive, $cond);
+    $sqlnegative = "SELECT SUM(amount) somme FROM transaction JOIN discount ON discount.numTransaction = idTransaction WHERE numSiren = :numSiren AND sens = '-'";
     $cond = array(
         array(":numSiren", $numSiren)
     );
     if ($date){
-        $sql .= " AND dateTransaction = :date";
+        $sqlnegative .= " AND dateTransaction = :date";
         array_push($cond,array(":date", $date));
     }
-    $result = $db->q($sql, $cond);
-    if ($result[0]->somme == null){
+    $resultnegative = $db->q($sqlnegative, $cond);
+    if ($resultnegative[0]->somme == null && $resultpositive[0]->somme == null){
         return 0;
     }
-    return $result[0]->somme;
+    return strval($resultpositive[0]->somme-$resultnegative[0]->somme); // parce que tout étéait en string donc j'ai mis en string
 }
 
 

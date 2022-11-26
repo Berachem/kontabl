@@ -1,7 +1,9 @@
 <?php   
     // include "include/Connexion.inc.php"; //à utiliser si on le test indépendament
 
-
+    if (!isset($_SESSION["nbtry"])) {
+        $_SESSION["nbtry"] = 3;
+    }
 
     if ((!isset($_POST['login'])) || (!isset($_POST['password']))) {
         $response = [
@@ -58,6 +60,7 @@
     } 
     // SINON -> cas incorrect
     else { 
+        $_SESSION["nbtry"] -= 1;
         $response = [
             "success" => false,
             "error" => "Identifiant ou mot de passe incorrect"
