@@ -1,7 +1,7 @@
 const _logout = async () => {
     const res = await fetch('/api/?action=logout').then(x => x.json());
     if (res.success) {
-        window.location.href = '/';
+        window.location.href = '/#/login';
     } else {
         alert("Erreur au moment de la déconnexion");
     }
@@ -10,6 +10,15 @@ const _logout = async () => {
 const _isLoggedIn = async () => {
     const res = await fetch('/api/?action=isLoggedIn').then(x => x.json());
     return res.isLogged;
+};
+
+const _downloadBlob = (blob, filename) => {
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename;
+    a.click();
+    window.URL.revokeObjectURL(url);
 };
 
 document.addEventListener('alpine:init', () => {
@@ -98,6 +107,34 @@ document.addEventListener('alpine:init', () => {
                 this.linkedTransactions = res.transactions;
             }
             this.loadingLinkedTransactions = false;
+        },
+
+        async exportTableIn(tableSelector, fileType) {
+            const table = document.querySelector(tableSelector);
+            const tableHeaders = [];
+            const tableRows = [];
+            table.querySelectorAll('thead th').forEach(th => tableHeaders.push(th.innerText));
+            table.querySelectorAll('tbody tr').forEach(tr => {
+                const row = [];
+                tr.querySelectorAll('td').forEach(td => row.push(td.innerText));
+                tableRows.push(row);
+            });
+            console.log(tableHeaders, tableRows);
+            switch (fileType) {
+                case 'csv':
+                    const csvText =
+                        tableHeaders.join(';') + ';exporté le ' + this.formatDate(+new Date()) + '\n' +
+                        tableRows.map(x => x.join(';')).join('\n');
+                    const csvBlob = new Blob([csvText], { type: 'text/csv' });
+                    _downloadBlob(csvBlob, 'export.csv');
+                    break;
+                case 'xls':
+                    alert('pas supporté pour le moment');
+                    break;
+                case 'pdf':
+                    window.print();
+                    break;
+            }
         },
 
         async logout() {
