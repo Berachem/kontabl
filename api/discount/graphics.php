@@ -27,6 +27,18 @@ if(isset($_SESSION['num'])){
 
         $data = getDiscounts($numSiren, $raisonSociale, $date_debut, $date_fin, "-", null);
         $montant = array();
+        $montant[1] = 0;
+        $montant[2] = 0;
+        $montant[3] = 0;
+        $montant[4] = 0;
+        $montant[5] = 0;
+        $montant[6] = 0;
+        $montant[7] = 0;
+        $montant[8] = 0;
+        $montant[9] = 0;
+        $montant[10] = 0;
+        $montant[11] = 0;
+        $montant[12] = 0;
 
         //echo json_encode($data);
         // récupération des données
@@ -40,9 +52,7 @@ if(isset($_SESSION['num'])){
             // ajoute en tant que clé pour éviter les doublons
             if (isset($montant[$mois])) {
                 $montant[$mois] += (int) $value["MontantTotal"];
-            } else {
-                $montant[$mois] = (int) $value["MontantTotal"];
-            }
+            } 
         }
 
         // on trie les données par mois
