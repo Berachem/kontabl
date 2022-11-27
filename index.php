@@ -46,8 +46,8 @@
 <body x-data x-init="$router.config({ mode: 'hash' })">
 
     <!-- Header -->
-    <header class="primary-container hide-print">
-        <nav class="m l left tiny-padding" id="navigation-rail1">
+    <header>
+        <nav class="primary-container hide-print m l left tiny-padding">
             <a href="javascript:void(0);" @click="logout">Déconnexion</a>
             <a href="javascript:void(0);"><i>search</i>Rechercher</a>
             <a href="javascript:void(0);"><i>person</i>Marchands</a>
