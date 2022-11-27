@@ -264,11 +264,6 @@
                                             </a>
                                         </th>
                                         <th>
-                                            <a @click="orderTableBy(unpaids, 'Reseau')" href="javascript:void(0);">
-                                                Réseau
-                                            </a>
-                                        </th>
-                                        <th>
                                             <a @click="orderTableBy(unpaids, 'Devise')" href="javascript:void(0);">
                                                 Devise
                                             </a>
@@ -293,8 +288,7 @@
                                             <td x-text="unpaid.NumSiren"></td>
                                             <td x-text="formatDate(unpaid.DateVente)"></td>
                                             <td x-text="formatDate(unpaid.DateRemise)"></td>
-                                            <td x-text="unpaid.NumCarte"></td>
-                                            <td x-text="unpaid.Reseau"></td>
+                                            <td x-text="'**** ' + unpaid.NumCarte + ' ' + unpaid.Reseau"></td>
                                             <td x-text="unpaid.Devise"></td>
                                             <td x-text="unpaid.Montant"></td>
                                             <td x-text="unpaid.LibImpayé"></td>
