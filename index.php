@@ -45,6 +45,16 @@
 
 <body x-data x-init="$router.config({ mode: 'hash' })">
 
+    <!-- Header -->
+    <header class="primary-container hide-print">
+        <nav class="m l left tiny-padding" id="navigation-rail1">
+            <a href="javascript:void(0);" @click="logout">Déconnexion</a>
+            <a href="javascript:void(0);"><i>search</i>Rechercher</a>
+            <a href="javascript:void(0);"><i>person</i>Marchands</a>
+            <a href="javascript:void(0);"><i>settings</i>Réglages</a>
+        </nav>
+    </header>
+
     <template x-route="/" template="/pages/search.html"></template>
 
     <template x-route="/login" template="/pages/login.html"></template>
