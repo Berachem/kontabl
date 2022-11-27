@@ -43,6 +43,7 @@ document.addEventListener('alpine:init', () => {
         rowsCount: 10,
         page: 1,
         alreadyOpenedTabs: new Set(),
+        xlsxLoading: false,
 
         formatDate(dateString) {
             const date = new Date(dateString);
@@ -244,6 +245,7 @@ document.addEventListener('alpine:init', () => {
         },
 
         async exportTableIn(tableSelector, fileType) {
+            this.xlsxLoading = fileType == 'xls';
             const table = document.querySelector(tableSelector);
             const tableHeaders = [];
             const tableRows = [];
@@ -254,21 +256,29 @@ document.addEventListener('alpine:init', () => {
                 tableRows.push(row);
             });
             console.log(tableHeaders, tableRows);
+            const csvText =
+                tableHeaders.join(';') + ';exporté le ' + this.formatDate(+new Date()) + '\n' +
+                tableRows.map(x => x.join(';')).join('\n');
             switch (fileType) {
                 case 'csv':
-                    const csvText =
-                        tableHeaders.join(';') + ';exporté le ' + this.formatDate(+new Date()) + '\n' +
-                        tableRows.map(x => x.join(';')).join('\n');
                     const csvBlob = new Blob([csvText], { type: 'text/csv' });
                     _downloadBlob(csvBlob, 'export.csv');
                     break;
                 case 'xls':
-                    alert('pas supporté pour le moment');
+                    const formData = new FormData();
+                    formData.append('csvString', csvText);
+                    const req = await fetch('/api/?action=csvToXls', {
+                        method: 'POST',
+                        body: formData
+                    });
+                    const xlsBlob = await req.blob();
+                    _downloadBlob(xlsBlob, 'export.xlsx');
                     break;
                 case 'pdf':
                     window.print();
                     break;
             }
+            this.xlsxLoading = false;
         },
 
         async logout() {

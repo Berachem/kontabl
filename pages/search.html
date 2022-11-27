@@ -164,7 +164,8 @@
                                 <i>arrow_drop_down</i>
                                 <div class="dropdown">
                                     <a @click="exportTableIn('#transactions-table', 'csv')">.csv</a>
-                                    <a @click="exportTableIn('#transactions-table', 'xls')">.xls</a>
+                                    <a @click="exportTableIn('#transactions-table', 'xls')">.xlsx <i
+                                            class="loader small" x-show="xlsxLoading"></i></a>
                                     <a @click="exportTableIn('#transactions-table', 'pdf')">.pdf</a>
                                 </div>
                             </button>
@@ -242,7 +243,8 @@
                                 <i>arrow_drop_down</i>
                                 <div class="dropdown">
                                     <a @click="exportTableIn('#unpaids-table', 'csv')">.csv</a>
-                                    <a @click="exportTableIn('#unpaids-table', 'xls')">.xls</a>
+                                    <a @click="exportTableIn('#unpaids-table', 'xls')">.xlsx <i class="loader small"
+                                            x-show="xlsxLoading"></i></a>
                                     <a @click="exportTableIn('#unpaids-table', 'pdf')">.pdf</a>
                                 </div>
                             </button>
