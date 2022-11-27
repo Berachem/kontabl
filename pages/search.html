@@ -44,39 +44,41 @@
                         </a>
                     </div>
                     <!-- Section avec tous les inputs affichés par défaut des sélections -->
-                    <div class="field suffix border" x-show="userType == 'productowner' && selectedTab == 'tr'">
+                    <div class="field suffix border" x-show="userType == 'productowner' && selectedTab == 'tr'"
+                        x-transition x-transition.duration.300>
                         <select x-model="siren">
                             <option value="" selected>Tous les numéros de Siren</option>
                             <template x-for="siren in sirenNumbers" :key="siren">
                                 <option :value="siren" x-text="siren"></option>
                             </template>
                         </select>
-                        <a class="loader" x-show="sirenNumbers.length == 0"></a>
+                        <a class="loader" x-show="sirenNumbers.length == 0" x-transition x-transition.duration.300></a>
                         <i x-show="sirenNumbers.length != 0">arrow_drop_down</i>
                     </div>
-                    <div class="field label suffix border" x-show="userType == 'productowner' && selectedTab == 'tr'">
+                    <div class="field label suffix border" x-show="userType == 'productowner' && selectedTab == 'tr'"
+                        x-transition x-transition.duration.300>
                         <input type="text" id="socialName" name="socialName" x-model="socialName">
                         <label>Raison sociale</label>
                     </div>
-                    <div class="field label prefix border" x-show="selectedTab == 'tr'"
-                        @click="document.getElementById('date').showPicker()">
+                    <div class="field label prefix border" x-show="selectedTab == 'tr'" x-transition
+                        x-transition.duration.300 @click="document.getElementById('date').showPicker()">
                         <i>today</i>
                         <input type="date" id="date" name="date" x-model="date">
                         <label class="active">Date</label>
                     </div>
-                    <div class="field label prefix border" x-show="selectedTab != 'tr'"
-                        @click="document.getElementById('dateBefore').showPicker()">
+                    <div class="field label prefix border" x-show="selectedTab != 'tr'" x-transition
+                        x-transition.duration.300 @click="document.getElementById('dateBefore').showPicker()">
                         <i>today</i>
                         <input type="date" id="dateBefore" name="dateBefore" x-model="dateBefore">
                         <label class="active">Date avant le</label>
                     </div>
-                    <div class="field label prefix border" x-show="selectedTab != 'tr'"
-                        @click="document.getElementById('dateAfter').showPicker()">
+                    <div class="field label prefix border" x-show="selectedTab != 'tr'" x-transition
+                        x-transition.duration.300 @click="document.getElementById('dateAfter').showPicker()">
                         <i>today</i>
                         <input type="date" id="dateAfter" name="dateAfter" x-model="dateAfter">
                         <label class="active">Date après le</label>
                     </div>
-                    <div class="field label border" x-show="selectedTab == 'im'">
+                    <div class="field label border" x-show="selectedTab == 'im'" x-transition x-transition.duration.300>
                         <input type="tel" id="dossierUnpaid" name="dossierUnpaid">
                         <label>N° dossier impayé</label>
                     </div>
