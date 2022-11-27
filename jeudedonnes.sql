@@ -61,20 +61,23 @@ CREATE TABLE `discount` (
 
 INSERT INTO `discount` (`numDiscount`, `numTransaction`, `sens`, `unpaidWording`, `numUnpaidFile`, `dateDiscount`) VALUES
 (1, 2, '-', 'Solde insuffisant', '1234', '2022-02-09 08:40:08'),
-(2, 3, '+', '', '', '2022-04-19 07:36:12'),
-(3, 1, '+', '', '', '2022-06-29 13:22:14'),
+(2, 3, '+', NULL, NULL, '2022-04-19 07:36:12'),
+(3, 1, '+', NULL, NULL, '2022-06-29 13:22:14'),
 (11, 6, '-', 'Plafond atteint', 'DP236', '2022-08-16 10:49:45'),
-(12, 4, '+', '', '', '2020-08-01 10:49:45'),
+(12, 4, '+', NULL, NULL, '2020-08-01 10:49:45'),
 (13, 7, '-', 'Plafond atteint', '2365F', '2022-09-05 11:13:32'),
 (14, 6, '+', NULL, NULL, '2022-11-09 09:45:37'),
 (15, 7, '+', NULL, NULL, '2022-11-25 16:30:26'),
 (16, 5, '+', NULL, NULL, '2022-11-01 14:10:12'),
-(17, 10, '-', 'Plafond atteint', 'BAD4A', NULL),
-(18, 8, '-', 'Solde insuffisant', 'A1FTG', NULL),
-(19, 9, '', 'Solde insuffisant', 'RFTYH', NULL),
-(20, 11, '', 'Erreur inconnue', 'MPS5V', NULL),
+(17, 10, '-', 'Plafond atteint', 'BAD4A', '2022-01-01 14:10:12'),
+(18, 8, '-', 'Solde insuffisant', 'A1FTG', '2022-02-01 21:10:51'),
+(19, 9, '-', 'Solde insuffisant', 'RFTYH', '2022-03-01 22:10:35'),
+(20, 11, '-', 'Erreur inconnue', 'MPS5V', '2022-04-01 20:10:12'),
 (21, 12, '+', NULL, NULL, '2022-11-10 14:58:34'),
-(22, 13, '+', NULL, NULL, '2022-11-01 14:58:34');
+(22, 13, '+', NULL, NULL, '2022-11-01 14:58:34'),
+(23, 9, '-', 'Erreur inconnue', 'MPS8V', '2022-07-01 14:10:35'),
+(24, 14, '-', 'Carde plus valide', 'MPS8V', '2022-01-01 08:10:12');
+
 
 -- --------------------------------------------------------
 
@@ -97,12 +100,12 @@ CREATE TABLE `merchant` (
 --
 
 INSERT INTO `merchant` (`raisonSociale`, `siren`, `currency`, `numCarte`, `network`, `password`, `idLogin`) VALUES
-('Action Contre la faim', '123456789', 'EUR', '5879', 'fr', '$2y$10$yr.XKAmVAxKTpkYHOzN4/uJEnzQz0tRW7zq0.P01w5pvohrgqAoaK', 'test'),
+('Action Contre la faim', '123456789', 'EUR', '5879', 'fr', '$2y$10$yr.XKAmVAxKTpkYHOzN4/uJEnzQz0tRW7zq0.P01w5pvohrgqAoaK', 'action'),
 ('Louis Vuitton Services', '347662454', 'USD', '4589', 'MC', '$2y$10$rJJzcYpZ7TPh.uRl2ix7f.umGB3oykXjKFFDIYXI2ZYIY1R40eAaS', 'louisvi'),
 ('Leroy Merlin Noisy', '384560942', 'EUR', '7485', 'AE', '$2y$10$bb5LScjly5Y.YtCavNcAmOnvTYDkMm8cJqDjai.JhzynTOwyyvd4m', '7745511214'),
 ('Gucci France', '632032348', 'EUR', '9685', 'VS', '$2y$10$ykiEOKAU5d7RkIh6jkXNPe5RxiV.c.y4APmkg.ZCLHJm9DNp3tQMy', 'guccifrance'),
 ('McDonald Champs sur Marne', '722003936', 'EUR', '1796', 'VS', '$2y$10$9pm/PQ3lnu11mo57tgjzluOr.KYJdLMEPRU5klHN6zPjgXRGx4tmK', '8755269857'),
-('Burger King', '987654321', 'USD', '8565', 'en', '$2y$10$hNOOjneT/qvL3szZvdCb9.kz0g5VrmZ5U0HThVPGUfvJN4MX00/CC\r\n', 'anglais');
+('Burger King', '987654321', 'USD', '8565', 'en', '$2y$10$hNOOjneT/qvL3szZvdCb9.kz0g5VrmZ5U0HThVPGUfvJN4MX00/CC\r\n', 'bk');
 
 -- --------------------------------------------------------
 
@@ -164,15 +167,16 @@ INSERT INTO `transaction` (`idTransaction`, `numAuthorization`, `dateTransaction
 (2, 'B735S5', '2017-10-10 23:29:46', '1488', 'EUR', '722003936', 740000),
 (3, 'PL2593', '2022-07-19 07:35:10', '1458', 'EUR', '722003936', 25000),
 (4, 'Y465L2', '2022-11-19 04:31:18', '3657', 'EUR', '722003936', 1200000),
-(5, 'UI8568', '2022-11-11 20:10:27', '9856', 'EUR', '632032348', 890000),
+(5, 'UI8568', '2022-08-11 20:10:27', '9856', 'EUR', '632032348', 890000),
 (6, '23FD89', '2022-10-13 10:24:16', '4156', 'EUR', '347662454', 213000),
 (7, '78MP36', '2022-10-16 10:24:16', '6515', 'EUR', '347662454', 56000),
-(8, 'THD4GR', '2022-11-10 13:06:26', '4578', 'EUR', '632032348', 10000),
-(9, 'UJLDAE', '2022-11-10 13:06:26', '7458', 'EUR', '632032348', 5400),
-(10, 'RFZE48', '2022-11-10 13:07:32', '4512', 'USD', '347662454', 8000),
-(11, 'GBT47M', '2022-11-10 13:07:32', '9632', 'USD', '347662454', 5200),
-(12, 'DE74RF', '2022-11-12 13:33:52', '4596', 'EUR', '123456789', 1000),
-(13, 'GT41DE', '2022-11-12 13:33:52', '7846', 'EUR', '987654321', 2000);
+(8, 'THD4GR', '2022-08-10 13:06:26', '4578', 'EUR', '632032348', 10000),
+(9, 'UJLDAE', '2022-07-10 13:06:26', '7458', 'EUR', '632032348', 5400),
+(10, 'RFZE48', '2022-06-10 13:07:32', '4512', 'USD', '347662454', 8000),
+(11, 'GBT47M', '2022-04-10 13:07:32', '9632', 'USD', '347662454', 5200),
+(12, 'DE74RF', '2022-02-12 13:33:52', '4596', 'EUR', '123456789', 1000),
+(13, 'GT41DE', '2022-03-12 13:33:52', '7846', 'EUR', '987654321', 2000),
+(14, 'D5F596', '2022-01-12 13:33:52', '4596', 'EUR', '123456789', 15000);
 
 --
 -- Index pour les tables déchargées
