@@ -43,7 +43,7 @@ document.addEventListener('alpine:init', () => {
         rowsCount: 10,
         page: 1,
         alreadyOpenedTabs: new Set(),
-        xlsxLoading: false,
+        exportTypeLoading: '',
 
         formatDate(dateString) {
             const date = new Date(dateString);
@@ -245,7 +245,7 @@ document.addEventListener('alpine:init', () => {
         },
 
         async exportTableIn(tableSelector, fileType) {
-            this.xlsxLoading = fileType == 'xls';
+            this.exportTypeLoading = fileType;
             const table = document.querySelector(tableSelector);
             const tableHeaders = [];
             const tableRows = [];
@@ -264,7 +264,7 @@ document.addEventListener('alpine:init', () => {
                     const csvBlob = new Blob([csvText], { type: 'text/csv' });
                     _downloadBlob(csvBlob, 'export.csv');
                     break;
-                case 'xls':
+                case 'xlsx':
                     const formData = new FormData();
                     formData.append('csvString', csvText);
                     const req = await fetch('/api/?action=csvToXls', {
@@ -278,7 +278,7 @@ document.addEventListener('alpine:init', () => {
                     window.print();
                     break;
             }
-            this.xlsxLoading = false;
+            this.exportTypeLoading = '';
         },
 
         async logout() {

@@ -163,10 +163,12 @@
                                 <span>Exporter les données</span>
                                 <i>arrow_drop_down</i>
                                 <div class="dropdown">
-                                    <a @click="exportTableIn('#transactions-table', 'csv')">.csv</a>
-                                    <a @click="exportTableIn('#transactions-table', 'xls')">.xlsx <i
-                                            class="loader small" x-show="xlsxLoading"></i></a>
-                                    <a @click="exportTableIn('#transactions-table', 'pdf')">.pdf</a>
+                                    <template x-for="ext in ['csv', 'xlsx', 'pdf']">
+                                        <a @click="exportTableIn('#transactions-table', ext)">
+                                            .<span x-text="ext"></span>
+                                            <i class="loader small" x-show="ext == exportTypeLoading"></i>
+                                        </a>
+                                    </template>
                                 </div>
                             </button>
                             <table class="border" id="transactions-table">
@@ -242,10 +244,12 @@
                                 <span>Exporter les données</span>
                                 <i>arrow_drop_down</i>
                                 <div class="dropdown">
-                                    <a @click="exportTableIn('#unpaids-table', 'csv')">.csv</a>
-                                    <a @click="exportTableIn('#unpaids-table', 'xls')">.xlsx <i class="loader small"
-                                            x-show="xlsxLoading"></i></a>
-                                    <a @click="exportTableIn('#unpaids-table', 'pdf')">.pdf</a>
+                                    <template x-for="ext in ['csv', 'xlsx', 'pdf']">
+                                        <a @click="exportTableIn('#unpaids-table', ext)">
+                                            .<span x-text="ext"></span>
+                                            <i class="loader small" x-show="ext == exportTypeLoading"></i>
+                                        </a>
+                                    </template>
                                 </div>
                             </button>
                             <table class="border" id="unpaids-table">
@@ -321,15 +325,15 @@
                 </article>
 
                 <div></div>
-                <article class="no-elevate" x-show="selectedTab == 'im'">
+                <article class="no-elevate hide-print" x-show="selectedTab == 'im'">
                     <div id="highcharts-pie-unpaids"></div>
                 </article>
 
-                <article class="no-elevate" x-show="selectedTab == 're'">
+                <article class="no-elevate hide-print" x-show="selectedTab == 're'">
                     <div id="highcharts-line-discounts"></div>
                 </article>
 
-                <article class="no-elevate" x-show="selectedTab == 'tr'">
+                <article class="no-elevate hide-print" x-show="selectedTab == 'tr'">
                     <div id="highcharts-histogram-treasury"></div>
                 </article>
 
