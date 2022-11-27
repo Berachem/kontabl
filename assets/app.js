@@ -24,7 +24,7 @@ const _downloadBlob = (blob, filename) => {
 document.addEventListener('alpine:init', () => {
     Alpine.data('search', ($router) => ({
         userType: localStorage.getItem('userType'),
-        selectedTab: 'tr',
+        selectedTab: '',
         sirenNumbers: [],
         siren: "",
         socialName: "",
@@ -42,6 +42,7 @@ document.addEventListener('alpine:init', () => {
         detailsModal: null,
         rowsCount: 10,
         page: 1,
+        alreadyOpenedTabs: new Set(),
 
         formatDate(dateString) {
             const date = new Date(dateString);
@@ -60,10 +61,20 @@ document.addEventListener('alpine:init', () => {
             this.prevOrderDir = direction;
         },
 
+        openTab(tabId) {
+            this.selectedTab = tabId;
+            if (!this.alreadyOpenedTabs.has(tabId)) {
+                this.search();
+            }
+            this.alreadyOpenedTabs.add(tabId);
+        },
+
         async init() {
             if (!await _isLoggedIn()) {
                 $router.push('/login?reqauth=1');
             }
+
+            this.openTab('tr');
 
             const res = await fetch('/api/?action=treasuryDataTable').then(x => x.json());
             if (res.success) {

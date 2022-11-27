@@ -28,17 +28,17 @@
                     <!-- Slider Buttons Section in a table -->
                     <div class="tabs">
                         <a href="javascript:void(0);" :class="selectedTab == 'tr' ? 'active' : ''"
-                            @click="selectedTab = 'tr'">
+                            @click="openTab('tr')">
                             <img class="icon" src="/img/tresorerie.svg">
                             <span>Trésorerie</span>
                         </a>
                         <a href="javascript:void(0);" :class="selectedTab == 're' ? 'active' : ''"
-                            @click="selectedTab = 're'">
+                            @click="openTab('re')">
                             <img class="icon" src="/img/remise.svg">
                             <span>Remises</span>
                         </a>
                         <a href="javascript:void(0);" :class="selectedTab == 'im' ? 'active' : ''"
-                            @click="selectedTab = 'im'">
+                            @click="openTab('im')">
                             <img class="icon" src="/img/unpaid.svg">
                             <span>Impayés</span>
                         </a>
@@ -123,7 +123,7 @@
                             <div x-show="!loadingLinkedTransactions">
                                 <h4>Détails transactions</h4>
                                 <p x-if="linkedTransactions.length > 0">SIREN n° <span
-                                        x-text="linkedTransactions[0].numSiren"></span></p>
+                                        x-text="linkedTransactions[0]?.numSiren"></span></p>
                                 <table class="border">
                                     <thead>
                                         <tr>
