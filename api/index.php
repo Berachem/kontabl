@@ -8,7 +8,7 @@ include "include/Connexion.inc.php";
 
 
 
-if (isset($_GET['action'])){
+if (isset($_GET['action'])) {
     switch ($_GET['action']) {
         case 'login':
             // inclure les fichiers qui process l'action demandée
@@ -23,33 +23,37 @@ if (isset($_GET['action'])){
             include("access/isLoggedIn.php");
             break;
         case "treasuryDataTable":
-                include("treasury/treasuryDataTable.php");
+            include("treasury/treasuryDataTable.php");
             break;
         case "discountDataTable":
-                include("discount/discountDataTable.php");
+            include("discount/discountDataTable.php");
             break;
         case "unPaidDiscountDataTable":
-                include("discount/unPaidDiscountDataTable.php");
+            include("discount/unPaidDiscountDataTable.php");
             break;
         case "createMerchantTemporarily":
-                include("merchant_creation/createMerchantTemporarily.php");
+            include("merchant_creation/createMerchantTemporarily.php");
             break;
         case "acceptMerchantCreation":
-                include("merchant_creation/acceptMerchantCreation.php");
+            include("merchant_creation/acceptMerchantCreation.php");
             break;
         case "graphics":
-                include("discount/graphics.php");
+            include("discount/graphics.php");
             break;
         case "graphicsLabels":
-                include("discount/graphicsLabels.php");
+            include("discount/graphicsLabels.php");
             break;
         case "detailsTransactions":
             include("other/detailsTransactions.php");
-        break;
+            break;
         case "deleteAcount":
             include("admin/deleteAcount.php");
             break;
-        
-        
+        case "getAllAcount":
+            include("other/getAllAcount.php");
+            break;
+        case "csvToXls":
+            include("other/csvToXls.php");
+            break;
     }
 }
