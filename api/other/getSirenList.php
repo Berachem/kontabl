@@ -6,7 +6,7 @@ session_start();
 
 include("include/Functions.inc.php");
 
-if (isset($_SESSION['num']) && ($_SESSION['type'] == 'admin' || $_SESSION['type'] == 'productowner')) {
+if (isset($_SESSION['num']) && ( $_SESSION['type'] == 'productowner')) {
     $data = getSirenList();
     $response = array(
         'success' => true,

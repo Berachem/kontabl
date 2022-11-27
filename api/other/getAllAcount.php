@@ -7,7 +7,7 @@ Return a JSON object with the following parameters for each user:
     and a succes
 */
 
-if (isset($_SESSION["num"]) && ($_SESSION["type"]=="admin"||$_SESSION["type"]=="productowner")){  
+if (isset($_SESSION["num"]) && ($_SESSION["type"]=="productowner")){  
 
     $users = $db -> q("SELECT raisonSociale, siren, currency, network, numCarte, idLogin FROM merchant;"); 
 
@@ -33,7 +33,7 @@ if (isset($_SESSION["num"]) && ($_SESSION["type"]=="admin"||$_SESSION["type"]=="
     // return the response
     $response = array(
         "success" => false,
-        "error" => "not loged like an admin"
+        "error" => "Vous n'avez pas les droits. en tant que PO",
     );
 }
 header('Content-Type: application/json');

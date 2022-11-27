@@ -32,7 +32,7 @@ GET:
 include("include/Functions.inc.php");
 
 if(isset($_SESSION['num'])){
-    if ($_SESSION["type"] == "productowner" || $_SESSION["type"] == "admin") {
+    if ($_SESSION["type"] == "productowner" ) {
         $numSiren = isset($_GET["numSiren"]) ? $_GET["numSiren"] : null;
         $raisonSociale = isset($_GET["raisonSociale"]) ? $_GET["raisonSociale"] : null;
        
@@ -66,7 +66,7 @@ if(isset($_SESSION['num'])){
 } else{
     $response = [
         "success" => false,
-        "error" => "Vous n'êtes pas connecté",
+        "error" => "Vous n'avez pas les droits.",
         "notLogged" => true
     ];
 }

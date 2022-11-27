@@ -82,7 +82,7 @@ if (isset($_SESSION["num"]) && $_SESSION["type"]=="user"){
 } else{
     $response = [
         "success" => false,
-        "error" => "Vous n'êtes pas connecté",
+        "error" => "Vous n'avez pas les droits.",
         "notLogged" => true
     ];
 }

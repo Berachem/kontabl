@@ -75,7 +75,7 @@ if(isset($_SESSION['num'])){
 } else{
     $response = [
         "success" => false,
-        "error" => "Vous n'êtes pas connecté",
+        "error" => "Vous n'avez pas les droits.",
         "notLogged" => true
     ];
 }
