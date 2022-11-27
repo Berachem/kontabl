@@ -51,6 +51,10 @@ document.addEventListener('alpine:init', () => {
             return "" + date.getDate() + " " + months[date.getMonth()] + " " + date.getFullYear();
         },
 
+        loadNetworkImage(code) {
+            return '/img/' + code.toUpperCase() + '.png';
+        },
+
         // TODO: Montant total stocké en absolu, ne marche pas avec le tri actuel.
         orderTableBy(array, column) {
             const direction = this.prevOrderDir === 1 ? -1 : 1;
