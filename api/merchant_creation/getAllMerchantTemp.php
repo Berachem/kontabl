@@ -9,7 +9,7 @@ Return a JSON object with the following parameters for each user:
 
 if (isset($_SESSION["num"]) && ($_SESSION["type"]=="productowner")){  
 
-    $users = $db -> q("SELECT raisonSociale, siren, currency, network, numCarte, idLogin FROM merchant;"); 
+    $users = $db -> q("SELECT raisonSociale, siren, currency, network, numCarte, idLogin FROM merchant_temp;"); 
 
     $data = array();
     foreach ($users as $user){

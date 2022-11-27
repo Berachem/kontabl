@@ -31,7 +31,7 @@ if (isset($_SESSION["num"]) && ($_SESSION["type"]=="admin")){
     // return the response
     $response = array(
         "success" => false,
-        "error" => "not loged like an admin"
+        "error" => "Vous n'avez pas les droits. en tant que admin",
     );
 }
 header('Content-Type: application/json');
