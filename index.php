@@ -55,6 +55,8 @@
 
     <template x-route="/add-merchant" template="/pages/add_merchant.html"></template>
 
+    <template x-route="/accept-merchant" template="/pages/accept_merchant.html"></template>
+
     <script src="https://cdn.jsdelivr.net/npm/@shaun/alpinejs-router@1.2.1/dist/cdn.min.js" integrity="sha256-Wtqusj1IzuvR9tsDJTMPNZJKGOGTq4i3Fg75WMdupS8=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/beercss@2.2.11/dist/cdn/beer.min.js" integrity="sha256-xzR/l8vcDeDcQ5fylcz9H0gl3JE31ho4nddII0gSMYw=" crossorigin="anonymous"></script>
     <script src="/assets/app.js?v=<?= md5_file('./assets/app.js') ?>"></script>

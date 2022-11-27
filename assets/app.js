@@ -317,6 +317,13 @@ document.addEventListener('alpine:init', () => {
             this.errMsg = res.error || "";
         }
     }));
+
+    Alpine.data('merchant', ($router) => ({
+
+        merchants: [],
+        merchantsTemp: [],
+
+    }));
 });
 
 document.addEventListener('DOMContentLoaded', () => {
