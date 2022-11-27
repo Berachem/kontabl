@@ -1,0 +1,67 @@
+<div x-data="merchant($router)">
+
+    <!-- Body -->
+    <div class="body">
+
+        <!-- Header -->
+        <header class="primary-container hide-print">
+            <nav>
+                <a href="javascript:void(0);" @click="logout">Déconnexion</a>
+                <h5 class="max center-align">Kontabl</h5>
+                <div class="space"></div>
+                <div class="space"></div>
+                <div class="space"></div>
+                <div class="space"></div>
+            </nav>
+        </header>
+
+        <!-- Main -->
+        <div class="main">
+
+            <!-- Welcome Title -->
+            <div class="medium no-padding left-align top-align hide-print" style="margin-bottom: 12px;">
+                <h4>Accepter un marchand</h4>
+            </div>
+
+            <div class="flex" x-show="userType == 'productowner'">
+                <article class="no-elevate hide-print">
+                    <template x-for="(item, i) in merchants" :key="i">
+                        <!-- TODO: Afficher les marchands et pouvoir les supprimer -->
+                    </template>
+                </article>
+            </div>
+            <div class="flex" x-show="userType != 'productowner'">
+                <p class="red-text">Vous n'avez pas les droits pour accéder à cette page</p>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        .main {
+            padding: 20px;
+            max-width: 1300px;
+        }
+
+        .flex {
+            display: grid;
+            grid-template-columns: 460px 1fr;
+            gap: 20px;
+        }
+
+        article+article {
+            margin-top: 0;
+            width: 100%;
+        }
+
+        th a:focus {
+            outline: 2px dashed #000;
+            outline-offset: 2px;
+        }
+
+        @media print {
+            .hide-print {
+                display: none;
+            }
+        }
+    </style>
+</div>
