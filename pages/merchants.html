@@ -1,0 +1,91 @@
+<div x-data="merchant($router)">
+
+    <!-- Body -->
+    <div class="body">
+
+        <!-- Main -->
+        <div class="main">
+
+            <!-- Title -->
+            <div class="medium no-padding left-align top-align hide-print" style="margin-bottom: 12px;">
+                <h4>Ajouter un marchand</h4>
+            </div>
+
+            <div class="flex">
+                <article class="no-elevate hide-print">
+                    <!-- Slider Buttons Section in a table -->
+                    <div class="tabs">
+                        <a href="javascript:void(0);" :class="selectedTab == 'ajout' ? 'active' : ''"
+                            @click="openTab('ajout')" x-show="userType == 'admin'">
+                            <span>Ajouter</span>
+                        </a>
+                        <a href="javascript:void(0);" :class="selectedTab == 'accept' ? 'active' : ''"
+                            @click="openTab('accept')" x-show="userType == 'productowner'">
+                            <span>Accepter</span>
+                        </a>
+                        <a href="javascript:void(0);" :class="selectedTab == 'delete' ? 'active' : ''"
+                            @click="openTab('delete')" x-show="userType == 'productowner'">
+                            <span>Editer</span>
+                        </a>
+                    </div>
+                    <!-- Section avec tous les marchands affichés -->
+                    <!-- ... -->
+                </article>
+
+                <article class="no-elevate">
+                    <div x-show="loading" class="middle-align center-align" style="height: 300px;">
+                        <a class="loader"></a>
+                    </div>
+
+                    <div x-show="!loading">
+
+                        <div x-show="selectedTab == 'ajout'">
+
+                        </div>
+                        
+                        <div x-show="selectedTab == 'accept'">
+                            <template x-for="(item, i) in merchantsTemp " :key="i">
+                                
+                            </template>
+                        </div>
+
+                        <div x-show="selectedTab == 'delete'">
+                            <template x-for="(item, i) in merchants" :key="i">
+
+                            </template>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        .main {
+            padding: 20px;
+            max-width: 1300px;
+        }
+
+        .flex {
+            display: grid;
+            grid-template-columns: 460px 1fr;
+            gap: 20px;
+        }
+
+        article+article {
+            margin-top: 0;
+            width: 100%;
+        }
+
+        th a:focus {
+            outline: 2px dashed #000;
+            outline-offset: 2px;
+        }
+
+        @media print {
+            .hide-print {
+                display: none;
+            }
+        }
+    </style>
+</div>

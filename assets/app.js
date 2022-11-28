@@ -323,9 +323,40 @@ document.addEventListener('alpine:init', () => {
     }));
 
     Alpine.data('merchant', ($router) => ({
-
+        userType: localStorage.getItem('userType'),
         merchants: [],
         merchantsTemp: [],
+        selectedTab: '',
+
+        async init() {
+            if (!await _isLoggedIn()) {
+                $router.push('/login?reqauth=1');
+            }
+
+            const res = await fetch('/api/?action=getAllAcount').then(x => x.json());
+            if (res.success) {
+                this.merchants = res.data;
+            }
+            const resTemp = await fetch('/api/?action=getAllAcountTemp').then(x => x.json());
+            if (resTemp.success) {
+                this.merchantsTemp = resTemp.data;
+            }
+
+            console.log(this.merchantsTemp);
+            console.log(this.merchants);
+
+            if (this.userType === 'productowner') {
+                this.selectedTab = 'accept';
+            } else if (this.userType === 'admin') {
+                this.selectedTab = 'ajout';
+            }
+        },
+
+        async openTab(tab) {
+            this.selectedTab = tab;
+        },
+
+        
 
     }));
 });

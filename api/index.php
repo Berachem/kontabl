@@ -52,6 +52,9 @@ if (isset($_GET['action'])) {
         case "getAllAcount":
             include("other/getAllAcount.php");
             break;
+        case "getAllMerchantTemp":
+            include("merchant_creation/getAllMerchantTemp.php");
+            break;
         case "csvToXls":
             include("other/csvToXls.php");
             break;

@@ -48,7 +48,7 @@
     <!-- Header -->
     <nav class="secondary-container m l left">
         <a href="/#/"><i>search</i>Rechercher</a>
-        <a href="/#/add-merchant"><i>person</i>Marchands</a>
+        <a href="/#/merchants"><i>person</i>Marchands</a>
         <a href="/#/settings"><i>settings</i>Réglages</a>
     </nav>
 
@@ -60,7 +60,8 @@
 
     <template x-route="/graphs" template="/pages/graphs.html"></template>
 
-    <template x-route="/add-merchant" template="/pages/add_merchant.html"></template>
+    <template x-route="/merchant" template="/pages/merchants.html"></template>
+    <template x-route="/merchants" template="/pages/merchants.html"></template>
 
     <template x-route="/accept-merchant" template="/pages/accept_merchant.html"></template>
 
