@@ -342,13 +342,14 @@ document.addEventListener('alpine:init', () => {
                 this.merchantsTemp = resTemp.data;
             }
 
+            console.log("test0");
             console.log(this.merchantsTemp);
             console.log(this.merchants);
 
             if (this.userType === 'productowner') {
-                this.selectedTab = 'accept';
+                this.selectedTab = 'merchants';
             } else if (this.userType === 'admin') {
-                this.selectedTab = 'ajout';
+                this.selectedTab = 'merchantsTemp';
             }
         },
 

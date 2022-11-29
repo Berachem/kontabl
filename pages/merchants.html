@@ -15,17 +15,13 @@
                 <article class="no-elevate hide-print">
                     <!-- Slider Buttons Section in a table -->
                     <div class="tabs">
-                        <a href="javascript:void(0);" :class="selectedTab == 'ajout' ? 'active' : ''"
-                            @click="openTab('ajout')" x-show="userType == 'admin'">
-                            <span>Ajouter</span>
+                        <a href="javascript:void(0);" :class="selectedTab == 'merchants' ? 'active' : ''"
+                            @click="openTab('merchants')" x-show="userType == 'productowner' || userType == 'admin'">
+                            <span>Marchands Temporaires</span>
                         </a>
-                        <a href="javascript:void(0);" :class="selectedTab == 'accept' ? 'active' : ''"
-                            @click="openTab('accept')" x-show="userType == 'productowner'">
-                            <span>Accepter</span>
-                        </a>
-                        <a href="javascript:void(0);" :class="selectedTab == 'delete' ? 'active' : ''"
-                            @click="openTab('delete')" x-show="userType == 'productowner'">
-                            <span>Editer</span>
+                        <a href="javascript:void(0);" :class="selectedTab == 'merchantsTemp' ? 'active' : ''"
+                            @click="openTab('merchantsTemp')" x-show="userType == 'productowner'">
+                            <span>Marchands</span>
                         </a>
                     </div>
                     <!-- Section avec tous les marchands affichés -->
@@ -38,18 +34,14 @@
                     </div>
 
                     <div x-show="!loading">
-
-                        <div x-show="selectedTab == 'ajout'">
-
-                        </div>
                         
-                        <div x-show="selectedTab == 'accept'">
+                        <div x-show="selectedTab == 'merchantsTemp'">
                             <template x-for="(item, i) in merchantsTemp " :key="i">
                                 
                             </template>
                         </div>
 
-                        <div x-show="selectedTab == 'delete'">
+                        <div x-show="selectedTab == 'merchants'">
                             <template x-for="(item, i) in merchants" :key="i">
 
                             </template>
