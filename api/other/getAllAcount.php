@@ -29,11 +29,34 @@ if (isset($_SESSION["num"]) && ($_SESSION["type"]=="productowner")){
         "data" => $data
     );
 
-} else {
+} else if(isset($_SESSION["num"]) && ($_SESSION["type"]=="utilisateur")){
+    $users = $db -> q("SELECT raisonSociale, siren, currency, network, numCarte, idLogin FROM merchant WHERE siren =".$_SESSION["num"].";"); 
+
+    $data = array();
+    foreach ($users as $user){
+        array_push($data,array(
+            "NumSiren" => $user->siren,
+            "RaisonSociale" => $user->raisonSociale,
+            "Currency" => $user->currency,
+            "Network" => $user->network,
+            "NumCarte" => $user->numCarte,
+            "IdLogin" => $user->idLogin,
+        ));
+    }
+
+    // return the response
+    $response = array(
+        "success" => true,
+        "data" => $data
+    );
+}
+
+
+else {
     // return the response
     $response = array(
         "success" => false,
-        "error" => "Vous n'avez pas les droits. en tant que PO",
+        "error" => "Vous n'avez pas les droits.",
     );
 }
 header('Content-Type: application/json');
