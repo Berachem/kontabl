@@ -66,7 +66,7 @@
                         <input type="date" id="dateAfter" name="dateAfter" x-model="dateAfter">
                         <label class="active">Date après le</label>
                     </div>
-                    <div class="field label suffix border" x-show="selectedTab == 're'" x-transition
+                    <div class="field label suffix border" x-show="selectedTab == 're' && userType == 'productowner' || userType == 'utilisateur'" x-transition
                         x-transition.duration.300>
                         <input type="text" id="numDiscount" name="numDiscount" x-model="numDiscount">
                         <label>Numéro de remise</label>
