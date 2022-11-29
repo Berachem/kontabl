@@ -60,6 +60,12 @@
                         <input type="date" id="dateBefore" name="dateBefore" x-model="dateBefore">
                         <label class="active">Date avant le</label>
                     </div>
+                    <!-- Recherche par numéro de remise pour le productowner et utilisateur -->
+                    <div class="field label suffix border" x-show="selectedTab == 're'" x-transition
+                        x-transition.duration.300>
+                        <input type="text" id="numDiscount" name="numDiscount" x-model="numDiscount">
+                        <label>Numéro de remise</label>
+                    </div>
                     <div class="field label prefix border" x-show="selectedTab != 'tr'" x-transition
                         x-transition.duration.300 @click="document.getElementById('dateAfter').showPicker()">
                         <i>today</i>

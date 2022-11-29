@@ -31,6 +31,7 @@ document.addEventListener('alpine:init', () => {
         date: "",
         dateBefore: "",
         dateAfter: "",
+        numDiscount: "",
         unpaidNumber: "",
         results: [],
         transactions: [],
@@ -222,7 +223,7 @@ document.addEventListener('alpine:init', () => {
                     console.log(res.data.map(x => +x.MontantTotal));
                     break;
                 case 're':
-                    res = await fetch(`/api/?action=discountDataTable&date_debut=${this.dateAfter}&date_fin=${this.dateBefore}`).then(x => x.json());
+                    res = await fetch(`/api/?action=discountDataTable&date_debut=${this.dateAfter}&date_fin=${this.dateBefore}&numRemise=${this.numDiscount}`).then(x => x.json());
                     if (res.success) {
                         this.transactions = res.data;
                     }
