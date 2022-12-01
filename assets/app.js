@@ -129,6 +129,7 @@ document.addEventListener('alpine:init', () => {
             });
 
             const lineRes = await fetch('/api/?action=graphics').then(x => x.json());
+            const monthsNames = ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"];
             if (!lineRes.success) return;
             Highcharts.chart('highcharts-line-discounts', {
 
@@ -138,14 +139,15 @@ document.addEventListener('alpine:init', () => {
 
                 yAxis: {
                     title: {
-                        text: 'Montant total'
+                        text: 'Montant total par mois'
                     }
                 },
 
                 xAxis: {
                     accessibility: {
                         rangeDescription: 'Mois'
-                    }
+                    },
+                    categories: lineRes.mois.map(x => x = monthsNames[parseInt(x) - 1])
                 },
 
                 legend: {
@@ -159,7 +161,7 @@ document.addEventListener('alpine:init', () => {
                         label: {
                             connectorAllowed: false
                         },
-                        pointStart: 1
+                        pointStart: 0
                     }
                 },
 
