@@ -195,8 +195,10 @@ document.addEventListener('alpine:init', () => {
             switch (this.selectedTab) {
                 case 'tr':
                     res = await fetch(`/api/?action=treasuryDataTable&numSiren=${this.siren}&raisonSociale=${this.socialName}&date=${this.date}`).then(x => x.json());
+                    console.log(res);
                     if (!res.success) return;
                     this.results = res.data;
+                    console.log(this.results);
 
                     Highcharts.chart('highcharts-histogram-treasury', {
                         chart: {
@@ -345,33 +347,33 @@ document.addEventListener('alpine:init', () => {
         merchantsTemp: [],
         selectedTab: '',
 
+        openTab(tabId) {
+            this.selectedTab = tabId;
+        },
+
         async init() {
+            if (this.userType == 'admin') this.openTab('merchantsTemp');
+            else if (this.userType == 'productowner') this.openTab('merchants');
+            
             if (!await _isLoggedIn()) {
                 $router.push('/login?reqauth=1');
             }
+            
+            let res;
+            res = await fetch('/api/?action=getAllAcount').then(x => x.json());
+            console.log(res);
+            if (!res.success) return;
+            this.merchants = res.data;
+          
+            /*
+            let resTemp = await fetch('/api/?action=getAllAcountTemp').then(x => x.json());
+            if (!resTemp.success) return;
+            this.merchantsTemp = resTemp.data;
+            */
 
-            const res = await fetch('/api/?action=getAllAcount').then(x => x.json());
-            if (res.success) {
-                this.merchants = res.data;
-            }
-            const resTemp = await fetch('/api/?action=getAllAcountTemp').then(x => x.json());
-            if (resTemp.success) {
-                this.merchantsTemp = resTemp.data;
-            }
-
-            console.log("test0");
             console.log(this.merchantsTemp);
             console.log(this.merchants);
 
-            if (this.userType === 'productowner') {
-                this.selectedTab = 'merchants';
-            } else if (this.userType === 'admin') {
-                this.selectedTab = 'merchantsTemp';
-            }
-        },
-
-        async openTab(tab) {
-            this.selectedTab = tab;
         },
 
         

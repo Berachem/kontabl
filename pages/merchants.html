@@ -8,42 +8,98 @@
 
             <!-- Title -->
             <div class="medium no-padding left-align top-align hide-print" style="margin-bottom: 12px;">
-                <h4>Ajouter un marchand</h4>
+                <h4>Gestion des marchands</h4>
             </div>
 
-            <div class="flex">
+            <p x-show="userType != 'productowner' && userType != 'admin' && userType != 'utilisateur'" class="red-text">Vous n'avez pas accès à ces données</p>
+
+            <div class="flex" x-show="userType == 'productowner' || userType == 'admin' || userType == 'utilisateur'">
                 <article class="no-elevate hide-print">
                     <!-- Slider Buttons Section in a table -->
                     <div class="tabs">
                         <a href="javascript:void(0);" :class="selectedTab == 'merchants' ? 'active' : ''"
-                            @click="openTab('merchants')" x-show="userType == 'productowner' || userType == 'admin'">
-                            <span>Marchands Temporaires</span>
-                        </a>
-                        <a href="javascript:void(0);" :class="selectedTab == 'merchantsTemp' ? 'active' : ''"
-                            @click="openTab('merchantsTemp')" x-show="userType == 'productowner'">
+                            @click="openTab('merchants')" x-show="userType == 'productowner'">
                             <span>Marchands</span>
                         </a>
+                        <a href="javascript:void(0);" :class="selectedTab == 'merchantsTemp' ? 'active' : ''"
+                            @click="openTab('merchantsTemp')" x-show="userType == 'productowner' || userType == 'admin'">
+                            <span>Marchands Temporaires</span>
+                        </a>
                     </div>
-                    <!-- Section avec tous les marchands affichés -->
-                    <!-- ... -->
                 </article>
 
                 <article class="no-elevate">
-                    <div x-show="loading" class="middle-align center-align" style="height: 300px;">
-                        <a class="loader"></a>
-                    </div>
+                    
+                    <div x-show="selectedTab == 'merchantsTemp'">
+                        <!-- TODO: changer merchants à merchants_temp quand l'api est bonne -->
+                        <template x-for="(item, i) in merchants" :key="i">
 
-                    <div x-show="!loading">
-                        
-                        <div x-show="selectedTab == 'merchantsTemp'">
-                            <template x-for="(item, i) in merchantsTemp " :key="i">
-                                
-                            </template>
-                        </div>
+                            <article class="no-elevate fill">
+                                <details>
+                                    <summary class="none">
+                                        <div class="row">
+                                            <div class="max">
+                                                <h5 :class="item.MontantTotal < 0 ? 'red-text' : ''" x-text="item.RaisonSociale"></h5>
+                                            </div>
+                                            <i>arrow_drop_down</i>
+                                        </div>
+                                    </summary>
+                                    <div>
+                                        <br>
+                                        <p>Siren <span x-text="item.NumSiren"></span></p>
+                                        <p><span x-text="item.NombreTransactions"></span> transaction(s) au total
+                                        </p>
+                                        <h6
+                                            :class="item.MontantTotal < 0 ? 'red-text' : ''"
+                                            x-text="new Intl.NumberFormat('fr-FR', { style: 'currency', currency: item.Devise }).format(item.MontantTotal)">
+                                        </h6>
+                                    </div>
+                                </details>
+                            </article>
+                            
+                        </template>
+                    </div>
 
                         <div x-show="selectedTab == 'merchants'">
                             <template x-for="(item, i) in merchants" :key="i">
-
+                                <table style="width: 100%">
+                                    <thead>
+                                        <tr>
+                                            <th style="width: 100%"></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <!-- Ajouter les marchands dans des articles et ajouter un bouton pour supprimer le marchand a droite -->
+                                                <article class="no-elevate fill">
+                                                    <details>
+                                                        <summary class="none">
+                                                            <div class="row">
+                                                                <div class="max">
+                                                                    <h5 :class="item.MontantTotal < 0 ? 'red-text' : ''" x-text="item.RaisonSociale"></h5>
+                                                                </div>
+                                                                <i>arrow_drop_down</i>
+                                                            </div>
+                                                        </summary>
+                                                        <div>
+                                                            <br>
+                                                            <p>Siren: <span x-text="item.NumSiren"></span></p>
+                                                            <p><span x-text="item.NombreTransactions"></span> transaction(s) au total
+                                                            </p>
+                                                            <h6
+                                                                :class="item.MontantTotal < 0 ? 'red-text' : ''"
+                                                                x-text="new Intl.NumberFormat('fr-FR', { style: 'currency', currency: item.Devise }).format(item.MontantTotal)">
+                                                            </h6>
+                                                        </div>
+                                                        <!-- Ajout du bouton supprimer a droite de l'article -->
+                                                        <button class="btn" @click=""><i class="material-icons">delete</i></button>
+                                                    </details>
+                                                </article>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
                             </template>
                         </div>
                     </div>
