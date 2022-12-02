@@ -66,8 +66,9 @@
                         <input type="date" id="dateAfter" name="dateAfter" x-model="dateAfter">
                         <label class="active">Date après le</label>
                     </div>
-                    <div class="field label suffix border" x-show="selectedTab == 're' && userType == 'productowner' || userType == 'utilisateur'" x-transition
-                        x-transition.duration.300>
+                    <div class="field label suffix border"
+                        x-show="selectedTab == 're' && userType == 'productowner' || userType == 'utilisateur'"
+                        x-transition x-transition.duration.300>
                         <input type="text" id="numDiscount" name="numDiscount" x-model="numDiscount">
                         <label>Numéro de remise</label>
                     </div>
@@ -92,7 +93,8 @@
                                         <summary class="none">
                                             <div class="row">
                                                 <div class="max">
-                                                    <h5 :class="item.MontantTotal < 0 ? 'red-text' : ''" x-text="item.RaisonSociale"></h5>
+                                                    <h5 :class="item.MontantTotal < 0 ? 'red-text' : ''"
+                                                        x-text="item.RaisonSociale"></h5>
                                                 </div>
                                                 <i>arrow_drop_down</i>
                                             </div>
@@ -102,8 +104,7 @@
                                             <p>Siren <span x-text="item.NumSiren"></span></p>
                                             <p><span x-text="item.NombreTransactions"></span> transaction(s) au total
                                             </p>
-                                            <h6
-                                                :class="item.MontantTotal < 0 ? 'red-text' : ''"
+                                            <h6 :class="item.MontantTotal < 0 ? 'red-text' : ''"
                                                 x-text="new Intl.NumberFormat('fr-FR', { style: 'currency', currency: item.Devise }).format(item.MontantTotal)">
                                             </h6>
                                         </div>
@@ -219,7 +220,7 @@
                                             <td x-text="formatDate(transaction.DateTraitement)"></td>
                                             <td x-text="transaction.NombreTransactions"></td>
                                             <!-- If montant total is negative: red text -->
-                                            <td x-text="transaction.Sens + new Intl.NumberFormat('fr-FR', { style: 'currency', currency: transaction.Devise }).format(transaction.MontantTotal)"
+                                            <td x-text="new Intl.NumberFormat('fr-FR', { style: 'currency', currency: transaction.Devise }).format(transaction.MontantTotal)"
                                                 :class="transaction.Sens == '-' ? 'red-text' : ''"></td>
                                             </td>
                                         </tr>
@@ -354,7 +355,7 @@
 
         @media print {
             .hide-print {
-                display: none;
+                display: none !important;
             }
         }
     </style>
