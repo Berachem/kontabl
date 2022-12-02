@@ -39,6 +39,7 @@ document.addEventListener('alpine:init', () => {
         loading: false,
         prevOrderDir: -1,
         linkedTransactions: [],
+        totalMontantUnpaid: 0,
         loadingLinkedTransactions: false,
         detailsModal: null,
         rowsCount: 10,
@@ -247,6 +248,19 @@ document.addEventListener('alpine:init', () => {
                 this.linkedTransactions = res.transactions;
             }
             this.loadingLinkedTransactions = false;
+        },
+
+        // Calculer le montant total des impayés
+        calculateTotalUnpaids() {
+            let total = 0;
+            this.unpaids.forEach(x => {
+                total += x.MontantTotal;
+            });
+            this.totalMontantUnpaid = total;
+        },
+
+        getTotalAmount() {
+            return this.totalMontantUnpaid;
         },
 
         async exportTableIn(tableSelector, fileType) {
