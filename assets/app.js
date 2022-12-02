@@ -228,7 +228,9 @@ document.addEventListener('alpine:init', () => {
                 case 're':
                     res = await fetch(`/api/?action=discountDataTable&date_debut=${this.dateAfter}&date_fin=${this.dateBefore}&numRemise=${this.numDiscount}`).then(x => x.json());
                     if (res.success) {
-                        this.transactions = res.data;
+                        this.transactions = res.data.map(x => {
+                            return { ...x, MontantTotal: +(x.Sens + x.MontantTotal) };
+                        });
                     }
                     break;
                 case 'im':
@@ -374,7 +376,7 @@ document.addEventListener('alpine:init', () => {
             this.selectedTab = tab;
         },
 
-        
+
 
     }));
 });
