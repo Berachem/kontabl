@@ -46,7 +46,7 @@
 <body x-data x-init="$router.config({ mode: 'hash' })">
 
     <!-- Header -->
-    <nav class="secondary-container m l left">
+    <nav class="secondary-container m l left hide-print">
         <a href="/#/"><i>search</i>Rechercher</a>
         <a href="/#/merchants"><i>person</i>Marchands</a>
         <a href="/#/settings"><i>settings</i>Réglages</a>
