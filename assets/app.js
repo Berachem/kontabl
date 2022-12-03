@@ -365,6 +365,42 @@ document.addEventListener('alpine:init', () => {
             this.selectedTab = tabId;
         },
 
+        async createMerchantTemp() {
+            const formData = new FormData();
+            formData.append('raisonSociale', this.socialName);
+            formData.append('siren', this.siren);
+            formData.append('currency', this.currency);
+            formData.append('numCarte', this.numCard);
+            formData.append('network', this.network);
+            formData.append('idLogin', this.idLogin);
+            formData.append('password', this.password);
+            formData.append('_token', _getToken());
+
+            const resJson = await fetch('/api/?action=createMerchantTemporarily', {
+                method: 'POST',
+                body: formData
+            }).then(x => x.json());
+
+            alert(resJson);
+
+            if (resJson.error || !resJson.success) {
+                alert(resJson.error || "Une erreur est survenue");
+                return;
+            }
+
+            if (resJson.success) {
+                this.merchantsTemp.push(resJson.merchant);
+                this.socialName = '';
+                this.siren = '';
+                this.currency = '';
+                this.numCard = '';
+                this.network = '';
+                this.idLogin = '';
+                this.password = '';
+                this.openTab('merchantsTemp');
+            }
+        },
+
         async deleteMerchant(siren) {
             if (!confirm('Voulez-vous vraiment supprimer ce marchand ?')) return;
 
