@@ -14,7 +14,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $_token = $_SESSION['_token'];
 
     if (!hash_equals($_token, $submittedToken)) {
-        die('Page expirée');
+        header('Content-Type: application/json');
+        echo json_encode([
+            'success' => false,
+            'error' => 'Page expirée',
+        ]);
+        exit;
     }
 }
 
