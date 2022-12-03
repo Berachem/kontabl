@@ -405,12 +405,9 @@ document.addEventListener('alpine:init', () => {
             if (!res.success) return;
             this.merchants = res.data;
 
-            /*
             let resTemp = await fetch('/api/?action=getAllAcountTemp').then(x => x.json());
             if (!resTemp.success) return;
             this.merchantsTemp = resTemp.data;
-            */
-
         },
 
     }));

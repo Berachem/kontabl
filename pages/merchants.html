@@ -35,7 +35,10 @@
                     <div x-show="selectedTab == 'merchantsTemp'">
                         <div x-show="userType == 'productowner'">
                             <!-- TODO: changer merchants à merchants_temp quand l'api est bonne -->
-                            <template x-for="(item, i) in merchants" :key="i">
+                            <p x-show="merchantsTemp.length == 0">
+                                Aucun marchand temporaire
+                            </p>
+                            <template x-for="(item, i) in merchantsTemp" :key="i">
                                 <div>
                                     <article class="no-elevate fill">
                                         <details>
