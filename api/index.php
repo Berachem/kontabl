@@ -53,7 +53,7 @@ if (isset($_GET['action'])) {
         case "createMerchantTemporarily":
             include("merchant_creation/createMerchantTemporarily.php");
             break;
-        case "acceptMerchantCreation":
+        case "acceptMerchantTemp":
             include("merchant_creation/acceptMerchantCreation.php");
             break;
         case "graphics":
@@ -71,7 +71,7 @@ if (isset($_GET['action'])) {
         case "getAllAcount":
             include("other/getAllAcount.php");
             break;
-        case "getAllMerchantTemp":
+        case "getAllAcountTemp":
             include("merchant_creation/getAllMerchantTemp.php");
             break;
         case "csvToXls":

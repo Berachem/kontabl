@@ -429,6 +429,34 @@ document.addEventListener('alpine:init', () => {
                 this.merchantsTemp = this.merchantsTemp.filter(x => x.numSiren !== siren);
             }
         },
+        
+        async acceptMerchantTemp(siren) {
+            if (!confirm('Voulez-vous vraiment accepter ce marchand ?')) return;
+
+            const formData = new FormData();
+            formData.append('numSiren', siren);
+            formData.append('_token', _getToken());
+
+            let resJson = await fetch(`/api/?action=acceptMerchantTemp&numSiren=${siren}`).then(x => x.json());
+
+            console.log(resJson);
+
+            if (resJson.needRefresh) {
+                alert('Page expirée.');
+                location.reload();
+                return;
+            }
+
+            if (resJson.error) {
+                alert(resJson.error);
+                return;
+            }
+
+            if (resJson.success) {
+                this.merchantsTemp = this.merchantsTemp.filter(x => x.numSiren !== siren);
+                this.merchants.push(resJson.merchant);
+            }
+        },
 
         async init() {
             if (this.userType == 'admin') this.openTab('merchantsTemp');

@@ -73,7 +73,7 @@
                                                             </div>
 
                                                             <button class="btn"
-                                                                @click="console.log('Acceptation')">Accepter<i
+                                                                @click="acceptMerchantTemp(item.NumSiren)">Accepter<i
                                                                     class="material-icons">check</i></button>
 
                                                         </details>
@@ -91,22 +91,22 @@
                         <div x-show="userType == 'admin'">
 
                             <div class="field label suffix border">
-                                <input type="text" id="socialName" name="socialName" x-model="socialName" required>
+                                <input type="text" id="socialName" name="socialName" x-model="socialName" maxlength="30" required>
                                 <label>Raison sociale</label>
                             </div>
 
                             <div class="field label suffix border">
-                                <input type="text" id="siren" name="siren" x-model="siren" required>
+                                <input type="tel" id="siren" name="siren" x-model="siren" minlength="9" maxlength="9" required>
                                 <label>Siren</label>
                             </div>
 
                             <div class="field label suffix border">
-                                <input type="text" id="currency" name="currency" x-model="currency" required>
+                                <input type="text" id="currency" name="currency" x-model="currency" maxlength="3" required>
                                 <label>Devise</label>
                             </div>
 
                             <div class="field label suffix border">
-                                <input type="tel" id="numCard" name="numCard" x-model="numCard" required>
+                                <input type="tel" id="numCard" name="numCard" x-model="numCard" minlength="16" maxlength="16" required>
                                 <label>Numéro de carte</label>
                             </div>
 
@@ -126,12 +126,12 @@
 
                             <div class="field label suffix border">
                                 <input type="password" id="password" name="password" autocomplete="new-password"
-                                    x-model="password" required>
+                                    x-model="password" maxlength="20" required>
                                 <label>Définir un mot de passe</label>
                             </div>
 
                             <div class="field label suffix border">
-                                <input type="text" id="idLogin" name="idLogin" x-model="idLogin" required>
+                                <input type="text" id="idLogin" name="idLogin" x-model="idLogin" maxlength="350" required>
                                 <label>Définir l'identifiant de connexion</label>
                             </div>
 
