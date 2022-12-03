@@ -8,10 +8,10 @@ GET:
 */
 
 // check if it is the productowner
-/*
-$_SESSION['type']= "productowner";
-$_GET["numSiren"] = "154685474";
-*/
+
+/* $_SESSION['type']= "productowner";
+$_GET["numSiren"] = "154685474"; */
+
 
 if (isset($_SESSION['type']) && $_SESSION['type'] == 'productowner' && isset($_GET["numSiren"])) {
     
