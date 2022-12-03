@@ -1,5 +1,5 @@
-<?php   
-session_start();
+<?php
+// session_start();
 /*
 Return a JSON object with the following parameters for each user:
     "NumSiren" => "string", ex: "123456789"
@@ -7,13 +7,13 @@ Return a JSON object with the following parameters for each user:
     and a succes
 */
 
-if (isset($_SESSION["num"]) && ($_SESSION["type"]=="productowner")){  
+if (isset($_SESSION["num"]) && ($_SESSION["type"] == "productowner")) {
 
-    $users = $db -> q("SELECT raisonSociale, siren, currency, network, numCarte, idLogin FROM merchant;"); 
+    $users = $db->q("SELECT raisonSociale, siren, currency, network, numCarte, idLogin FROM merchant;");
 
     $data = array();
-    foreach ($users as $user){
-        array_push($data,array(
+    foreach ($users as $user) {
+        array_push($data, array(
             "NumSiren" => $user->siren,
             "RaisonSociale" => $user->raisonSociale,
             "Currency" => $user->currency,
@@ -28,13 +28,12 @@ if (isset($_SESSION["num"]) && ($_SESSION["type"]=="productowner")){
         "success" => true,
         "data" => $data
     );
-
-} else if(isset($_SESSION["num"]) && ($_SESSION["type"]=="utilisateur")){
-    $users = $db -> q("SELECT raisonSociale, siren, currency, network, numCarte, idLogin FROM merchant WHERE siren =".$_SESSION["num"].";"); 
+} else if (isset($_SESSION["num"]) && ($_SESSION["type"] == "utilisateur")) {
+    $users = $db->q("SELECT raisonSociale, siren, currency, network, numCarte, idLogin FROM merchant WHERE siren =" . $_SESSION["num"] . ";");
 
     $data = array();
-    foreach ($users as $user){
-        array_push($data,array(
+    foreach ($users as $user) {
+        array_push($data, array(
             "NumSiren" => $user->siren,
             "RaisonSociale" => $user->raisonSociale,
             "Currency" => $user->currency,
@@ -49,10 +48,7 @@ if (isset($_SESSION["num"]) && ($_SESSION["type"]=="productowner")){
         "success" => true,
         "data" => $data
     );
-}
-
-
-else {
+} else {
     // return the response
     $response = array(
         "success" => false,

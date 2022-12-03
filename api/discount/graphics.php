@@ -8,7 +8,7 @@ valeurs : montant total des remises
 */
 
 include("include/Functions.inc.php");
-session_start();
+// session_start();
 
 
 
@@ -82,7 +82,3 @@ if(isset($_SESSION['num'])){
 
 header('Content-Type: application/json ; charset=utf-8');
 echo json_encode($response, JSON_UNESCAPED_UNICODE);
-
-
-
-?>

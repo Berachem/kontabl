@@ -2,18 +2,31 @@
 
 // faire tous les imports ici
 // permet de ne pas avoir à les faire dans chaque fichier
+session_start();
 
 include "include/Connexion.inc.php";
 
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if (!isset($_SESSION['token']) && !isset($_POST['token'])) {
+        die('Page expirée');
+    }
+    $submittedToken = $_POST['_token'];
+    $_token = $_SESSION['_token'];
 
+    if (!hash_equals($_token, $submittedToken)) {
+        header('Content-Type: application/json');
+        echo json_encode([
+            'success' => false,
+            'error' => 'Page expirée',
+        ]);
+        exit;
+    }
+}
 
 
 if (isset($_GET['action'])) {
     switch ($_GET['action']) {
         case 'login':
-            // inclure les fichiers qui process l'action demandée
-            // retourner un json contenant un clé success et un message (retourner avec les bons headers), avec le code HTTP le plus approprié
-            //break;
             include("access/login.php");
             break;
         case 'logout':

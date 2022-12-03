@@ -5,7 +5,7 @@ Renvoie un json avec une liste de couple (label, nombre d'impayés)
 
 */
 
-session_start();
+// session_start();
 
 
 
@@ -67,6 +67,3 @@ if(isset($_SESSION['num'])){
 
 header('Content-Type: application/json ; charset=utf-8');
 echo json_encode($response, JSON_UNESCAPED_UNICODE);
-
-
-?>

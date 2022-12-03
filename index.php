@@ -1,3 +1,13 @@
+<?php
+session_start();
+
+require 'api/include/Functions.inc.php';
+
+$_token = uuidv4();
+
+$_SESSION['_token'] = $_token;
+?>
+
 <!DOCTYPE html>
 <html lang="fr">
 
@@ -5,6 +15,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="_token" content="<?= $_token ?>">
     <title>Kontabl</title>
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/beercss@2.2.11/dist/cdn/beer.min.css" integrity="sha256-lYnQDpcf+FFMWvFyNlfYM5Zis7/ENdFurMo6UK58k4E=" crossorigin="anonymous">
