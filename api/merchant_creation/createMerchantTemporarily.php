@@ -15,7 +15,7 @@ add a temporary merchant account
 */
 
 include("include/Functions.inc.php");
-session_start();
+// session_start();
 /*
 $_SESSION['type']= "admin";
 $_POST["raisonSociale"] = "testadd";
@@ -132,5 +132,3 @@ else{
 // return the response
 header('Content-Type: application/json');
 echo json_encode($response, JSON_UNESCAPED_UNICODE);
-
-?>

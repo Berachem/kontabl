@@ -1,5 +1,5 @@
 <?php
-session_start();
+// session_start();
 
 /*
 GET:
@@ -66,11 +66,3 @@ if (isset($_SESSION['type']) && $_SESSION['type'] == 'productowner' && isset($_G
     header('Content-Type: application/json');
     echo json_encode($response, JSON_UNESCAPED_UNICODE);
 }
-
-
-
-
-
-
-
-?>

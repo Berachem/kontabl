@@ -1,6 +1,6 @@
 <?php
 
-session_start();
+// session_start();
 
 
 // TEST
@@ -27,13 +27,3 @@ if (!(isset($_SESSION["num"])) || !(isset($_SESSION["type"]) || $_SESSION["type"
         include("treasury/pOwnerDataTable.php");
     }
 }
-
-
-
-
-
-
-
-
-
-?>
