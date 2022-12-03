@@ -7,6 +7,9 @@ Return a JSON object with the following parameters for each user:
     and a succes
 */
 
+/* $_SESSION["num"] = "louisvi";
+$_SESSION["type"] = "productowner"; */
+
 if (isset($_SESSION["num"]) && ($_SESSION["type"] == "productowner")) {
 
     $users = $db->q("SELECT raisonSociale, siren, currency, network, numCarte, idLogin FROM merchant_temp;");
@@ -32,7 +35,7 @@ if (isset($_SESSION["num"]) && ($_SESSION["type"] == "productowner")) {
     // return the response
     $response = array(
         "success" => false,
-        "error" => "Vous n'avez pas les droits. en tant que PO",
+        "error" => "Vous n'avez pas les droits pour accéder à cette page.",
     );
 }
 header('Content-Type: application/json');
