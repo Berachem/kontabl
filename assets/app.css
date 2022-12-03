@@ -62,3 +62,7 @@ dialog::backdrop {
     background-color: #000;
     opacity: 0.5;
 }
+
+.darkgrey-text {
+    color: #767676;
+}

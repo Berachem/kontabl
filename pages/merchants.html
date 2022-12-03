@@ -111,6 +111,8 @@
 
                         <div x-show="selectedTab == 'merchants'">
                             <template x-for="(item, i) in merchants" :key="i">
+
+                                <!-- Table -->
                                 <table style="width: 100%">
                                     <thead>
                                         <tr>
@@ -120,7 +122,6 @@
                                     <tbody>
                                         <tr>
                                             <td>
-                                                <!-- Ajouter les marchands dans des articles et ajouter un bouton pour supprimer le marchand a droite -->
                                                 <article class="no-elevate fill">
                                                     <details>
                                                         <summary class="none">
@@ -133,22 +134,24 @@
                                                         </summary>
                                                         <div>
                                                             <br>
-                                                            <p>Siren: <span x-text="item.NumSiren"></span></p>
-                                                            <p><span x-text="item.NombreTransactions"></span> transaction(s) au total
-                                                            </p>
+                                                            <p>Siren: <span x-text="item.NumSiren" class="darkgrey-text"></span></p>
+                                                            <p>Numeros de carte: <span x-text="'**** ' + item.NumCarte + ' ' + item.Network.toUpperCase()" class="darkgrey-text"></span></p>
+                                                            <p>Id login: <span x-text="item.IdLogin" class="darkgrey-text"></span></p>
                                                             <h6
                                                                 :class="item.MontantTotal < 0 ? 'red-text' : ''"
                                                                 x-text="new Intl.NumberFormat('fr-FR', { style: 'currency', currency: item.Devise }).format(item.MontantTotal)">
                                                             </h6>
                                                         </div>
-                                                        <!-- Ajout du bouton supprimer a droite de l'article -->
-                                                        <button class="error btn" @click="console.log('salut bg')"><i class="material-icons">delete</i></button>
+                                                        
+                                                        <button class="error btn" @click="console.log(merchants[i]); window.confirm('Voulez-vous vraiment supprimer ce marchand ?') ? merchants.splice(i, 1) : ''">Supprimer<i class="material-icons">delete</i></button>
+                                                    
                                                     </details>
                                                 </article>
                                             </td>
                                         </tr>
                                     </tbody>
                                 </table>
+
                             </template>
                         </div>
                     </div>
@@ -177,6 +180,10 @@
         th a:focus {
             outline: 2px dashed #000;
             outline-offset: 2px;
+        }
+
+        .darkgrey-text {
+            color: rgb(203, 45, 45);
         }
 
         @media print {
