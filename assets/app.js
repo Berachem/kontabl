@@ -7,6 +7,10 @@ const _logout = async () => {
     }
 };
 
+const _getToken = () => {
+    return document.querySelector('meta[name="_token"]').content;
+};
+
 const _isLoggedIn = async () => {
     const res = await fetch('/api/?action=isLoggedIn').then(x => x.json());
     return res.isLogged;
@@ -359,19 +363,48 @@ document.addEventListener('alpine:init', () => {
             this.selectedTab = tabId;
         },
 
+        async deleteMerchant(siren) {
+            if (!confirm('Voulez-vous vraiment supprimer ce marchand ?')) return;
+
+            const formData = new FormData();
+            formData.append('numSiren', siren);
+            formData.append('_token', _getToken());
+
+            const resJson = await fetch(`/api/?action=deleteAcount`, {
+                method: 'POST',
+                body: formData
+            }).then(x => x.json());
+
+            if (resJson.needRefresh) {
+                alert('Page expirée.');
+                location.reload();
+                return;
+            }
+
+            if (resJson.error) {
+                alert(resJson.error);
+                return;
+            }
+
+            if (resJson.success) {
+                this.merchants = this.merchants.filter(x => x.numSiren !== siren);
+                this.merchantsTemp = this.merchantsTemp.filter(x => x.numSiren !== siren);
+            }
+        },
+
         async init() {
             if (this.userType == 'admin') this.openTab('merchantsTemp');
             else if (this.userType == 'productowner') this.openTab('merchants');
-            
+
             if (!await _isLoggedIn()) {
                 $router.push('/login?reqauth=1');
             }
-            
+
             let res;
             res = await fetch('/api/?action=getAllAcount').then(x => x.json());
             if (!res.success) return;
             this.merchants = res.data;
-          
+
             /*
             let resTemp = await fetch('/api/?action=getAllAcountTemp').then(x => x.json());
             if (!resTemp.success) return;
@@ -379,8 +412,6 @@ document.addEventListener('alpine:init', () => {
             */
 
         },
-
-
 
     }));
 });

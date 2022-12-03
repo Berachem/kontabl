@@ -6,20 +6,26 @@ session_start();
 
 include "include/Connexion.inc.php";
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    if (!isset($_SESSION['token']) && !isset($_POST['token'])) {
-        die('Page expirée');
+function returnExpiredResponse()
+{
+    header('Content-Type: application/json');
+    echo json_encode([
+        'success' => false,
+        'error' => 'Page expirée. Rafrachissez la page.',
+        'needRefresh' => true,
+    ]);
+    exit;
+}
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    if (!isset($_SESSION['_token']) && !isset($_POST['_token'])) {
+        returnExpiredResponse();
     }
     $submittedToken = $_POST['_token'];
-    $_token = $_SESSION['_token'];
+    $_token = $_SESSION['_token'] ?? null;
 
-    if (!hash_equals($_token, $submittedToken)) {
-        header('Content-Type: application/json');
-        echo json_encode([
-            'success' => false,
-            'error' => 'Page expirée',
-        ]);
-        exit;
+    if ($_token == null || !hash_equals($_token, $submittedToken)) {
+        returnExpiredResponse();
     }
 }
 

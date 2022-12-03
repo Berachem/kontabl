@@ -11,7 +11,8 @@
                 <h4>Gestion des marchands</h4>
             </div>
 
-            <p x-show="userType != 'productowner' && userType != 'admin' && userType != 'utilisateur'" class="red-text">Vous n'avez pas accès à ces données</p>
+            <p x-show="userType != 'productowner' && userType != 'admin' && userType != 'utilisateur'" class="red-text">
+                Vous n'avez pas accès à ces données</p>
 
             <div class="flex" x-show="userType == 'productowner' || userType == 'admin' || userType == 'utilisateur'">
                 <article class="no-elevate hide-print">
@@ -22,14 +23,15 @@
                             <span>Marchands</span>
                         </a>
                         <a href="javascript:void(0);" :class="selectedTab == 'merchantsTemp' ? 'active' : ''"
-                            @click="openTab('merchantsTemp')" x-show="userType == 'productowner' || userType == 'admin'">
+                            @click="openTab('merchantsTemp')"
+                            x-show="userType == 'productowner' || userType == 'admin'">
                             <span>Marchands Temporaires</span>
                         </a>
                     </div>
                 </article>
 
                 <article class="no-elevate">
-                    
+
                     <div x-show="selectedTab == 'merchantsTemp'">
                         <div x-show="userType == 'productowner'">
                             <!-- TODO: changer merchants à merchants_temp quand l'api est bonne -->
@@ -40,7 +42,8 @@
                                             <summary class="none">
                                                 <div class="row">
                                                     <div class="max">
-                                                        <h5 :class="item.MontantTotal < 0 ? 'red-text' : ''" x-text="item.RaisonSociale"></h5>
+                                                        <h5 :class="item.MontantTotal < 0 ? 'red-text' : ''"
+                                                            x-text="item.RaisonSociale"></h5>
                                                     </div>
                                                     <i>arrow_drop_down</i>
                                                 </div>
@@ -48,15 +51,15 @@
                                             <div>
                                                 <br>
                                                 <p>Siren <span x-text="item.NumSiren"></span></p>
-                                                <p><span x-text="item.NombreTransactions"></span> transaction(s) au total
+                                                <p><span x-text="item.NombreTransactions"></span> transaction(s) au
+                                                    total
                                                 </p>
-                                                <h6
-                                                    :class="item.MontantTotal < 0 ? 'red-text' : ''"
+                                                <h6 :class="item.MontantTotal < 0 ? 'red-text' : ''"
                                                     x-text="new Intl.NumberFormat('fr-FR', { style: 'currency', currency: item.Devise }).format(item.MontantTotal)">
                                                 </h6>
                                             </div>
-                                        <button class="btn" @click="console.log('acceptation')">Accepter</button>
-                                    </details>
+                                            <button class="btn" @click="console.log('acceptation')">Accepter</button>
+                                        </details>
                                     </article>
                                     <br>
                                 </div>
@@ -109,87 +112,93 @@
 
                     </div>
 
-                        <div x-show="selectedTab == 'merchants'">
-                            <template x-for="(item, i) in merchants" :key="i">
+                    <div x-show="selectedTab == 'merchants'">
+                        <template x-for="(item, i) in merchants" :key="i">
 
-                                <!-- Table -->
-                                <table style="width: 100%">
-                                    <thead>
-                                        <tr>
-                                            <th style="width: 100%"></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>
-                                                <article class="no-elevate fill">
-                                                    <details>
-                                                        <summary class="none">
-                                                            <div class="row">
-                                                                <div class="max">
-                                                                    <h5 :class="item.MontantTotal < 0 ? 'red-text' : ''" x-text="item.RaisonSociale"></h5>
-                                                                </div>
-                                                                <i>arrow_drop_down</i>
+                            <!-- Table -->
+                            <table style="width: 100%">
+                                <thead>
+                                    <tr>
+                                        <th style="width: 100%"></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <article class="no-elevate fill">
+                                                <details>
+                                                    <summary class="none">
+                                                        <div class="row">
+                                                            <div class="max">
+                                                                <h5 :class="item.MontantTotal < 0 ? 'red-text' : ''"
+                                                                    x-text="item.RaisonSociale"></h5>
                                                             </div>
-                                                        </summary>
-                                                        <div>
-                                                            <br>
-                                                            <p>Siren: <span x-text="item.NumSiren" class="darkgrey-text"></span></p>
-                                                            <p>Numeros de carte: <span x-text="'**** ' + item.NumCarte + ' ' + item.Network.toUpperCase()" class="darkgrey-text"></span></p>
-                                                            <p>Id login: <span x-text="item.IdLogin" class="darkgrey-text"></span></p>
-                                                            <h6
-                                                                :class="item.MontantTotal < 0 ? 'red-text' : ''"
-                                                                x-text="new Intl.NumberFormat('fr-FR', { style: 'currency', currency: item.Devise }).format(item.MontantTotal)">
-                                                            </h6>
+                                                            <i>arrow_drop_down</i>
                                                         </div>
-                                                        
-                                                        <button class="error btn" @click=" window.confirm('Voulez-vous vraiment supprimer ce marchand ?') ? console.log(merchants[i]) : ''">Supprimer<i class="material-icons">delete</i></button>
-                                                    
-                                                    </details>
-                                                </article>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
+                                                    </summary>
+                                                    <div>
+                                                        <br>
+                                                        <p>Siren: <span x-text="item.NumSiren"
+                                                                class="darkgrey-text"></span></p>
+                                                        <p>Numeros de carte: <span
+                                                                x-text="'**** ' + item.NumCarte + ' ' + item.Network.toUpperCase()"
+                                                                class="darkgrey-text"></span></p>
+                                                        <p>Id login: <span x-text="item.IdLogin"
+                                                                class="darkgrey-text"></span></p>
+                                                        <h6 :class="item.MontantTotal < 0 ? 'red-text' : ''"
+                                                            x-text="new Intl.NumberFormat('fr-FR', { style: 'currency', currency: item.Devise }).format(item.MontantTotal)">
+                                                        </h6>
+                                                    </div>
 
-                            </template>
-                        </div>
+                                                    <button class="error btn"
+                                                        @click="deleteMerchant(item.NumSiren)">Supprimer<i
+                                                            class="material-icons">delete</i></button>
+
+                                                </details>
+                                            </article>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </template>
                     </div>
-                </article>
             </div>
+            </article>
         </div>
     </div>
+</div>
 
-    <style>
-        .main {
-            padding: 20px;
-            max-width: 1300px;
-        }
+<style>
+    .main {
+        padding: 20px;
+        max-width: 1300px;
+    }
 
-        .flex {
-            display: grid;
-            grid-template-columns: 460px 1fr;
-            gap: 20px;
-        }
+    .flex {
+        display: grid;
+        grid-template-columns: 460px 1fr;
+        gap: 20px;
+    }
 
-        article+article {
-            margin-top: 0;
-            width: 100%;
-        }
+    article+article {
+        margin-top: 0;
+        width: 100%;
+    }
 
-        th a:focus {
-            outline: 2px dashed #000;
-            outline-offset: 2px;
-        }
+    th a:focus {
+        outline: 2px dashed #000;
+        outline-offset: 2px;
+    }
 
-        .darkgrey-text {
-            color: rgb(203, 45, 45);
-        }
+    .darkgrey-text {
+        color: rgb(203, 45, 45);
+    }
 
-        @media print {
-            .hide-print {
-                display: none;
-            }
+    @media print {
+        .hide-print {
+            display: none;
         }
-    </style>
+    }
+</style>
 </div>
