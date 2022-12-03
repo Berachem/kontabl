@@ -88,28 +88,31 @@
                     <div x-show="!loading">
                         <div x-show="selectedTab == 'tr'">
                             <template x-for="(item, i) in results" :key="i">
-                                <article class="no-elevate fill">
-                                    <details>
-                                        <summary class="none">
-                                            <div class="row">
-                                                <div class="max">
-                                                    <h5 :class="item.MontantTotal < 0 ? 'red-text' : ''"
-                                                        x-text="item.RaisonSociale"></h5>
+                                <div>
+                                    <article class="no-elevate fill">
+                                        <details>
+                                            <summary class="none">
+                                                <div class="row">
+                                                    <div class="max">
+                                                        <h5 :class="item.MontantTotal < 0 ? 'red-text' : ''"
+                                                            x-text="item.RaisonSociale"></h5>
+                                                    </div>
+                                                    <i>arrow_drop_down</i>
                                                 </div>
-                                                <i>arrow_drop_down</i>
+                                            </summary>
+                                            <div>
+                                                <br>
+                                                <p>Siren <span x-text="item.NumSiren"></span></p>
+                                                <p><span x-text="item.NombreTransactions"></span> transaction(s) au total
+                                                </p>
+                                                <h6 :class="item.MontantTotal < 0 ? 'red-text' : ''"
+                                                    x-text="new Intl.NumberFormat('fr-FR', { style: 'currency', currency: item.Devise }).format(item.MontantTotal)">
+                                                </h6>
                                             </div>
-                                        </summary>
-                                        <div>
-                                            <br>
-                                            <p>Siren <span x-text="item.NumSiren"></span></p>
-                                            <p><span x-text="item.NombreTransactions"></span> transaction(s) au total
-                                            </p>
-                                            <h6 :class="item.MontantTotal < 0 ? 'red-text' : ''"
-                                                x-text="new Intl.NumberFormat('fr-FR', { style: 'currency', currency: item.Devise }).format(item.MontantTotal)">
-                                            </h6>
-                                        </div>
-                                    </details>
-                                </article>
+                                        </details>
+                                    </article>
+                                    <br>
+                                </div>
                             </template>
                         </div>
                         <dialog x-ref="detailsModal">
