@@ -37,31 +37,48 @@
                             <!-- TODO: changer merchants à merchants_temp quand l'api est bonne -->
                             <template x-for="(item, i) in merchants" :key="i">
                                 <div>
-                                    <article class="no-elevate fill">
-                                        <details>
-                                            <summary class="none">
-                                                <div class="row">
-                                                    <div class="max">
-                                                        <h5 :class="item.MontantTotal < 0 ? 'red-text' : ''"
-                                                            x-text="item.RaisonSociale"></h5>
-                                                    </div>
-                                                    <i>arrow_drop_down</i>
-                                                </div>
-                                            </summary>
-                                            <div>
-                                                <br>
-                                                <p>Siren <span x-text="item.NumSiren"></span></p>
-                                                <p><span x-text="item.NombreTransactions"></span> transaction(s) au
-                                                    total
-                                                </p>
-                                                <h6 :class="item.MontantTotal < 0 ? 'red-text' : ''"
-                                                    x-text="new Intl.NumberFormat('fr-FR', { style: 'currency', currency: item.Devise }).format(item.MontantTotal)">
-                                                </h6>
-                                            </div>
-                                            <button class="btn" @click="console.log('acceptation')">Accepter</button>
-                                        </details>
-                                    </article>
-                                    <br>
+                                    <!-- Table -->
+                                    <table style="width: 100%">
+                                        <thead>
+                                            <tr>
+                                                <th style="width: 100%"></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>
+                                                    <article class="no-elevate fill">
+                                                        <details>
+                                                            <summary class="none">
+                                                                <div class="row">
+                                                                    <div class="max">
+                                                                        <h5 :class="item.MontantTotal < 0 ? 'red-text' : ''"
+                                                                            x-text="item.RaisonSociale"></h5>
+                                                                    </div>
+                                                                    <i>arrow_drop_down</i>
+                                                                </div>
+                                                            </summary>
+                                                            <div>
+                                                                <br>
+                                                                <p>Siren: <span x-text="item.NumSiren"
+                                                                        class="darkgrey-text"></span></p>
+                                                                <p>Numeros de carte: <span
+                                                                        x-text="'**** ' + item.NumCarte + ' ' + item.Network.toUpperCase()"
+                                                                        class="darkgrey-text"></span></p>
+                                                                <p>Id login: <span x-text="item.IdLogin"
+                                                                        class="darkgrey-text"></span></p>
+                                                            </div>
+
+                                                            <button class="btn"
+                                                                @click="console.log('Acceptation')">Accepter<i
+                                                                    class="material-icons">check</i></button>
+
+                                                        </details>
+                                                    </article>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
                                 </div>
                             </template>
                         </div>
@@ -145,9 +162,6 @@
                                                                 class="darkgrey-text"></span></p>
                                                         <p>Id login: <span x-text="item.IdLogin"
                                                                 class="darkgrey-text"></span></p>
-                                                        <h6 :class="item.MontantTotal < 0 ? 'red-text' : ''"
-                                                            x-text="new Intl.NumberFormat('fr-FR', { style: 'currency', currency: item.Devise }).format(item.MontantTotal)">
-                                                        </h6>
                                                     </div>
 
                                                     <button class="error btn"
