@@ -21,10 +21,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if (!isset($_SESSION['_token']) && !isset($_POST['_token'])) {
         returnExpiredResponse();
     }
-    $submittedToken = $_POST['_token'];
+    $submittedToken = $_POST['_token'] ?? null;
     $_token = $_SESSION['_token'] ?? null;
 
-    if ($_token == null || !hash_equals($_token, $submittedToken)) {
+    if ($_token == null || $submittedToken == null || !hash_equals($_token, $submittedToken)) {
         returnExpiredResponse();
     }
 }

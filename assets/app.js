@@ -294,6 +294,7 @@ document.addEventListener('alpine:init', () => {
                 case 'xlsx':
                     const formData = new FormData();
                     formData.append('csvString', csvText);
+                    formData.append('_token', _getToken());
                     const req = await fetch('/api/?action=csvToXls', {
                         method: 'POST',
                         body: formData
