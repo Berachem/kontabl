@@ -31,33 +31,82 @@
                 <article class="no-elevate">
                     
                     <div x-show="selectedTab == 'merchantsTemp'">
-                        <!-- TODO: changer merchants à merchants_temp quand l'api est bonne -->
-                        <template x-for="(item, i) in merchants" :key="i">
-
-                            <article class="no-elevate fill">
-                                <details>
-                                    <summary class="none">
-                                        <div class="row">
-                                            <div class="max">
-                                                <h5 :class="item.MontantTotal < 0 ? 'red-text' : ''" x-text="item.RaisonSociale"></h5>
+                        <div x-show="userType == 'productowner'">
+                            <!-- TODO: changer merchants à merchants_temp quand l'api est bonne -->
+                            <template x-for="(item, i) in merchants" :key="i">
+                                <div>
+                                    <article class="no-elevate fill">
+                                        <details>
+                                            <summary class="none">
+                                                <div class="row">
+                                                    <div class="max">
+                                                        <h5 :class="item.MontantTotal < 0 ? 'red-text' : ''" x-text="item.RaisonSociale"></h5>
+                                                    </div>
+                                                    <i>arrow_drop_down</i>
+                                                </div>
+                                            </summary>
+                                            <div>
+                                                <br>
+                                                <p>Siren <span x-text="item.NumSiren"></span></p>
+                                                <p><span x-text="item.NombreTransactions"></span> transaction(s) au total
+                                                </p>
+                                                <h6
+                                                    :class="item.MontantTotal < 0 ? 'red-text' : ''"
+                                                    x-text="new Intl.NumberFormat('fr-FR', { style: 'currency', currency: item.Devise }).format(item.MontantTotal)">
+                                                </h6>
                                             </div>
-                                            <i>arrow_drop_down</i>
-                                        </div>
-                                    </summary>
-                                    <div>
-                                        <br>
-                                        <p>Siren <span x-text="item.NumSiren"></span></p>
-                                        <p><span x-text="item.NombreTransactions"></span> transaction(s) au total
-                                        </p>
-                                        <h6
-                                            :class="item.MontantTotal < 0 ? 'red-text' : ''"
-                                            x-text="new Intl.NumberFormat('fr-FR', { style: 'currency', currency: item.Devise }).format(item.MontantTotal)">
-                                        </h6>
-                                    </div>
-                                </details>
-                            </article>
-                            
-                        </template>
+                                        <button class="btn" @click="console.log('acceptation')">Accepter</button>
+                                    </details>
+                                    </article>
+                                    <br>
+                                </div>
+                            </template>
+                        </div>
+
+                        <!-- Imputs pour créer un marchand temporaire -->
+                        <!-- raisonSociale, siren, currency, numCarte, network, password, idLogin -->
+                        <div x-show="userType == 'admin'">
+
+                            <div class="field label suffix border">
+                                <input type="text" id="socialName" name="socialName" x-model="socialName" required>
+                                <label>Raison sociale</label>
+                            </div>
+
+                            <div class="field label suffix border">
+                                <input type="text" id="siren" name="siren" x-model="siren" required>
+                                <label>Siren</label>
+                            </div>
+
+                            <div class="field label suffix border">
+                                <input type="text" id="currency" name="currency" x-model="currency" required>
+                                <label>Devise</label>
+                            </div>
+
+                            <div class="field label suffix border">
+                                <input type="tel" id="numCard" name="numCard" x-model="numCard" required>
+                                <label>Numéro de carte</label>
+                            </div>
+
+                            <div class="field label suffix border">
+                                <input type="text" id="network" name="network" x-model="network" required>
+                                <label>Réseau</label>
+                            </div>
+
+                            <div class="field label suffix border">
+                                <input type="password" id="password" name="password" x-model="password" required>
+                                <label>Mot de passe</label>
+                            </div>
+
+                            <div class="field label suffix border">
+                                <input type="text" id="idLogin" name="idLogin" x-model="idLogin" required>
+                                <label>Identifiant</label>
+                            </div>
+
+
+                            <button class="responsive no-margin" @click="console.log('création')">Créer</button>
+
+                        </div>
+
                     </div>
 
                         <div x-show="selectedTab == 'merchants'">
@@ -93,7 +142,7 @@
                                                             </h6>
                                                         </div>
                                                         <!-- Ajout du bouton supprimer a droite de l'article -->
-                                                        <button class="error btn" @click=""><i class="material-icons">delete</i></button>
+                                                        <button class="error btn" @click="console.log('salut bg')"><i class="material-icons">delete</i></button>
                                                     </details>
                                                 </article>
                                             </td>

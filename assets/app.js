@@ -195,10 +195,8 @@ document.addEventListener('alpine:init', () => {
             switch (this.selectedTab) {
                 case 'tr':
                     res = await fetch(`/api/?action=treasuryDataTable&numSiren=${this.siren}&raisonSociale=${this.socialName}&date=${this.date}`).then(x => x.json());
-                    console.log(res);
                     if (!res.success) return;
                     this.results = res.data;
-                    console.log(this.results);
 
                     Highcharts.chart('highcharts-histogram-treasury', {
                         chart: {
@@ -349,6 +347,14 @@ document.addEventListener('alpine:init', () => {
         merchantsTemp: [],
         selectedTab: '',
 
+        socialName: '',
+        siren: '',
+        currency: '',
+        numCard: '',
+        network: '',
+        password: '',
+        idLogin: '',
+
         openTab(tabId) {
             this.selectedTab = tabId;
         },
@@ -363,7 +369,6 @@ document.addEventListener('alpine:init', () => {
             
             let res;
             res = await fetch('/api/?action=getAllAcount').then(x => x.json());
-            console.log(res);
             if (!res.success) return;
             this.merchants = res.data;
           
@@ -372,9 +377,6 @@ document.addEventListener('alpine:init', () => {
             if (!resTemp.success) return;
             this.merchantsTemp = resTemp.data;
             */
-
-            console.log(this.merchantsTemp);
-            console.log(this.merchants);
 
         },
 
