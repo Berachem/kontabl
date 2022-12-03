@@ -331,6 +331,7 @@ document.addEventListener('alpine:init', () => {
             const formData = new FormData();
             formData.append('login', this.user);
             formData.append('password', this.password);
+            formData.append('_token', _getToken());
             const res = await fetch('/api/?action=login', {
                 method: 'POST',
                 body: formData
