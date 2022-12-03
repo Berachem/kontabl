@@ -17,7 +17,7 @@ $_SESSION["type"]="admin";
 if (isset($_SESSION["num"]) && ($_SESSION["type"]=="admin")){  
     $cond = array();
 
-    array_push($cond, array(":siren", $_GET["numSiren"]));
+    array_push($cond, array(":siren", $_POST["numSiren"]));
 
     $delete = $db -> q("DELETE FROM `merchant`
     WHERE siren = :siren", $cond);
@@ -37,8 +37,3 @@ if (isset($_SESSION["num"]) && ($_SESSION["type"]=="admin")){
 header('Content-Type: application/json');
 echo json_encode($response, JSON_UNESCAPED_UNICODE);
 echo("test");
-
-
-
-
-?>
