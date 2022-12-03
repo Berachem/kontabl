@@ -123,6 +123,11 @@ CREATE TABLE `merchant_temp` (
   `idLogin` varchar(350) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
+
+INSERT INTO `merchant_temp` (`raisonSociale`, `siren`, `currency`, `numCarte`, `network`, `password`, `idLogin`) VALUES
+('Crous ESIEE', '320367139', 'EUR', '4896', 'VS', '$2y$10$2X7Jh/crzd0glet3rxo2zO5YhvGJteaziD2MvzeQ9yQt/Z27Luhci', 'esiee'),
+('Fouquets Champs-Élysées', '402594006', 'EUR', '2398', 'MC', '$2y$10$v2axLxR16KaF/PzOgwkbhuNKfK3Br2lG3cG0mL0SsGgFqK9Ltouou', 'fouquet');
+
 -- --------------------------------------------------------
 
 --
