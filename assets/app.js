@@ -422,8 +422,6 @@ document.addEventListener('alpine:init', () => {
                 body: formData
             }).then(x => x.json());
 
-            alert(resJson);
-
             if (resJson.error || !resJson.success) {
                 alert(resJson.error || "Une erreur est survenue");
                 return;
@@ -438,7 +436,7 @@ document.addEventListener('alpine:init', () => {
                 this.network = '';
                 this.idLogin = '';
                 this.password = '';
-                this.openTab('merchantsTemp');
+                alert('Le marchand à bien été créé');
             }
         },
 
