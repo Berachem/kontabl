@@ -40,6 +40,7 @@ document.addEventListener('alpine:init', () => {
         unpaidNumber: "",
         results: [],
         transactions: [],
+        transactionsAmountByMonth: [],
         unpaids: [],
         loading: false,
         prevOrderDir: -1,
@@ -173,7 +174,7 @@ document.addEventListener('alpine:init', () => {
 
                 series: [{
                     name: 'Remises',
-                    data: lineRes.montant
+                    data: this.transactionsAmountByMonth
                 }],
 
                 responsive: {
@@ -236,6 +237,14 @@ document.addEventListener('alpine:init', () => {
                         this.transactions = res.data.map(x => {
                             return { ...x, MontantTotal: +(x.Sens + x.MontantTotal) };
                         });
+                        const months = {1: 'Janvier', 2: 'Février', 3: 'Mars', 4: 'Avril', 5: 'Mai', 6: 'Juin', 7: 'Juillet', 8: 'Août', 9: 'Septembre', 10: 'Octobre', 11: 'Novembre', 12: 'Décembre'};
+                        let sumForMonth = 0;
+                        for (let i=1; i<=12; i++) {
+                            sumForMonth = this.transactions.filter(x =>new Date(x.DateTraitement).getMonth()===i-1).map(x => x.MontantTotal).reduce((a, b) => a + b, 0);
+                            console.log("pour le mois ",months[i], "on a ",sumForMonth);
+                            this.transactionsAmountByMonth.push(sumForMonth);
+                        }
+                        console.log(this.transactionsAmountByMonth);
                     }
                     break;
                 case 'im':
@@ -243,7 +252,7 @@ document.addEventListener('alpine:init', () => {
                     if (res.success) {
                         this.unpaids = res.data;
                     }
-                    break;
+                    break; 
             }
             this.loading = false;
         },
