@@ -320,6 +320,7 @@ document.addEventListener('alpine:init', () => {
         },
 
         async logout() {
+            if (!confirm('Voulez-vous vraiment vous déconnecter ?')) return;
             await _logout();
         }
     }));
