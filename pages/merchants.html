@@ -8,14 +8,15 @@
 
             <!-- Title -->
             <div class="medium no-padding left-align top-align hide-print" style="margin-bottom: 12px;">
-                <h4>Gestion des marchands</h4>
+                <h4 x-show="userType != 'user'">Gestion des marchands</h4>
+                <h4 x-show="userType == 'user'">Vos Informations</h4>
             </div>
 
             <p x-show="userType != 'productowner' && userType != 'admin' && userType != 'user'" class="red-text">
                 Vous n'avez pas accès à ces données</p>
 
             <div class="flex" x-show="userType == 'productowner' || userType == 'admin' || userType == 'user'">
-                <article class="no-elevate hide-print">
+                <article class="no-elevate hide-print" x-show="userType != 'user'">
                     <!-- Slider Buttons Section in a table -->
                     <div class="tabs">
                         <a href="javascript:void(0);" :class="selectedTab == 'merchants' ? 'active' : ''"
@@ -31,6 +32,25 @@
                 </article>
 
                 <article class="no-elevate">
+
+                    <div x-show="userType == 'user'">
+                        
+                        <template x-for="(item, i) in merchants" :key="i">
+                            <div x-show="i <= 1">
+                                <h5><span x-text="item.RaisonSociale"></h5>
+                                <br>
+                                <p>Siren: <span x-text="item.NumSiren" class="darkgrey-text"></span></p>
+                                <p>Numeros de carte: <span
+                                    x-text="'**** ' + item.NumCarte + ' ' + item.Network.toUpperCase()"
+                                    class="darkgrey-text"></span></p>
+                                <p>Devise: <span x-text="item.Currency" class="darkgrey-text"></span></p>
+                                <br>
+                                <p>Identifiant de connexion: <span x-text="item.IdLogin" class="darkgrey-text"></span></p>
+                            </div>
+                        </template>
+
+
+                    </div>
 
                     <div x-show="selectedTab == 'merchantsTemp'">
                         <div x-show="userType == 'productowner'">
