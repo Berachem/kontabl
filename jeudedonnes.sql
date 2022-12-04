@@ -38,7 +38,7 @@ CREATE TABLE `admin` (
 --
 
 INSERT INTO `admin` (`idAdmin`, `password`, `name`) VALUES
-('2001458436', '$2y$10$it0cUEoKsJxX1KsTmGkWUOeY7nzgNlB1oFKtmu/22FGdymIioFtxW\n', 'ScrumMaster');
+('2001458436', '$2y$10$YHW.VOePSCB7pz04B7FDhuK4f.kceeMKGJqOlW5oyc5GIxQIsinIO', 'ScrumMaster');
 
 -- --------------------------------------------------------
 
@@ -100,12 +100,12 @@ CREATE TABLE `merchant` (
 --
 
 INSERT INTO `merchant` (`raisonSociale`, `siren`, `currency`, `numCarte`, `network`, `password`, `idLogin`) VALUES
-('Action Contre la faim', '123456789', 'EUR', '5879', 'fr', '$2y$10$yr.XKAmVAxKTpkYHOzN4/uJEnzQz0tRW7zq0.P01w5pvohrgqAoaK', 'action'),
+('Action Contre la faim', '123456789', 'EUR', '5879', 'fr', '$2y$10$wIvqO7K4DK8alKhpDDzVYOXmySi6zvEH80xEc0yQ6lJZsfcURaqoy', 'action'),
 ('Louis Vuitton Services', '347662454', 'USD', '4589', 'MC', '$2y$10$rJJzcYpZ7TPh.uRl2ix7f.umGB3oykXjKFFDIYXI2ZYIY1R40eAaS', 'louisvi'),
-('Leroy Merlin Noisy', '384560942', 'EUR', '7485', 'AE', '$2y$10$bb5LScjly5Y.YtCavNcAmOnvTYDkMm8cJqDjai.JhzynTOwyyvd4m', '7745511214'),
-('Gucci France', '632032348', 'EUR', '9685', 'VS', '$2y$10$ykiEOKAU5d7RkIh6jkXNPe5RxiV.c.y4APmkg.ZCLHJm9DNp3tQMy', 'guccifrance'),
-('McDonald Champs sur Marne', '722003936', 'EUR', '1796', 'VS', '$2y$10$9pm/PQ3lnu11mo57tgjzluOr.KYJdLMEPRU5klHN6zPjgXRGx4tmK', '8755269857'),
-('Burger King', '987654321', 'USD', '8565', 'en', '$2y$10$hNOOjneT/qvL3szZvdCb9.kz0g5VrmZ5U0HThVPGUfvJN4MX00/CC\r\n', 'bk');
+('Leroy Merlin Noisy', '384560942', 'EUR', '7485', 'AE', '$2y$10$eLydEkQ3bS7p3ciLX5kL.OxxOtQR2B782ZylCXBTbsZ7RyyNn4vo6', 'leroy'),
+('Gucci France', '632032348', 'EUR', '9685', 'VS', '$2y$10$rN7DbLVNgXvknxD4HiliXOKHOIhZ88vswLlRvcDsAFFPQtYMnfk.2', 'guccifrance'),
+('McDonald Champs sur Marne', '722003936', 'EUR', '1796', 'VS', '$2y$10$y8XN1Ye0fIknpPV6lpQCAeOE8H2.HrRyFgTYkmvpUr2KIOiUxFNaC', 'mcdo'),
+('Burger King', '987654321', 'USD', '8565', 'en', '$2y$10$0id6ZFNVDu8/gPB8DbmEd.cyJqtPTWk48xYxO.jbq76dY6LgXwSUS', 'bk');
 
 -- --------------------------------------------------------
 
