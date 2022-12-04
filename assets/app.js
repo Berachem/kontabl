@@ -360,9 +360,50 @@ document.addEventListener('alpine:init', () => {
         network: '',
         password: '',
         idLogin: '',
+        invalidCardNumber: false,
 
         openTab(tabId) {
             this.selectedTab = tabId;
+        },
+
+        _validateCardNumber(number) {
+            var regex = new RegExp("^[0-9]{16}$");
+            if (!regex.test(number))
+                return false;
+            return this._luhnCheck(number);
+        },
+
+        _luhnCheck(val) {
+            var sum = 0;
+            for (var i = 0; i < val.length; i++) {
+                var intVal = parseInt(val.substr(i, 1));
+                if (i % 2 == 0) {
+                    intVal *= 2;
+                    if (intVal > 9) {
+                        intVal = 1 + (intVal % 10);
+                    }
+                }
+                sum += intVal;
+            }
+            return (sum % 10) == 0;
+        },
+
+        processCardNumber() {
+            switch (true) {
+                case /^4/.test(this.numCard):
+                    this.network = 'VS';
+                    break;
+                case /^5[1-5]/.test(this.numCard):
+                    this.network = 'MS';
+                    break;
+                case /^3[47]/.test(this.numCard):
+                    this.network = 'AE';
+                    break;
+                default:
+                    this.network = 'XX';
+                    break;
+            }
+            this.invalidCardNumber = !this._validateCardNumber(this.numCard);
         },
 
         async createMerchantTemp() {
@@ -429,7 +470,7 @@ document.addEventListener('alpine:init', () => {
                 this.merchantsTemp = this.merchantsTemp.filter(x => x.numSiren !== siren);
             }
         },
-        
+
         async acceptMerchantTemp(siren) {
             if (!confirm('Voulez-vous vraiment accepter ce marchand ?')) return;
 
