@@ -2,6 +2,7 @@ const _logout = async () => {
     const res = await fetch('/api/?action=logout').then(x => x.json());
     if (res.success) {
         window.location.href = '/#/login';
+        window.location.reload();
     } else {
         alert("Erreur au moment de la déconnexion");
     }
@@ -39,6 +40,7 @@ document.addEventListener('alpine:init', () => {
         unpaidNumber: "",
         results: [],
         transactions: [],
+        transactionsAmountByMonth: [],
         unpaids: [],
         loading: false,
         prevOrderDir: -1,
@@ -172,7 +174,7 @@ document.addEventListener('alpine:init', () => {
 
                 series: [{
                     name: 'Remises',
-                    data: lineRes.montant
+                    data: this.transactionsAmountByMonth
                 }],
 
                 responsive: {
@@ -235,6 +237,14 @@ document.addEventListener('alpine:init', () => {
                         this.transactions = res.data.map(x => {
                             return { ...x, MontantTotal: +(x.Sens + x.MontantTotal) };
                         });
+                        const months = {1: 'Janvier', 2: 'Février', 3: 'Mars', 4: 'Avril', 5: 'Mai', 6: 'Juin', 7: 'Juillet', 8: 'Août', 9: 'Septembre', 10: 'Octobre', 11: 'Novembre', 12: 'Décembre'};
+                        let sumForMonth = 0;
+                        for (let i=1; i<=12; i++) {
+                            sumForMonth = this.transactions.filter(x =>new Date(x.DateTraitement).getMonth()===i-1).map(x => x.MontantTotal).reduce((a, b) => a + b, 0);
+                            console.log("pour le mois ",months[i], "on a ",sumForMonth);
+                            this.transactionsAmountByMonth.push(sumForMonth);
+                        }
+                        console.log(this.transactionsAmountByMonth);
                     }
                     break;
                 case 'im':
@@ -242,7 +252,7 @@ document.addEventListener('alpine:init', () => {
                     if (res.success) {
                         this.unpaids = res.data;
                     }
-                    break;
+                    break; 
             }
             this.loading = false;
         },
@@ -360,9 +370,50 @@ document.addEventListener('alpine:init', () => {
         network: '',
         password: '',
         idLogin: '',
+        invalidCardNumber: false,
 
         openTab(tabId) {
             this.selectedTab = tabId;
+        },
+
+        _validateCardNumber(number) {
+            var regex = new RegExp("^[0-9]{16}$");
+            if (!regex.test(number))
+                return false;
+            return this._luhnCheck(number);
+        },
+
+        _luhnCheck(val) {
+            var sum = 0;
+            for (var i = 0; i < val.length; i++) {
+                var intVal = parseInt(val.substr(i, 1));
+                if (i % 2 == 0) {
+                    intVal *= 2;
+                    if (intVal > 9) {
+                        intVal = 1 + (intVal % 10);
+                    }
+                }
+                sum += intVal;
+            }
+            return (sum % 10) == 0;
+        },
+
+        processCardNumber() {
+            switch (true) {
+                case /^4/.test(this.numCard):
+                    this.network = 'VS';
+                    break;
+                case /^5[1-5]/.test(this.numCard):
+                    this.network = 'MS';
+                    break;
+                case /^3[47]/.test(this.numCard):
+                    this.network = 'AE';
+                    break;
+                default:
+                    this.network = 'XX';
+                    break;
+            }
+            this.invalidCardNumber = !this._validateCardNumber(this.numCard);
         },
 
         async createMerchantTemp() {
@@ -381,8 +432,6 @@ document.addEventListener('alpine:init', () => {
                 body: formData
             }).then(x => x.json());
 
-            alert(resJson);
-
             if (resJson.error || !resJson.success) {
                 alert(resJson.error || "Une erreur est survenue");
                 return;
@@ -397,7 +446,7 @@ document.addEventListener('alpine:init', () => {
                 this.network = '';
                 this.idLogin = '';
                 this.password = '';
-                this.openTab('merchantsTemp');
+                alert('Le marchand à bien été créé');
             }
         },
 
@@ -429,7 +478,7 @@ document.addEventListener('alpine:init', () => {
                 this.merchantsTemp = this.merchantsTemp.filter(x => x.numSiren !== siren);
             }
         },
-        
+
         async acceptMerchantTemp(siren) {
             if (!confirm('Voulez-vous vraiment accepter ce marchand ?')) return;
 
