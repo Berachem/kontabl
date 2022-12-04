@@ -292,7 +292,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <template x-for="unpaid in unpaids.slice((page - 1) * rowsCount, page * rowsCount)"
+                                    <template x-for="unpaid in unpaids.slice((page - 1) * 8, page * 8)"
                                         :key="unpaid.numDossierImpayé">
                                         <tr tabindex="0" role="button" @click="loadDetailsForSiren(unpaid.NumSiren)"
                                             @keyup.enter="loadDetailsForSiren(unpaid.NumSiren)">
@@ -309,7 +309,7 @@
                             </table>
                             <p>
                                 Page <input type="number" x-model="page" style="all: unset; width: 30px;">
-                                Afficher <input type="number" x-model="rowsCount" style="all: unset; width: 30px;">
+                                Afficher <input type="number" x-model="rowsCount" value="8" style="all: unset; width: 30px;" >
                                 lignes par page
                                 <span x-text="unpaids.length"></span> résultat(s)
                             </p>
