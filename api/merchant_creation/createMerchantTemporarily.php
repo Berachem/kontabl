@@ -101,6 +101,7 @@ if (isset($_SESSION['type']) && $_SESSION['type']== 'admin'){
                     // if response is not set
                     if (!isset($response)){
                         // add the merchant to the temporary table
+                        $_POST['numCarte'] = substr($_POST['numCarte'], -4);
                         $param = array(
                             array(':raisonSociale',$_POST['raisonSociale'],PDO::PARAM_STR),
                             array(':siren',$_POST['siren'],PDO::PARAM_STR),
