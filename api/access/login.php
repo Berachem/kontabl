@@ -37,12 +37,12 @@ if ((!isset($_POST['login'])) || (!isset($_POST['password']))) {
 
     // si c'est un utilisateur
     if ($users && password_verify($password, $users[0]->password)) {
-        $_SESSION['num'] = $users[0]->idLogin;
+        $_SESSION['num'] = $users[0]->siren;
         $_SESSION['type'] = "user";
         $response = [
             "success" => true,
             "id" => $users[0]->idLogin,
-            "type" => 'utilisateur'
+            "type" => "user"
         ];
     }
     // sinon si c'est un admin

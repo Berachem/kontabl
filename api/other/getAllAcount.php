@@ -28,7 +28,7 @@ if (isset($_SESSION["num"]) && ($_SESSION["type"] == "productowner")) {
         "success" => true,
         "data" => $data
     );
-} else if (isset($_SESSION["num"]) && ($_SESSION["type"] == "utilisateur")) {
+} else if (isset($_SESSION["num"]) && ($_SESSION["type"] == "user")) {
     $users = $db->q("SELECT raisonSociale, siren, currency, network, numCarte, idLogin FROM merchant WHERE siren =" . $_SESSION["num"] . ";");
 
     $data = array();

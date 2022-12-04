@@ -30,13 +30,13 @@ if (isset($_SESSION["num"]) && $_SESSION["type"]=="user"){
     $dateDebut = isset($_GET["dateDebut"]) ? $_GET["dateDebut"] : null;
     $dateFin = isset($_GET["dateFin"]) ? $_GET["dateFin"] : null;
 
-    $sql = "SELECT raisonSociale, siren, transaction.currency, COUNT(siren) AS nbTransaction FROM merchant JOIN transaction ON numSiren = siren WHERE idLogin = :idLogin";
+    $sql = "SELECT raisonSociale, siren, transaction.currency, COUNT(siren) AS nbTransaction FROM merchant JOIN transaction ON numSiren = siren WHERE siren = :siren";
 
-    $sqlnegative = "SELECT SUM(amount) AS totalAmount FROM merchant JOIN transaction ON numSiren = siren JOIN discount ON discount.numTransaction = idTransaction WHERE idLogin = :idLogin AND sens = '-'";
-    $sqlpositive = "SELECT SUM(amount) AS totalAmount FROM merchant JOIN transaction ON numSiren = siren JOIN discount ON discount.numTransaction = idTransaction WHERE idLogin = :idLogin AND sens = '+'";
+    $sqlnegative = "SELECT SUM(amount) AS totalAmount FROM merchant JOIN transaction ON numSiren = siren JOIN discount ON discount.numTransaction = idTransaction WHERE siren = :siren AND sens = '-'";
+    $sqlpositive = "SELECT SUM(amount) AS totalAmount FROM merchant JOIN transaction ON numSiren = siren JOIN discount ON discount.numTransaction = idTransaction WHERE siren = :siren AND sens = '+'";
 
     $cond = array(
-        array(":idLogin", $numSiren)
+        array(":siren", $numSiren)
     );
     if ($dateDebut){
         $sql .= " AND dateTransaction < :date";
@@ -62,8 +62,8 @@ if (isset($_SESSION["num"]) && $_SESSION["type"]=="user"){
     if ($result){
         $result = $result[0]; // pour avoir la data 
         $responseData = array(array(
+            "NumSiren" => $result->siren,
             "RaisonSociale" => $result->raisonSociale,
-            "numSiren" => $result->siren,
             "Devise" => $result->currency,
             "NombreTransaction" => $result->nbTransaction,
             "MontantTotal" => $resultpositive[0]->totalAmount-$resultnegative[0]->totalAmount,

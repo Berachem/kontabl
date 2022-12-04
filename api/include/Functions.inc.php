@@ -14,7 +14,7 @@ function getSirenList()
         return $sirenList;
     } else {
         // return his own siren
-        $sql = "SELECT * FROM merchant WHERE idLogin = :idLogin";
+        $sql = "SELECT * FROM merchant WHERE siren = :idLogin";
         $cond = array(
             array(":idLogin", $_SESSION['num'])
         );

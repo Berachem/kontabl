@@ -29,6 +29,8 @@ GET:
     ]
 */
 
+
+
 include("include/Functions.inc.php");
 
 if(isset($_SESSION['num'])){
@@ -61,7 +63,8 @@ if(isset($_SESSION['num'])){
 
         $response = array(
             "success" => true,
-            "data" => $data
+            "data" => $data,
+            "siren" => $numSiren,
         );
 } else{
     $response = [
