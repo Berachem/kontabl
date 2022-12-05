@@ -40,7 +40,6 @@ document.addEventListener('alpine:init', () => {
         unpaidNumber: "",
         results: [],
         transactions: [],
-        transactionsAmountByMonth: [],
         unpaids: [],
         loading: false,
         prevOrderDir: -1,
@@ -138,60 +137,6 @@ document.addEventListener('alpine:init', () => {
             const lineRes = await fetch('/api/?action=graphics').then(x => x.json());
             const monthsNames = ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"];
             if (!lineRes.success) return;
-            Highcharts.chart('highcharts-line-discounts', {
-
-                title: {
-                    text: ''
-                },
-
-                yAxis: {
-                    title: {
-                        text: 'Montant total par mois'
-                    }
-                },
-
-                xAxis: {
-                    accessibility: {
-                        rangeDescription: 'Mois'
-                    },
-                    categories: lineRes.mois.map(x => x = monthsNames[parseInt(x) - 1])
-                },
-
-                legend: {
-                    layout: 'vertical',
-                    align: 'right',
-                    verticalAlign: 'middle'
-                },
-
-                plotOptions: {
-                    series: {
-                        label: {
-                            connectorAllowed: false
-                        },
-                        pointStart: 0
-                    }
-                },
-
-                series: [{
-                    name: 'Remises',
-                    data: this.transactionsAmountByMonth
-                }],
-
-                responsive: {
-                    rules: [{
-                        condition: {
-                            maxWidth: 500
-                        },
-                        chartOptions: {
-                            legend: {
-                                layout: 'horizontal',
-                                align: 'center',
-                                verticalAlign: 'bottom'
-                            }
-                        }
-                    }]
-                }
-            });
         },
 
         async search() {
@@ -232,12 +177,11 @@ document.addEventListener('alpine:init', () => {
                     break;
                 case 're':
                     res = await fetch(`/api/?action=discountDataTable&date_debut=${this.dateAfter}&date_fin=${this.dateBefore}&numRemise=${this.numDiscount}`).then(x => x.json());
+                    const transactionsAmountByMonth = [];
                     if (res.success) {
-                        this.transactionsAmountByMonth = [];
                         this.transactions = res.data.map(x => {
                             return { ...x, MontantTotal: +(x.Sens + x.MontantTotal) };
                         });
-                        const months = { 1: 'Janvier', 2: 'Février', 3: 'Mars', 4: 'Avril', 5: 'Mai', 6: 'Juin', 7: 'Juillet', 8: 'Août', 9: 'Septembre', 10: 'Octobre', 11: 'Novembre', 12: 'Décembre' };
                         let sumForMonth = 0;
                         for (let i = 1; i <= 12; i++) {
                             sumForMonth = this.transactions
@@ -245,9 +189,66 @@ document.addEventListener('alpine:init', () => {
                                     .getMonth() === i - 1)
                                 .map(x => x.MontantTotal)
                                 .reduce((a, b) => a + b, 0);
-                            this.transactionsAmountByMonth.push(sumForMonth);
+                            transactionsAmountByMonth.push(sumForMonth);
                         }
                     }
+
+                    const months = ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'];
+
+                    Highcharts.chart('highcharts-line-discounts', {
+
+                        title: {
+                            text: ''
+                        },
+
+                        yAxis: {
+                            title: {
+                                text: 'Montant total par mois'
+                            }
+                        },
+
+                        xAxis: {
+                            accessibility: {
+                                rangeDescription: 'Mois'
+                            },
+                            categories: months
+                        },
+
+                        legend: {
+                            layout: 'vertical',
+                            align: 'right',
+                            verticalAlign: 'middle'
+                        },
+
+                        plotOptions: {
+                            series: {
+                                label: {
+                                    connectorAllowed: false
+                                },
+                                pointStart: 0
+                            }
+                        },
+
+                        series: [{
+                            name: 'Remises',
+                            data: transactionsAmountByMonth
+                        }],
+
+                        responsive: {
+                            rules: [{
+                                condition: {
+                                    maxWidth: 500
+                                },
+                                chartOptions: {
+                                    legend: {
+                                        layout: 'horizontal',
+                                        align: 'center',
+                                        verticalAlign: 'bottom'
+                                    }
+                                }
+                            }]
+                        }
+                    });
                     break;
                 case 'im':
                     res = await fetch(`/api/?action=unPaidDiscountDataTable&date_debut=${this.dateAfter}&date_fin=${this.dateBefore}&numDossierImpaye=${this.unpaidNumber}`).then(x => x.json());
