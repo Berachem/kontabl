@@ -105,7 +105,7 @@ INSERT INTO `merchant` (`raisonSociale`, `siren`, `currency`, `numCarte`, `netwo
 ('Leroy Merlin Noisy', '384560942', 'EUR', '7485', 'AE', '$2y$10$eLydEkQ3bS7p3ciLX5kL.OxxOtQR2B782ZylCXBTbsZ7RyyNn4vo6', 'leroy'),
 ('Gucci France', '632032348', 'EUR', '9685', 'VS', '$2y$10$rN7DbLVNgXvknxD4HiliXOKHOIhZ88vswLlRvcDsAFFPQtYMnfk.2', 'guccifrance'),
 ('McDonald Champs sur Marne', '722003936', 'EUR', '1796', 'VS', '$2y$10$y8XN1Ye0fIknpPV6lpQCAeOE8H2.HrRyFgTYkmvpUr2KIOiUxFNaC', 'mcdo'),
-('Burger King', '987654321', 'USD', '8565', 'en', '$2y$10$0id6ZFNVDu8/gPB8DbmEd.cyJqtPTWk48xYxO.jbq76dY6LgXwSUS', 'bk');
+('Burger King', '987654321', 'USD', '8565', 'AE', '$2y$10$0id6ZFNVDu8/gPB8DbmEd.cyJqtPTWk48xYxO.jbq76dY6LgXwSUS', 'bk');
 
 -- --------------------------------------------------------
 
