@@ -39,20 +39,24 @@ if ((!isset($_POST['login'])) || (!isset($_POST['password']))) {
     if ($users && password_verify($password, $users[0]->password)) {
         $_SESSION['num'] = $users[0]->siren;
         $_SESSION['type'] = "user";
+
         $response = [
             "success" => true,
             "id" => $users[0]->idLogin,
-            "type" => "user"
+            "type" => "user",
+            "name" => $users[0]->raisonSociale
         ];
     }
     // sinon si c'est un admin
     else if ($admin && password_verify($password, $admin[0]->password)) {
         $_SESSION['num'] = $admin[0]->idAdmin;
         $_SESSION['type'] = "admin";
+        
         $response = [
             "success" => true,
             "id" => $admin[0]->idAdmin,
-            "type" => 'admin'
+            "type" => 'admin',
+            "name" => $admin[0]->name
         ];
     }
     // sinon si c'est un Product Owner
@@ -62,7 +66,8 @@ if ((!isset($_POST['login'])) || (!isset($_POST['password']))) {
         $response = [
             "success" => true,
             "id" => $productowner[0]->idProductowner,
-            "type" => 'productowner'
+            "type" => 'productowner',
+            "name" => $productowner[0]->name
         ];
     }
     // SINON -> cas incorrect

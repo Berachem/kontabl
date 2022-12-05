@@ -28,6 +28,7 @@ const _downloadBlob = (blob, filename) => {
 
 document.addEventListener('alpine:init', () => {
     Alpine.data('search', ($router) => ({
+        name : localStorage.getItem('name'),
         userType: localStorage.getItem('userType'),
         selectedTab: '',
         sirenNumbers: [],
@@ -95,44 +96,7 @@ document.addEventListener('alpine:init', () => {
 
             const pieRes = await fetch('/api/?action=graphicsLabels').then(x => x.json());
             if (!pieRes.success) return;
-            const data = [];
-            Object.keys(pieRes.data).forEach(function (key) {
-                data.push({ name: key, y: pieRes.data[key] });
-            });
-            Highcharts.chart('highcharts-pie-unpaids', {
-                chart: {
-                    plotBackgroundColor: null,
-                    plotBorderWidth: null,
-                    plotShadow: false,
-                    type: 'pie'
-                },
-                title: {
-                    text: ''
-                },
-                tooltip: {
-                    pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
-                },
-                accessibility: {
-                    point: {
-                        valueSuffix: '%'
-                    }
-                },
-                plotOptions: {
-                    pie: {
-                        allowPointSelect: true,
-                        cursor: 'pointer',
-                        dataLabels: {
-                            enabled: true,
-                            format: '<b>{point.name}</b>: {point.percentage:.1f} %'
-                        }
-                    }
-                },
-                series: [{
-                    name: 'Motifs impayés',
-                    colorByPoint: true,
-                    data
-                }]
-            });
+
 
             const lineRes = await fetch('/api/?action=graphics').then(x => x.json());
             const monthsNames = ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"];
@@ -228,6 +192,9 @@ document.addEventListener('alpine:init', () => {
                                 pointStart: 0
                             }
                         },
+                        credits: {
+                            enabled: false
+                        },
 
                         series: [{
                             name: 'Remises',
@@ -254,7 +221,100 @@ document.addEventListener('alpine:init', () => {
                     res = await fetch(`/api/?action=unPaidDiscountDataTable&date_debut=${this.dateAfter}&date_fin=${this.dateBefore}&numDossierImpaye=${this.unpaidNumber}`).then(x => x.json());
                     if (res.success) {
                         this.unpaids = res.data;
+
+                        // LibImpayé PIE CHART
+                        let unpaidReasons = res.data.map(x => x.LibImpayé);
+                        var unpaidReasonsOccurences = {};
+                        for (var i=0; i < unpaidReasons.length; i++) {
+                            unpaidReasonsOccurences[unpaidReasons[i]] = (unpaidReasonsOccurences[unpaidReasons[i]] || 0) +1 ;
+                        }
+                        console.log(unpaidReasonsOccurences);
+
+                        let unpaidReasonsData = [];
+
+                        Object.keys(unpaidReasonsOccurences).forEach(function (key) {
+                            unpaidReasonsData.push({ name: key, y: unpaidReasonsOccurences[key] });
+                        });
+                        console.log(unpaidReasonsData);
+
+                        if (unpaidReasonsData.length > 0) 
+                        Highcharts.chart('highcharts-pie-unpaids-reasons', {
+                            chart: {
+                                plotBackgroundColor: null,
+                                plotBorderWidth: null,
+                                plotShadow: false,
+                                type: 'pie'
+                            },
+                            title: {
+                                text: ''
+                            },
+                            tooltip: {
+                                pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+                            },
+                            accessibility: {
+                                point: {
+                                    valueSuffix: '%'
+                                }
+                            },
+                            plotOptions: {
+                                pie: {
+                                    allowPointSelect: true,
+                                    cursor: 'pointer',
+                                    dataLabels: {
+                                        enabled: true,
+                                        format: '<b>{point.name}</b>: {point.percentage:.1f} %'
+                                    }
+                                }
+                            },
+                            series: [{
+                                name: 'Motifs impayés',
+                                colorByPoint: true,
+                               data : unpaidReasonsData
+                            }],
+                            credits: {
+                                enabled: false
+                            },
+                        });
+
+
+                        // NETWORK CARD TREEMAP
+                        let networkCards = res.data.map(x => x.Reseau);
+                        var networkCardsOccurences = {};
+                        for (var i=0; i < networkCards.length; i++) {
+                            networkCardsOccurences[networkCards[i]] = (networkCardsOccurences[networkCards[i]] || 0) +1 ;
+                        }
+                        console.log(networkCardsOccurences);
+
+                        let networkCardsData = [];
+                        const shortNetworkCardsToLong = {"VS": "Visa", "MC": "MasterCard", "AE": "American Express", "CB": "Carte Bleue", "DC": "Diners Club", "JCB": "JCB", "OT": "Autres"};
+
+                        Object.keys(networkCardsOccurences).forEach(function (key) {
+                            networkCardsData.push({ name: shortNetworkCardsToLong[key], value: networkCardsOccurences[key], colorValue: networkCardsOccurences[key] });
+                        });
+
+
+                        if (networkCardsData.length > 0)
+                        Highcharts.chart('highcharts-treemap-unpaids-networks', {
+                            colorAxis: {
+                                minColor: '#FFFFFF',
+                                maxColor: Highcharts.getOptions().colors[2]
+                            },
+                            series: [{
+                                type: 'treemap',
+                                layoutAlgorithm: 'squarified',
+                                colorByPoint: true,
+                                data: networkCardsData
+                            }],
+                            title: {
+                                text: ''
+                            },
+                            credits: {
+                                enabled: false
+                            },
+                        });
+
                     }
+
                     break;
             }
             this.loading = false;
@@ -353,6 +413,7 @@ document.addEventListener('alpine:init', () => {
             })
                 .then(res => res.json());
             if (res.success) {
+                localStorage.setItem('name', res.name);
                 localStorage.setItem('userType', res.type);
                 $router.push('/');
                 return;

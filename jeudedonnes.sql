@@ -100,7 +100,7 @@ CREATE TABLE `merchant` (
 --
 
 INSERT INTO `merchant` (`raisonSociale`, `siren`, `currency`, `numCarte`, `network`, `password`, `idLogin`) VALUES
-('Action Contre la faim', '123456789', 'EUR', '5879', 'fr', '$2y$10$wIvqO7K4DK8alKhpDDzVYOXmySi6zvEH80xEc0yQ6lJZsfcURaqoy', 'action'),
+('Action Contre la faim', '123456789', 'EUR', '5879', 'AE', '$2y$10$wIvqO7K4DK8alKhpDDzVYOXmySi6zvEH80xEc0yQ6lJZsfcURaqoy', 'action'),
 ('Louis Vuitton Services', '347662454', 'USD', '4589', 'MC', '$2y$10$rJJzcYpZ7TPh.uRl2ix7f.umGB3oykXjKFFDIYXI2ZYIY1R40eAaS', 'louisvi'),
 ('Leroy Merlin Noisy', '384560942', 'EUR', '7485', 'AE', '$2y$10$eLydEkQ3bS7p3ciLX5kL.OxxOtQR2B782ZylCXBTbsZ7RyyNn4vo6', 'leroy'),
 ('Gucci France', '632032348', 'EUR', '9685', 'VS', '$2y$10$rN7DbLVNgXvknxD4HiliXOKHOIhZ88vswLlRvcDsAFFPQtYMnfk.2', 'guccifrance'),

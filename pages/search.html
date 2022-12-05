@@ -15,7 +15,10 @@
             <div class="medium no-padding left-align top-align hide-print" style="margin-bottom: 12px;">
                 <!-- Logo -->
                 <img src="img/logo.png" style="width: 12%; height: 12%; margin-right: 12px; margin-bottom: 12px; float: left;" />
-                <h4>Ravi de vous revoir,</h4>
+                <h4>Ravi de vous revoir <strong x-text="name" style="padding: 5px; color :#1F6D3A"></strong> ,</h4>
+                
+                
+                
             </div>
 
             <div class="flex">
@@ -115,6 +118,11 @@
                                                 <h6 :class="item.MontantTotal < 0 ? 'red-text' : ''"
                                                     x-text="new Intl.NumberFormat('fr-FR', { style: 'currency', currency: item.Devise }).format(item.MontantTotal)">
                                                 </h6>
+                                                <!-- show help button id item.MontantTotal < 0 -->
+                                                <a href="https://www.youtube.com/watch?v=6HIZGewTQjA" class="help" x-show="item.MontantTotal < 0"
+                                                    @click="openHelpModal(item.NumSiren)" target="_blank">
+                                                    <i>help</i> <u> Aide pour gérer votre trésorerie</u>
+                                                </a>
                                             </div>
                                         </details>
                                     </article>
@@ -326,8 +334,12 @@
 
                 <div></div>
                 <article class="no-elevate hide-print" x-show="selectedTab == 'im'">
-                    <div id="highcharts-pie-unpaids"></div>
+                    <div id="highcharts-pie-unpaids-reasons"></div>
+
+                    <div id="highcharts-treemap-unpaids-networks"></div>
                 </article>
+
+
 
                 <article class="no-elevate hide-print" x-show="selectedTab == 're'">
                     <div id="highcharts-line-discounts"></div>
