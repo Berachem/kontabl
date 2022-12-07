@@ -28,7 +28,7 @@ const _downloadBlob = (blob, filename) => {
 
 document.addEventListener('alpine:init', () => {
     Alpine.data('search', ($router) => ({
-        name : localStorage.getItem('name'),
+        name: localStorage.getItem('name'),
         userType: localStorage.getItem('userType'),
         userTypeTitle: localStorage.getItem('userTypeTitle'),
         selectedTab: '',
@@ -62,6 +62,14 @@ document.addEventListener('alpine:init', () => {
 
         loadNetworkImage(code) {
             return '/img/' + code.toUpperCase() + '.png';
+        },
+
+        get discountTransactionsPaginated() {
+            return this.transactions.slice((this.page - 1) * this.rowsCount, this.page * this.rowsCount);
+        },
+
+        get totalOfDiscountsForCurrentPagination() {
+            return this.discountTransactionsPaginated.reduce((acc, x) => acc + x.MontantTotal, 0);
         },
 
         // TODO: Montant total stocké en absolu, ne marche pas avec le tri actuel.
@@ -117,156 +125,156 @@ document.addEventListener('alpine:init', () => {
 
                     // histogramme si c'est un Product Owner
                     if (this.results.length > 1) {
-                            Highcharts.chart('highcharts-histogram-treasury', {
-                                chart: {
-                                    type: 'column',
-                                    height: 600,
-                                },
-                                // set color red for negative values
-                                plotOptions: {
-                                    series: {
-                                        colorByPoint: true,
-                                        colors: [
-                                            '#7cb5ec',
-                                            '#434348',
-                                            '#90ed7d',
-                                            '#f7a35c',
-                                            '#8085e9',
-                                            '#f15c80',
-                                            '#e4d354',
-                                            '#8085e8',
-                                            '#8d4653'],
-                                        dataLabels: {
-                                            enabled: true,
-                                            format: '{point.y:.2f} €'
-                                        }
+                        Highcharts.chart('highcharts-histogram-treasury', {
+                            chart: {
+                                type: 'column',
+                                height: 600,
+                            },
+                            // set color red for negative values
+                            plotOptions: {
+                                series: {
+                                    colorByPoint: true,
+                                    colors: [
+                                        '#7cb5ec',
+                                        '#434348',
+                                        '#90ed7d',
+                                        '#f7a35c',
+                                        '#8085e9',
+                                        '#f15c80',
+                                        '#e4d354',
+                                        '#8085e8',
+                                        '#8d4653'],
+                                    dataLabels: {
+                                        enabled: true,
+                                        format: '{point.y:.2f} €'
                                     }
-                                },
-                                
-                                
+                                }
+                            },
 
 
-                                credits: {
-                                    enabled: false
-                                },
+
+
+                            credits: {
+                                enabled: false
+                            },
+                            title: {
+                                text: ''
+                            },
+                            xAxis: {
+                                categories: res.data.map(x => x.RaisonSociale),
+                                crosshair: true
+                            },
+                            yAxis: {
                                 title: {
                                     text: ''
-                                },
-                                xAxis: {
-                                    categories: res.data.map(x => x.RaisonSociale),
-                                    crosshair: true
-                                },
-                                yAxis: {
-                                    title: {
-                                        text: ''
-                                    }
-                                },
-                                series: [{
-                                    name: 'Montant de la trésorerie',
-                                    data: res.data.map(x => +x.MontantTotal)
-                                    
-                                }]
-                            });
+                                }
+                            },
+                            series: [{
+                                name: 'Montant de la trésorerie',
+                                data: res.data.map(x => +x.MontantTotal)
+
+                            }]
+                        });
                     }
                     // C'est un marchand
-                   else { //if (res.data.length == 1)
+                    else { //if (res.data.length == 1)
 
                         var value = this.results[0].MontantTotal;
                         var currency = this.results[0].Devise;
-                        
-                        
+
+
                         var gaugeOptions = {
                             chart: {
-                              type: 'solidgauge'
+                                type: 'solidgauge'
                             },
-                          
+
                             title: null,
-                          
+
                             pane: {
-                              center: ['50%', '85%'],
-                              size: '140%',
-                              startAngle: -90,
-                              endAngle: 90,
-                              background: {
-                                backgroundColor:
-                                  Highcharts.defaultOptions.legend.backgroundColor || (value > 0 ?'#EEE' : 'red'),
-                                innerRadius: '60%',
-                                outerRadius: '100%',
-                                shape: 'arc'
-                              }
+                                center: ['50%', '85%'],
+                                size: '140%',
+                                startAngle: -90,
+                                endAngle: 90,
+                                background: {
+                                    backgroundColor:
+                                        Highcharts.defaultOptions.legend.backgroundColor || (value > 0 ? '#EEE' : 'red'),
+                                    innerRadius: '60%',
+                                    outerRadius: '100%',
+                                    shape: 'arc'
+                                }
                             },
-                          
+
                             exporting: {
-                              enabled: true
+                                enabled: true
                             },
-                          
+
                             tooltip: {
-                              enabled: true
+                                enabled: true
                             },
-                          
+
                             // the value axis
                             yAxis: {
-                              stops: [
-                                [0.1, 'orange'], // green
-                                [0.5, '#DDDF0D'], // yellow
-                                [0.9, 'green'] // red
-                              ],
-                              lineWidth: 0,
-                              tickWidth: 0,
-                              minorTickInterval: null,
-                              tickAmount: 2,
-                              title: {
-                                y: -70
-                              },
-                              labels: {
-                                y: 16
-                              }
-                            },
-                          
-                            plotOptions: {
-                              solidgauge: {
-                                dataLabels: {
-                                  y: 5,
-                                  borderWidth: 0,
-                                  useHTML: true
+                                stops: [
+                                    [0.1, 'orange'], // green
+                                    [0.5, '#DDDF0D'], // yellow
+                                    [0.9, 'green'] // red
+                                ],
+                                lineWidth: 0,
+                                tickWidth: 0,
+                                minorTickInterval: null,
+                                tickAmount: 2,
+                                title: {
+                                    y: -70
+                                },
+                                labels: {
+                                    y: 16
                                 }
-                              }
+                            },
+
+                            plotOptions: {
+                                solidgauge: {
+                                    dataLabels: {
+                                        y: 5,
+                                        borderWidth: 0,
+                                        useHTML: true
+                                    }
+                                }
                             }
-                          };
-                          
-                          // The speed gauge
-                          var chartSpeed = Highcharts.chart('highcharts-speed-treasury', Highcharts.merge(gaugeOptions, {
+                        };
+
+                        // The speed gauge
+                        var chartSpeed = Highcharts.chart('highcharts-speed-treasury', Highcharts.merge(gaugeOptions, {
                             yAxis: {
-                              min: 0,
-                              max: 5000,
-                              title: {
-                                text: 'Solde'
-                              }
+                                min: 0,
+                                max: 5000,
+                                title: {
+                                    text: 'Solde'
+                                }
                             },
-                          
+
                             credits: {
-                              enabled: false
+                                enabled: false
                             },
-                          
+
                             series: [{
-                              name: 'Montant de la trésorerie',
-                              data: [value],
-                              dataLabels: {
-                                format:
-                                  '<div style="text-align:center">' +
-                                  '<span style="font-size:25px">{y} '+currency+'</span><br/>' +
-                                  '<span style="font-size:12px;opacity:0.4">jauge de votre solde</span>' +
-                                  '</div>'
-                              },
-                              tooltip: {
-                                valueSuffix: ' '+currency
-                              }
+                                name: 'Montant de la trésorerie',
+                                data: [value],
+                                dataLabels: {
+                                    format:
+                                        '<div style="text-align:center">' +
+                                        '<span style="font-size:25px">{y} ' + currency + '</span><br/>' +
+                                        '<span style="font-size:12px;opacity:0.4">jauge de votre solde</span>' +
+                                        '</div>'
+                                },
+                                tooltip: {
+                                    valueSuffix: ' ' + currency
+                                }
                             }]
-                          
-                          }));
-                          
+
+                        }));
+
                     }
-                    
+
                     break;
                 case 're':
                     res = await fetch(`/api/?action=discountDataTable&date_debut=${this.dateAfter}&date_fin=${this.dateBefore}&numRemise=${this.numDiscount}`).then(x => x.json());
@@ -358,8 +366,8 @@ document.addEventListener('alpine:init', () => {
                         // LibImpayé PIE CHART
                         let unpaidReasons = res.data.map(x => x.LibImpayé);
                         var unpaidReasonsOccurences = {};
-                        for (var i=0; i < unpaidReasons.length; i++) {
-                            unpaidReasonsOccurences[unpaidReasons[i]] = (unpaidReasonsOccurences[unpaidReasons[i]] || 0) +1 ;
+                        for (var i = 0; i < unpaidReasons.length; i++) {
+                            unpaidReasonsOccurences[unpaidReasons[i]] = (unpaidReasonsOccurences[unpaidReasons[i]] || 0) + 1;
                         }
                         console.log(unpaidReasonsOccurences);
 
@@ -370,56 +378,56 @@ document.addEventListener('alpine:init', () => {
                         });
                         console.log(unpaidReasonsData);
 
-                        if (unpaidReasonsData.length > 0) 
-                        Highcharts.chart('highcharts-pie-unpaids-reasons', {
-                            chart: {
-                                plotBackgroundColor: null,
-                                plotBorderWidth: null,
-                                plotShadow: false,
-                                type: 'pie'
-                            },
-                            title: {
-                                text: ''
-                            },
-                            tooltip: {
-                                pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
-                            },
-                            accessibility: {
-                                point: {
-                                    valueSuffix: '%'
-                                }
-                            },
-                            plotOptions: {
-                                pie: {
-                                    allowPointSelect: true,
-                                    cursor: 'pointer',
-                                    dataLabels: {
-                                        enabled: true,
-                                        format: '<b>{point.name}</b>: {point.percentage:.1f} %'
+                        if (unpaidReasonsData.length > 0)
+                            Highcharts.chart('highcharts-pie-unpaids-reasons', {
+                                chart: {
+                                    plotBackgroundColor: null,
+                                    plotBorderWidth: null,
+                                    plotShadow: false,
+                                    type: 'pie'
+                                },
+                                title: {
+                                    text: ''
+                                },
+                                tooltip: {
+                                    pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+                                },
+                                accessibility: {
+                                    point: {
+                                        valueSuffix: '%'
                                     }
-                                }
-                            },
-                            series: [{
-                                name: 'Motifs impayés',
-                                colorByPoint: true,
-                               data : unpaidReasonsData
-                            }],
-                            credits: {
-                                enabled: false
-                            },
-                        });
+                                },
+                                plotOptions: {
+                                    pie: {
+                                        allowPointSelect: true,
+                                        cursor: 'pointer',
+                                        dataLabels: {
+                                            enabled: true,
+                                            format: '<b>{point.name}</b>: {point.percentage:.1f} %'
+                                        }
+                                    }
+                                },
+                                series: [{
+                                    name: 'Motifs impayés',
+                                    colorByPoint: true,
+                                    data: unpaidReasonsData
+                                }],
+                                credits: {
+                                    enabled: false
+                                },
+                            });
 
 
                         // NETWORK CARD TREEMAP
                         let networkCards = res.data.map(x => x.Reseau);
                         var networkCardsOccurences = {};
-                        for (var i=0; i < networkCards.length; i++) {
-                            networkCardsOccurences[networkCards[i]] = (networkCardsOccurences[networkCards[i]] || 0) +1 ;
+                        for (var i = 0; i < networkCards.length; i++) {
+                            networkCardsOccurences[networkCards[i]] = (networkCardsOccurences[networkCards[i]] || 0) + 1;
                         }
                         console.log(networkCardsOccurences);
 
                         let networkCardsData = [];
-                        const shortNetworkCardsToLong = {"VS": "Visa", "MC": "MasterCard", "AE": "American Express", "CB": "Carte Bleue", "DC": "Diners Club", "JCB": "JCB", "OT": "Autres"};
+                        const shortNetworkCardsToLong = { "VS": "Visa", "MC": "MasterCard", "AE": "American Express", "CB": "Carte Bleue", "DC": "Diners Club", "JCB": "JCB", "OT": "Autres" };
 
                         Object.keys(networkCardsOccurences).forEach(function (key) {
                             networkCardsData.push({ name: shortNetworkCardsToLong[key], value: networkCardsOccurences[key], colorValue: networkCardsOccurences[key] });
@@ -427,24 +435,24 @@ document.addEventListener('alpine:init', () => {
 
 
                         if (networkCardsData.length > 0)
-                        Highcharts.chart('highcharts-treemap-unpaids-networks', {
-                            colorAxis: {
-                                minColor: '#FFFFFF',
-                                maxColor: Highcharts.getOptions().colors[2]
-                            },
-                            series: [{
-                                type: 'treemap',
-                                layoutAlgorithm: 'squarified',
-                                colorByPoint: true,
-                                data: networkCardsData
-                            }],
-                            title: {
-                                text: ''
-                            },
-                            credits: {
-                                enabled: false
-                            },
-                        });
+                            Highcharts.chart('highcharts-treemap-unpaids-networks', {
+                                colorAxis: {
+                                    minColor: '#FFFFFF',
+                                    maxColor: Highcharts.getOptions().colors[2]
+                                },
+                                series: [{
+                                    type: 'treemap',
+                                    layoutAlgorithm: 'squarified',
+                                    colorByPoint: true,
+                                    data: networkCardsData
+                                }],
+                                title: {
+                                    text: ''
+                                },
+                                credits: {
+                                    enabled: false
+                                },
+                            });
 
                     }
 
@@ -550,9 +558,9 @@ document.addEventListener('alpine:init', () => {
                 localStorage.setItem('userType', res.type);
                 if (res.type === 'user') {
                     localStorage.setItem('userTypeTitle', "Commerçant");
-                }else if (res.type === 'admin') {
+                } else if (res.type === 'admin') {
                     localStorage.setItem('userTypeTitle', "Administrateur");
-                }else if (res.type === 'productowner') {
+                } else if (res.type === 'productowner') {
                     localStorage.setItem('userTypeTitle', "Product Owner");
                 }
 
