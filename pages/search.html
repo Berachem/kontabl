@@ -15,13 +15,15 @@
             <div class="medium no-padding left-align top-align hide-print" style="margin-bottom: 12px;">
                 <!-- Logo -->
                 <img src="img/logo.png" style="width: 12%; height: 12%; margin-right: 12px; margin-bottom: 12px; float: left;" />
-                <h4>Ravi de vous revoir <strong x-text="name" style="padding: 5px; color :#1F6D3A"></strong> ,</h4>
+                <h4>Ravi de vous revoir <strong x-text="name" style="padding: 5px; color :#1F6D3A"></strong>,</h4>
+            
                 
                 
                 
             </div>
-
+            <h6> Vous êtes connecté en tant que <span style="color :#B97A06; padding: 5px;" x-text="userTypeTitle"></span>.</h6> 
             <div class="flex">
+                
                 <article class="no-elevate hide-print">
                     <!-- Slider Buttons Section in a table -->
                     <div class="tabs">
@@ -345,8 +347,8 @@
                 </article>
 
                 <article class="no-elevate hide-print" x-show="selectedTab == 'tr'">
-                    <div id="highcharts-histogram-treasury"></div>
-                    <div id="highcharts-container-speed" class="chart-container" x-show="u"></div>
+                    <div id="highcharts-histogram-treasury" x-show="userType == 'productowner'"></div>
+                    <div id="highcharts-speed-treasury" x-show="userType == 'user'"></div>
                 </article>
                 
 

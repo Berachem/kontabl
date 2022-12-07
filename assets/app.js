@@ -30,6 +30,7 @@ document.addEventListener('alpine:init', () => {
     Alpine.data('search', ($router) => ({
         name : localStorage.getItem('name'),
         userType: localStorage.getItem('userType'),
+        userTypeTitle: localStorage.getItem('userTypeTitle'),
         selectedTab: '',
         sirenNumbers: [],
         siren: "",
@@ -112,37 +113,68 @@ document.addEventListener('alpine:init', () => {
                     res = await fetch(`/api/?action=treasuryDataTable&numSiren=${this.siren}&raisonSociale=${this.socialName}&date=${this.date}`).then(x => x.json());
                     if (!res.success) return;
                     this.results = res.data;
+                    console.log(this.results);
 
-                    Highcharts.chart('highcharts-histogram-treasury', {
-                        chart: {
-                            type: 'column',
-                            height: 600,
-                        },
-                        credits: {
-                            enabled: false
-                        },
-                        title: {
-                            text: ''
-                        },
-                        xAxis: {
-                            categories: res.data.map(x => x.RaisonSociale),
-                            crosshair: true
-                        },
-                        yAxis: {
-                            title: {
-                                text: ''
-                            }
-                        },
-                        series: [{
-                            name: 'Montant de la trésorerie',
-                            data: res.data.map(x => +x.MontantTotal)
-                        }]
-                    });
+                    // histogramme si c'est un Product Owner
+                    if (this.results.length > 1) {
+                            Highcharts.chart('highcharts-histogram-treasury', {
+                                chart: {
+                                    type: 'column',
+                                    height: 600,
+                                },
+                                // set color red for negative values
+                                plotOptions: {
+                                    series: {
+                                        colorByPoint: true,
+                                        colors: [
+                                            '#7cb5ec',
+                                            '#434348',
+                                            '#90ed7d',
+                                            '#f7a35c',
+                                            '#8085e9',
+                                            '#f15c80',
+                                            '#e4d354',
+                                            '#8085e8',
+                                            '#8d4653'],
+                                        dataLabels: {
+                                            enabled: true,
+                                            format: '{point.y:.2f} €'
+                                        }
+                                    }
+                                },
+                                
+                                
 
-                    // jauge 
-                    if (res.data.length == 0){
-                        value = res.data[0].MontantTotal;
 
+                                credits: {
+                                    enabled: false
+                                },
+                                title: {
+                                    text: ''
+                                },
+                                xAxis: {
+                                    categories: res.data.map(x => x.RaisonSociale),
+                                    crosshair: true
+                                },
+                                yAxis: {
+                                    title: {
+                                        text: ''
+                                    }
+                                },
+                                series: [{
+                                    name: 'Montant de la trésorerie',
+                                    data: res.data.map(x => +x.MontantTotal)
+                                    
+                                }]
+                            });
+                    }
+                    // C'est un marchand
+                   else { //if (res.data.length == 1)
+
+                        var value = this.results[0].MontantTotal;
+                        var currency = this.results[0].Devise;
+                        
+                        
                         var gaugeOptions = {
                             chart: {
                               type: 'solidgauge'
@@ -165,11 +197,11 @@ document.addEventListener('alpine:init', () => {
                             },
                           
                             exporting: {
-                              enabled: false
+                              enabled: true
                             },
                           
                             tooltip: {
-                              enabled: false
+                              enabled: true
                             },
                           
                             // the value axis
@@ -203,7 +235,7 @@ document.addEventListener('alpine:init', () => {
                           };
                           
                           // The speed gauge
-                          var chartSpeed = Highcharts.chart('container-speed', Highcharts.merge(gaugeOptions, {
+                          var chartSpeed = Highcharts.chart('highcharts-speed-treasury', Highcharts.merge(gaugeOptions, {
                             yAxis: {
                               min: 0,
                               max: 5000,
@@ -217,83 +249,22 @@ document.addEventListener('alpine:init', () => {
                             },
                           
                             series: [{
-                              name: 'Speed',
+                              name: 'Montant de la trésorerie',
                               data: [value],
                               dataLabels: {
                                 format:
                                   '<div style="text-align:center">' +
-                                  '<span style="font-size:25px">{y}</span><br/>' +
+                                  '<span style="font-size:25px">{y} '+currency+'</span><br/>' +
                                   '<span style="font-size:12px;opacity:0.4">jauge de votre solde</span>' +
                                   '</div>'
                               },
                               tooltip: {
-                                valueSuffix: ' km/h'
+                                valueSuffix: ' '+currency
                               }
                             }]
                           
                           }));
                           
-                          // The RPM gauge
-                          var chartRpm = Highcharts.chart('container-rpm', Highcharts.merge(gaugeOptions, {
-                            yAxis: {
-                              min: 0,
-                              max: 5,
-                              title: {
-                                text: 'RPM'
-                              }
-                            },
-                          
-                            series: [{
-                              name: 'RPM',
-                              data: [1],
-                              dataLabels: {
-                                format:
-                                  '<div style="text-align:center">' +
-                                  '<span style="font-size:25px">{y:.1f}</span><br/>' +
-                                  '<span style="font-size:12px;opacity:0.4">' +
-                                  '* 1000 / min' +
-                                  '</span>' +
-                                  '</div>'
-                              },
-                              tooltip: {
-                                valueSuffix: ' revolutions/min'
-                              }
-                            }]
-                          
-                          }));
-                          
-                          // Bring life to the dials
-                          setInterval(function () {
-                            // Speed
-                            var point,
-                              newVal,
-                              inc;
-                          
-                            if (chartSpeed) {
-                              point = chartSpeed.series[0].points[0];
-                              inc = Math.round((Math.random() - 0.5) * 100);
-                              newVal = point.y + inc;
-                          
-                              if (newVal < 0 || newVal > 200) {
-                                newVal = point.y - inc;
-                              }
-                          
-                              point.update(newVal);
-                            }
-                          
-                            // RPM
-                            if (chartRpm) {
-                              point = chartRpm.series[0].points[0];
-                              inc = Math.random() - 0.5;
-                              newVal = point.y + inc;
-                          
-                              if (newVal < 0 || newVal > 5) {
-                                newVal = point.y - inc;
-                              }
-                          
-                              point.update(newVal);
-                            }
-                          }, 50000);
                     }
                     
                     break;
@@ -318,11 +289,12 @@ document.addEventListener('alpine:init', () => {
                     const months = ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'];
 
                     Highcharts.chart('highcharts-line-discounts', {
-
+                        chart: {
+                            type: 'spline'
+                        },
                         title: {
                             text: ''
                         },
-
                         yAxis: {
                             title: {
                                 text: 'Montant total par mois'
@@ -347,7 +319,10 @@ document.addEventListener('alpine:init', () => {
                                 label: {
                                     connectorAllowed: false
                                 },
-                                pointStart: 0
+                                pointStart: 0,
+                                // set color red for negative values
+                                colorByPoint: true,
+
                             }
                         },
                         credits: {
@@ -573,6 +548,14 @@ document.addEventListener('alpine:init', () => {
             if (res.success) {
                 localStorage.setItem('name', res.name);
                 localStorage.setItem('userType', res.type);
+                if (res.type === 'user') {
+                    localStorage.setItem('userTypeTitle', "Commerçant");
+                }else if (res.type === 'admin') {
+                    localStorage.setItem('userTypeTitle', "Administrateur");
+                }else if (res.type === 'productowner') {
+                    localStorage.setItem('userTypeTitle', "Product Owner");
+                }
+
                 $router.push('/');
                 return;
             }
