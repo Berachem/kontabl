@@ -97,11 +97,6 @@ document.addEventListener('alpine:init', () => {
 
             this.openTab('tr');
 
-            const res = await fetch('/api/?action=treasuryDataTable').then(x => x.json());
-            if (res.success) {
-                this.sirenNumbers = res.data.map(x => x.NumSiren);
-            }
-
             const pieRes = await fetch('/api/?action=graphicsLabels').then(x => x.json());
             if (!pieRes.success) return;
 
@@ -120,7 +115,10 @@ document.addEventListener('alpine:init', () => {
                     res = await fetch(`/api/?action=treasuryDataTable&numSiren=${this.siren}&raisonSociale=${this.socialName}&date=${this.date}`).then(x => x.json());
                     if (!res.success) return;
                     this.results = res.data;
-                    console.log(this.results);
+
+                    if (this.sirenNumbers.length === 0) {
+                        this.sirenNumbers = res.data.map(x => x.NumSiren);
+                    }
 
                     // histogramme si c'est un Product Owner
                     if (this.results.length > 1) {
