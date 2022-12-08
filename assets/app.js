@@ -567,6 +567,8 @@ document.addEventListener('alpine:init', () => {
                 $router.push('/');
                 return;
             }
+            this.user = "";
+            this.password = "";
             this.errMsg = res.error || "";
         }
     }));
