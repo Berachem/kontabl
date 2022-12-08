@@ -1,13 +1,13 @@
 <div x-data="login($router)">
     <!-- Body -->
-    <div class="body">        
-        
+    <div class="body">
+
         <div class="login">
 
             <div class="main">
-            
+
                 <img src="img/logo.png" style="width: 35%; margin-left: -7px;" alt="Kontabl">
-        
+
                 <!-- Main -->
                 <form class="main" @submit.prevent="login">
 
@@ -26,13 +26,16 @@
                     <div class="field label suffix fill large">
                         <input x-bind:type="inputType" x-model="password" autocomplete="current-password" required>
                         <label>Password</label>
-                        <a href="javascript:void(0);" @click="inputType = inputType == 'password' ? 'text' : 'password'">
+                        <a href="javascript:void(0);"
+                            @click="inputType = inputType == 'password' ? 'text' : 'password'">
                             <p class="max center-align">Voir mot de passe <i>visibility</i></p>
                         </a>
                     </div>
                     <!-- Bouton connexion -->
                     <br>
-                    <button class="responsive no-margin">M'identifier</button>
+                    <button class="responsive no-margin" :disabled="!turnstileLoaded || sending">M'identifier</button>
+
+                    <div class="cf-turnstile"></div>
 
                     <article x-show="errMsg" class="no-elevate error">
                         <span x-text="errMsg"></span>

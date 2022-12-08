@@ -1,5 +1,39 @@
 <?php
-// include "include/Connexion.inc.php"; //à utiliser si on le test indépendament
+
+$url_path = 'https://challenges.cloudflare.com/turnstile/v0/siteverify';
+$data = [
+    'secret' => getenv('TURNSTILE_SECRET'),
+    'response' => $_POST['turnstileToken'] ?? "",
+    'remoteip' => $_SERVER['REMOTE_ADDR']
+];
+
+$options = array(
+    'http' => array(
+        'method' => 'POST',
+        'content' => http_build_query($data),
+        'header' => "Content-Type: application/x-www-form-urlencoded"
+    )
+);
+
+$stream = stream_context_create($options);
+
+$body = file_get_contents(
+    $url_path,
+    false,
+    $stream
+);
+
+$response = json_decode($body, true);
+
+if ($response['success'] == false) {
+    header("Content-Type: application/json");
+    echo json_encode([
+        "success" => false,
+        "error" => "Erreur captcha"
+    ]);
+    exit;
+}
+
 
 if (!isset($_SESSION["nbtry"])) {
     $_SESSION["nbtry"] = 3;
@@ -51,7 +85,7 @@ if ((!isset($_POST['login'])) || (!isset($_POST['password']))) {
     else if ($admin && password_verify($password, $admin[0]->password)) {
         $_SESSION['num'] = $admin[0]->idAdmin;
         $_SESSION['type'] = "admin";
-        
+
         $response = [
             "success" => true,
             "id" => $admin[0]->idAdmin,

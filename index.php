@@ -92,7 +92,8 @@ $_SESSION['_token'] = $_token;
     <script src="https://cdn.jsdelivr.net/npm/highcharts@10.3.1/modules/exporting.js" integrity="sha256-6cXCKCEbp8pKmzW/yTM+2BO70rhH1MYnqBksQYraMN4=" crossorigin="anonymous"></script>
     <script src="https://code.highcharts.com/modules/export-data.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/highcharts@10.3.1/modules/accessibility.js" integrity="sha256-9aA/NBPNmcqEKb6Wn5HJdKz4wOAYpuryXRbsNx87NtI=" crossorigin="anonymous"></script>
-    
+    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit&onload=onloadTurnstileCallback" async defer></script>
+
 </body>
 
 </html>

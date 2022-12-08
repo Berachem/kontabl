@@ -56,10 +56,6 @@ class Connexion {
 
 
 }
-use Kontabl\DotEnv;
-
-include "lib/parse.env.php";
-(new DotEnv(__DIR__ . '/../../.env'))->load();
 // mysql:host=localhost;dbname=test;
 
 
@@ -78,5 +74,3 @@ $DB->q(
 		)
 	);
 */
-
-?>

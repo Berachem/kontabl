@@ -1,5 +1,10 @@
 <?php
 
+use Kontabl\DotEnv;
+
+include "lib/parse.env.php";
+(new DotEnv(__DIR__ . '/../.env'))->load();
+
 // faire tous les imports ici
 // permet de ne pas avoir à les faire dans chaque fichier
 session_start();

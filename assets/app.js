@@ -529,6 +529,8 @@ document.addEventListener('alpine:init', () => {
     }));
 
     Alpine.data('login', ($router) => ({
+        turnstileLoaded: false,
+        sending: false,
         errMsg: "",
         user: "",
         password: "",
@@ -539,14 +541,33 @@ document.addEventListener('alpine:init', () => {
             if (urlParams.has('reqauth')) {
                 this.errMsg = "Vous devez vous connecter pour accéder à cette page";
             }
+
+            setInterval(() => {
+                this.turnstileLoaded = !!window.turnstile;
+            }, 1000);
         },
 
         async login() {
+            this.sending = true;
+            window.turnstile.render('.cf-turnstile', {
+                sitekey: '0x4AAAAAAABhUS_rVuucp3jB',
+                callback: (turnstileToken) => {
+                    this._login(turnstileToken);
+                },
+                "error-callback": () => {
+                    this.errMsg = "Erreur de vérification";
+                    this.sending = false;
+                }
+            });
+        },
+
+        async _login(turnstileToken) {
             // send data via POST params
             const formData = new FormData();
             formData.append('login', this.user);
             formData.append('password', this.password);
             formData.append('_token', _getToken());
+            formData.append('turnstileToken', turnstileToken);
             const res = await fetch('/api/?action=login', {
                 method: 'POST',
                 body: formData
