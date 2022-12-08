@@ -556,14 +556,16 @@ document.addEventListener('alpine:init', () => {
                 localStorage.setItem('name', res.name);
                 localStorage.setItem('userType', res.type);
                 if (res.type === 'user') {
+                    $router.push('/');
                     localStorage.setItem('userTypeTitle', "Commerçant");
                 } else if (res.type === 'admin') {
+                    $router.push('/merchants');
                     localStorage.setItem('userTypeTitle', "Administrateur");
                 } else if (res.type === 'productowner') {
+                    $router.push('/');
                     localStorage.setItem('userTypeTitle', "Product Owner");
                 }
 
-                $router.push('/');
                 return;
             }
             this.user = "";
