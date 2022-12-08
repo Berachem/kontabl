@@ -64,15 +64,14 @@ document.addEventListener('alpine:init', () => {
             return '/img/' + code.toUpperCase() + '.png';
         },
 
-        get discountTransactionsPaginated() {
-            return this.transactions.slice((this.page - 1) * this.rowsCount, this.page * this.rowsCount);
+        paginate(array) {
+            return array.slice((this.page - 1) * this.rowsCount, this.page * this.rowsCount);
         },
 
-        get totalOfDiscountsForCurrentPagination() {
-            return this.discountTransactionsPaginated.reduce((acc, x) => acc + x.MontantTotal, 0);
+        totalForCurrentPaginationOf(array) {
+            return this.paginate(array).reduce((acc, x) => acc + (x.MontantTotal || parseInt(x.Montant)), 0);
         },
 
-        // TODO: Montant total stocké en absolu, ne marche pas avec le tri actuel.
         orderTableBy(array, column) {
             const direction = this.prevOrderDir === 1 ? -1 : 1;
             array.sort((a, b) => {
