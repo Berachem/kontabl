@@ -1,5 +1,5 @@
 <a href="http://arno.cl/rqau">
-    <img alt="Ouvrir le site" height="42" src="https://kontabl.berachem.dev/img/logo.png">
+    <img alt="Ouvrir le site" height="42" src="./img/logo_dark.png">
 </a>
 
 Kontabl est un projet universitaire qui a pour objectif final la création d’un portail Web dédié à la consultation des comptes des clients, entreprises ou bien commerçants afin de suivre leurs activités monétiques au quotidien. Voici le lien vers le site : [http://arno.cl/rqau](http://arno.cl/rqau)
@@ -39,12 +39,20 @@ Lancer le serveur en local :
 
 3. Lancer le serveur sur Laragon (conseillé) dans un dossier nommé Kontabl
 
-4. Si vous n'êtes pas sur le domaine Kontabl.test, changer la clé du captcha ``sitekey`` dans ``app.js`` par :
+4. (Optionnel) Si vous n'êtes pas sur le domaine ``kontabl.test``, changer la clé du captcha ``sitekey`` dans ``app.js`` par :
 ```js
 window.turnstile.render('.cf-turnstile', {
     sitekey: '0x4AAAAAAABhUS_rVuucp3jB',
     callback: (turnstileToken) => {
 ```
+
+5. Logins:
+
+Rôle | Login | Mot de passe
+--- | --- | ---
+Product Owner | ``productowner`` | ``productowner``
+Administrateur | ``admin`` | ``admin``
+Marchand | ``mcdo`` | ``mcdo``
 
 ## Equipe
 [@Berachem](https://github.com/Berachem)
