@@ -39,7 +39,7 @@ Lancer le serveur en local :
 
 3. Lancer le serveur sur Laragon (conseillé) dans un dossier nommé Kontabl
 
-4. (Optionnel) Si vous n'êtes pas sur le domaine ``kontabl.test``, changer la clé du captcha ``sitekey`` dans ``app.js`` par :
+4. (Optionnel) Si vous n'êtes pas sur le domaine ``kontabl.test``, changer la clé du captcha ``sitekey`` dans ``app.js`` par ``1x00000000000000000000AA`` :
 ```js
 window.turnstile.render('.cf-turnstile', {
     sitekey: '0x4AAAAAAABhUS_rVuucp3jB',
