@@ -724,8 +724,6 @@ document.addEventListener('alpine:init', () => {
 
             let resJson = await fetch(`/api/?action=acceptMerchantTemp&numSiren=${siren}`).then(x => x.json());
 
-            console.log(resJson);
-
             if (resJson.needRefresh) {
                 alert('Page expirée.');
                 location.reload();
