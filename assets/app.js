@@ -545,16 +545,29 @@ document.addEventListener('alpine:init', () => {
             }, 1000);
         },
 
+        defaultTurnstileCallback(message) {
+            this.sending = false;
+            this.errMsg = message || "";
+            this.$refs.turnstileDialog.close();
+        },
+
         async login() {
             this.sending = true;
+            this.$refs.turnstileDialog.showModal();
             window.turnstile.render('.cf-turnstile', {
                 sitekey: '0x4AAAAAAABhUS_rVuucp3jB',
                 callback: (turnstileToken) => {
                     this._login(turnstileToken);
+                    this.defaultTurnstileCallback();
                 },
                 "error-callback": () => {
-                    this.errMsg = "Erreur de vérification";
-                    this.sending = false;
+                    this.defaultTurnstileCallback("Une erreur est survenue. Veuillez réessayer.");
+                },
+                "timeout-callback": () => {
+                    this.defaultTurnstileCallback("Le délai de validation a été dépassé. Veuillez réessayer.");
+                },
+                "expired-callback": () => {
+                    this.defaultTurnstileCallback("Le délai de validation a été dépassé. Veuillez réessayer.");
                 }
             });
         },
