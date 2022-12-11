@@ -16,6 +16,8 @@
                         <h5>Connexion</h5>
                     </div>
 
+                    <p x-show="needLoginToContinue">Connectez-vous avant de continuer</p>
+
                     <!-- Adresse mail input text -->
                     <div class="field label fill large">
                         <input type="text" x-model="user" autocomplete="username" required>
@@ -33,11 +35,14 @@
                     </div>
                     <!-- Bouton connexion -->
                     <br>
-                    <button class="responsive no-margin" :disabled="!turnstileLoaded || sending">M'identifier</button>
+                    <button class="responsive no-margin" :disabled="!turnstileLoaded || sending">
+                        <span x-text="needLoginToContinue ? 'Continuer' : 'M\'identifier'"></span>
+                    </button>
 
                     <dialog x-ref="turnstileDialog" style="max-width: 460px;">
                         <h4>Vérification en cours ...</h4>
-                        <p>Nous vérifions que votre demande n'est pas automatisée. Si demandé, cliquez sur la case ci-dessous.</p>
+                        <p>Nous vérifions que votre demande n'est pas automatisée. Si demandé, cliquez sur la case
+                            ci-dessous.</p>
                         <br>
                         <div class="cf-turnstile"></div>
                     </dialog>

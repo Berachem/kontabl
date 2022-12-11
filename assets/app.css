@@ -8,7 +8,13 @@ body {
 
 /* Main with margins*/
 .main {
-    margin: 20px 20px;
+    margin: 10px;
+}
+
+@media (min-width: 600px) {
+    .main {
+        padding-left: 100px !important;
+    }
 }
 
 @media (min-width: 768px) {
@@ -67,7 +73,7 @@ dialog::backdrop {
     color: #767676;
 }
 
-.login > img{
+.login>img {
     width: 35%;
     display: block;
     width: 35%;
@@ -77,3 +83,21 @@ dialog::backdrop {
     padding: 50px;
 }
 
+.login .main {
+    padding-left: 0 !important;
+    margin: 0 auto;
+    max-width: 450px;
+}
+
+@media (max-width: 768px) {
+    .login {
+        padding: 16px;
+    }
+}
+
+nav a.active i {
+    background-color: var(--secondary-container);
+    color: var(--on-secondary-container);
+    padding: 4rem 16rem;
+    font-variation-settings: "FILL" 1;
+}

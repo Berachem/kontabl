@@ -27,6 +27,18 @@ const _downloadBlob = (blob, filename) => {
 };
 
 document.addEventListener('alpine:init', () => {
+    Alpine.data('main', () => ({
+        hash: window.location.hash,
+
+        init() {
+            this.hash = window.location.hash;
+
+            window.addEventListener('hashchange', () => {
+                this.hash = window.location.hash;
+            });
+        }
+    }));
+
     Alpine.data('search', ($router) => ({
         name: localStorage.getItem('name'),
         userType: localStorage.getItem('userType'),
@@ -533,11 +545,12 @@ document.addEventListener('alpine:init', () => {
         user: "",
         password: "",
         inputType: "password",
+        needLoginToContinue: false,
 
         init() {
             const urlParams = new URLSearchParams(window.location.href.split('?')[1]);
             if (urlParams.has('reqauth')) {
-                this.errMsg = "Vous devez vous connecter pour accéder à cette page";
+                this.needLoginToContinue = true;
             }
 
             setInterval(() => {
@@ -778,6 +791,6 @@ document.addEventListener('alpine:init', () => {
 document.addEventListener('DOMContentLoaded', () => {
     const hash = window.location.hash;
     if (!hash) {
-        window.location.hash = '#/';
+        window.location.hash = '#/login';
     }
 });

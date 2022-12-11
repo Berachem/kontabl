@@ -55,13 +55,19 @@ $_SESSION['_token'] = $_token;
     </style>
 </head>
 
-<body x-data x-init="$router.config({ mode: 'hash' })">
+<body x-data="main" x-init="$router.config({ mode: 'hash' })">
 
     <!-- Header -->
-    <nav class="secondary-container m l left hide-print">
-        <a href="/#/"><i>search</i>Rechercher</a>
-        <a href="/#/merchants"><i>person</i>Marchands</a>
-        <a href="/#/settings"><i>settings</i>Réglages</a>
+    <nav class="left m l hide-print">
+        <a href="/#/" :class="hash == '#/' ? 'active' : ''"><i>search</i>Rechercher</a>
+        <a href="/#/merchants" :class="hash == '#/merchants' ? 'active' : ''"><i>person</i>Marchands</a>
+        <a href="/#/settings" :class="hash == '#/settings' ? 'active' : ''"><i>settings</i>Réglages</a>
+    </nav>
+
+    <nav class="bottom s hide-print">
+        <a href="/#/" :class="hash == '#/' ? 'active' : ''"><i>search</i>Rechercher</a>
+        <a href="/#/merchants" :class="hash == '#/merchants' ? 'active' : ''"><i>person</i>Marchands</a>
+        <a href="/#/settings" :class="hash == '#/settings' ? 'active' : ''"><i>settings</i>Réglages</a>
     </nav>
 
     <template x-route="/" template="/pages/search.html"></template>
