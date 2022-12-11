@@ -27,6 +27,18 @@ const _downloadBlob = (blob, filename) => {
 };
 
 document.addEventListener('alpine:init', () => {
+    Alpine.data('main', () => ({
+        hash: window.location.hash,
+
+        init() {
+            this.hash = window.location.hash;
+
+            window.addEventListener('hashchange', () => {
+                this.hash = window.location.hash;
+            });
+        }
+    }));
+
     Alpine.data('search', ($router) => ({
         name: localStorage.getItem('name'),
         userType: localStorage.getItem('userType'),

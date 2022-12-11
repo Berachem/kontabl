@@ -12,23 +12,21 @@
 
 
             <!-- Welcome Title -->
-            <div class="medium no-padding left-align top-align hide-print" style="margin-bottom: 12px;">
-                <!-- Logo -->
-                <img src="img/logo.png"
-                    style="width: 12%; height: 12%; margin-right: 12px; margin-bottom: 12px; float: left;" />
-                <h4>Ravi de vous revoir <strong x-text="name" style="padding: 5px; color :#1F6D3A"></strong>,</h4>
-
-
-
-
+            <div class="medium no-padding left-align top-align hide-print" style="margin-bottom: 12px; display: 
+            flex; flex-direction: column; gap: 12px;">
+                <img src="img/logo.png" height="45" alt="">
+                <div>
+                    <h4>Ravi de vous revoir&nbsp;<strong x-text="name" style="color :#1F6D3A"></strong>,</h4>
+                    <h6>Vous êtes connecté en tant que&nbsp;<span style="color :#B97A06;"
+                            x-text="userTypeTitle"></span>.
+                    </h6>
+                </div>
             </div>
-            <h6> Vous êtes connecté en tant que <span style="color :#B97A06; padding: 5px;"
-                    x-text="userTypeTitle"></span>.</h6>
             <div class="flex">
 
                 <article class="no-elevate hide-print">
                     <!-- Slider Buttons Section in a table -->
-                    <div class="tabs">
+                    <div class="tabs scroll">
                         <a href="javascript:void(0);" :class="selectedTab == 'tr' ? 'active' : ''"
                             @click="openTab('tr')">
                             <img class="icon" src="/img/tresorerie.svg">
@@ -382,7 +380,6 @@
 
     <style>
         .main {
-            padding: 20px;
             max-width: 1300px;
         }
 
@@ -408,11 +405,27 @@
             }
         }
 
-        @media (max-width: 1200px) {
+        @media (max-width: 1100px) {
             .flex {
                 display: flex;
                 flex-direction: column;
                 gap: 8px;
+            }
+        }
+
+        @media (min-width: 600px) {
+            .main {
+                padding: 20px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            h4 {
+                font-size: 16px;
+            }
+
+            h6 {
+                font-size: 14px;
             }
         }
     </style>
