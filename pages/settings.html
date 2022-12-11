@@ -1,0 +1,66 @@
+<div x-data="search($router)">
+
+    <!-- Body -->
+    <div class="body">
+
+        <!-- Main -->
+        <div class="main">
+
+            <!-- Welcome Title -->
+            <div class="medium no-padding left-align top-align hide-print" style="margin-bottom: 12px;">
+                <h4>Paramètres</h4>
+            </div>
+
+            <p class="grey-text">Aucun paramètre n'est disponible pour l'instant</p>
+            <br><br><br>
+
+            <!-- Logout button -->
+            <div class="medium no-padding left-align top-align hide-print" style="margin-bottom: 12px;">
+                <button class="no-margin error" @click="logout">Se déconnecter</button>
+            </div>
+
+            <!-- image centered img/index_login_image.svg -->
+            <div class="center-align">
+                <object type="image/svg+xml" data="../img/settings.svg" style="width: 100%; max-width: 400px;"></object>
+            </div>
+
+                
+
+            
+
+
+        </div>
+
+
+
+    </div>
+
+    <style>
+        .main {
+            padding: 20px;
+            max-width: 1300px;
+        }
+
+        .flex {
+            display: grid;
+            grid-template-columns: 460px 1fr;
+            gap: 20px;
+        }
+
+        article+article {
+            margin-top: 0;
+            width: 100%;
+        }
+
+        th a:focus {
+            outline: 2px dashed #000;
+            outline-offset: 2px;
+        }
+
+        @media print {
+            .hide-print {
+                display: none;
+            }
+        }
+    </style>
+</div>

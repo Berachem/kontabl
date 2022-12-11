@@ -1,0 +1,272 @@
+<div x-data="merchant($router)">
+
+    <!-- Body -->
+    <div class="body">
+
+        <!-- Main -->
+        <div class="main">
+
+        
+
+            <!-- Title -->
+            <div class="medium no-padding left-align top-align hide-print" style="margin-bottom: 12px;">
+                <h4 x-show="userType != 'user'">Gestion des marchands</h4>
+                <h4 x-show="userType == 'user'">Vos Informations</h4>
+            </div>
+
+            <p x-show="userType != 'productowner' && userType != 'admin' && userType != 'user'" class="red-text">
+                Vous n'avez pas accès à ces données</p>
+
+            <div class="flex" x-show="userType == 'productowner' || userType == 'admin' || userType == 'user'">
+                <article class="no-elevate hide-print" x-show="userType != 'user'">
+                    <!-- Slider Buttons Section in a table -->
+                    <div class="tabs">
+                        <a href="javascript:void(0);" :class="selectedTab == 'merchants' ? 'active' : ''"
+                            @click="openTab('merchants')" x-show="userType == 'productowner'">
+                            <span>Marchands</span>
+                        </a>
+                        <a href="javascript:void(0);" :class="selectedTab == 'merchantsTemp' ? 'active' : ''"
+                            @click="openTab('merchantsTemp')"
+                            x-show="userType == 'productowner' || userType == 'admin'">
+                            <span>Marchands Temporaires</span>
+                        </a>
+                    </div>
+                </article>
+
+                <article class="no-elevate">
+
+                    <div x-show="userType == 'user'">
+
+                        <template x-for="(item, i) in merchants" :key="i">
+                            <div x-show="i <= 1">
+                                <h5><span x-text="item.RaisonSociale"></h5>
+                                <br>
+                                <p>Siren: <span x-text="item.NumSiren" class="darkgrey-text"></span></p>
+                                <p>Numeros de carte: <span
+                                        x-text="'**** ' + item.NumCarte + ' ' + item.Network.toUpperCase()"
+                                        class="darkgrey-text"></span></p>
+                                <p>Devise: <span x-text="item.Currency" class="darkgrey-text"></span></p>
+                                <br>
+                                <p>Identifiant de connexion: <span x-text="item.IdLogin" class="darkgrey-text"></span>
+                                </p>
+                            </div>
+                        </template>
+
+
+                    </div>
+
+                    <div x-show="selectedTab == 'merchantsTemp'">
+                        <div x-show="userType == 'productowner'">
+                            <!-- TODO: changer merchants à merchants_temp quand l'api est bonne -->
+                            <p x-show="merchantsTemp.length == 0">
+                                Aucun marchand temporaire
+                            </p>
+                            <template x-for="(item, i) in merchantsTemp" :key="i">
+                                <div>
+                                    <!-- Table -->
+                                    <table style="width: 100%">
+                                        <thead>
+                                            <tr>
+                                                <th style="width: 100%"></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>
+                                                    <article class="no-elevate fill">
+                                                        <details>
+                                                            <summary class="none">
+                                                                <div class="row">
+                                                                    <div class="max">
+                                                                        <h5 :class="item.MontantTotal < 0 ? 'red-text' : ''"
+                                                                            x-text="item.RaisonSociale"></h5>
+                                                                    </div>
+                                                                    <i>arrow_drop_down</i>
+                                                                </div>
+                                                            </summary>
+                                                            <div>
+                                                                <br>
+                                                                <p>Siren: <span x-text="item.NumSiren"
+                                                                        class="darkgrey-text"></span></p>
+                                                                <p>Numeros de carte: <span
+                                                                        x-text="'**** ' + item.NumCarte + ' ' + item.Network.toUpperCase()"
+                                                                        class="darkgrey-text"></span></p>
+                                                                <p>Id login: <span x-text="item.IdLogin"
+                                                                        class="darkgrey-text"></span></p>
+                                                            </div>
+
+                                                            <button class="btn"
+                                                                @click="acceptMerchantTemp(item.NumSiren)">Accepter<i
+                                                                    class="material-icons">check</i></button>
+
+                                                        </details>
+                                                    </article>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </template>
+                            
+                        </div>
+
+                      
+
+                        <!-- Imputs pour créer un marchand temporaire -->
+                        <!-- raisonSociale, siren, currency, numCarte, network, password, idLogin -->
+                        <div x-show="userType == 'admin'">
+
+                            <div class="field label suffix border">
+                                <input type="text" id="socialName" name="socialName" x-model="socialName" maxlength="30"
+                                    required>
+                                <label>Raison sociale</label>
+                            </div>
+
+                            <div class="field label suffix border">
+                                <input type="tel" id="siren" name="siren" x-model="siren" minlength="9" maxlength="9"
+                                    required>
+                                <label>Siren</label>
+                            </div>
+
+                            <div class="field label suffix border">
+                                <input type="text" id="currency" name="currency" x-model="currency" maxlength="3"
+                                    required>
+                                <label>Devise</label>
+                            </div>
+
+                            <div :class="'field label suffix border ' + (invalidCardNumber ? 'invalid' : '')">
+                                <input @keyup="processCardNumber" type="tel" id="numCard" name="numCard"
+                                    x-model="numCard" minlength="16" maxlength="16" required>
+                                <label>Numéro de carte</label>
+                                <span class="error" x-show="invalidCardNumber">Numéro de carte invalide</span>
+                            </div>
+
+                            <div class="field suffix border">
+                                <select x-model="network" required>
+                                    <option value disabled selected>Sélectionnez une option</option>
+                                    <option value="VS">Visa</option>
+                                    <option value="fr">Cartes Bancaires</option>
+                                    <option value="AE">American Express</option>
+                                    <option value="MS">Mastercard</option>
+                                    <option value="DC">Discover</option>
+                                    <option value="XX">Autre</option>
+                                </select>
+                                <i>arrow_drop_down</i>
+                            </div>
+
+                            <div class="field label suffix border">
+                                <input type="password" id="password" name="password" autocomplete="new-password"
+                                    x-model="password" maxlength="20" required>
+                                <label>Définir un mot de passe</label>
+                            </div>
+
+                            <div class="field label suffix border">
+                                <input type="text" id="idLogin" name="idLogin" x-model="idLogin" maxlength="350"
+                                    required>
+                                <label>Définir l'identifiant de connexion</label>
+                            </div>
+
+                            <button class="responsive no-margin" @click="createMerchantTemp">Créer</button>
+
+                        </div>
+
+                    </div>
+
+                    <div x-show="selectedTab == 'merchants'">
+                        <template x-for="(item, i) in merchants" :key="i">
+
+                            <!-- Table -->
+                            <table style="width: 100%">
+                                <thead>
+                                    <tr>
+                                        <th style="width: 100%"></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <article class="no-elevate fill">
+                                                <details>
+                                                    <summary class="none">
+                                                        <div class="row">
+                                                            <div class="max">
+                                                                <h5 :class="item.MontantTotal < 0 ? 'red-text' : ''"
+                                                                    x-text="item.RaisonSociale"></h5>
+                                                            </div>
+                                                            <i>arrow_drop_down</i>
+                                                        </div>
+                                                    </summary>
+                                                    <div>
+                                                        <br>
+                                                        <p>Siren: <span x-text="item.NumSiren"
+                                                                class="darkgrey-text"></span></p>
+                                                        <p>Numeros de carte: <span
+                                                                x-text="'**** ' + item.NumCarte + ' ' + item.Network.toUpperCase()"
+                                                                class="darkgrey-text"></span></p>
+                                                        <p>Id login: <span x-text="item.IdLogin"
+                                                                class="darkgrey-text"></span></p>
+                                                    </div>
+
+                                                    <button class="error btn"
+                                                        @click="deleteMerchant(item.NumSiren)">Supprimer<i
+                                                            class="material-icons">delete</i></button>
+
+                                                </details>
+                                            </article>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </template>
+                    </div>
+            </div>
+            </article>
+        </div>
+        
+
+          <!-- image centered img/index_login_image.svg -->
+          <div class="center-align">
+            <br>
+            <br>
+            <br>
+            <object type="image/svg+xml" data="../img/merchant.svg" style="width: 100%; max-width: 400px;"></object>
+        </div>
+       
+        
+    </div>
+</div>
+
+<style>
+    .main {
+        padding: 20px;
+        max-width: 1300px;
+    }
+
+    .flex {
+        display: grid;
+        grid-template-columns: 460px 1fr;
+        gap: 20px;
+    }
+
+    article+article {
+        margin-top: 0;
+        width: 100%;
+    }
+
+    th a:focus {
+        outline: 2px dashed #000;
+        outline-offset: 2px;
+    }
+
+    .darkgrey-text {
+        color: rgb(203, 45, 45);
+    }
+
+    @media print {
+        .hide-print {
+            display: none;
+        }
+    }
+</style>
+</div>

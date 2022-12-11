@@ -1,0 +1,58 @@
+<div x-data="login($router)">
+    <!-- Body -->
+    <div class="body">
+
+        <div class="login">
+
+            <div class="main">
+
+                <img src="img/logo.png" style="width: 35%; margin-left: -7px;" alt="Kontabl">
+
+                <!-- Main -->
+                <form class="main" @submit.prevent="login">
+
+                    <!-- Connexion Title -->
+                    <div class="medium no-padding left-align top-align">
+                        <h5>Connexion</h5>
+                    </div>
+
+                    <p x-show="needLoginToContinue">Connectez-vous avant de continuer</p>
+
+                    <!-- Adresse mail input text -->
+                    <div class="field label fill large">
+                        <input type="text" x-model="user" autocomplete="username" required>
+                        <label>Identifiant</label>
+                    </div>
+
+                    <!-- Mot de passe input text -->
+                    <div class="field label suffix fill large">
+                        <input x-bind:type="inputType" x-model="password" autocomplete="current-password" required>
+                        <label>Password</label>
+                        <a href="javascript:void(0);"
+                            @click="inputType = inputType == 'password' ? 'text' : 'password'">
+                            <p class="max center-align">Voir mot de passe <i>visibility</i></p>
+                        </a>
+                    </div>
+                    <!-- Bouton connexion -->
+                    <br>
+                    <button class="responsive no-margin" :disabled="!turnstileLoaded || sending">
+                        <span x-text="needLoginToContinue ? 'Continuer' : 'M\'identifier'"></span>
+                    </button>
+
+                    <dialog x-ref="turnstileDialog" style="max-width: 460px;">
+                        <h4>Vérification en cours ...</h4>
+                        <p>Nous vérifions que votre demande n'est pas automatisée. Si demandé, cliquez sur la case
+                            ci-dessous.</p>
+                        <br>
+                        <div class="cf-turnstile"></div>
+                    </dialog>
+
+                    <article x-show="errMsg" class="no-elevate error">
+                        <span x-text="errMsg"></span>
+                    </article>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

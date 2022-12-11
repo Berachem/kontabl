@@ -1,0 +1,432 @@
+<div x-data="search($router)">
+
+    <div x-show="userType == 'admin'">
+        <p class="max center-align red-text">Vous n'avez pas accès aux données de cette page</p>
+    </div>
+
+    <!-- Body -->
+    <div class="body" x-show="userType != 'admin'">
+
+        <!-- Main -->
+        <div class="main">
+
+
+            <!-- Welcome Title -->
+            <div class="medium no-padding left-align top-align hide-print" style="margin-bottom: 12px; display: 
+            flex; flex-direction: column; gap: 12px;">
+                <img src="img/logo.png" height="45" alt="">
+                <div>
+                    <h4>Ravi de vous revoir&nbsp;<strong x-text="name" style="color :#1F6D3A"></strong>,</h4>
+                    <h6>Vous êtes connecté en tant que&nbsp;<span style="color :#B97A06;"
+                            x-text="userTypeTitle"></span>.
+                    </h6>
+                </div>
+            </div>
+            <div class="flex">
+
+                <article class="no-elevate hide-print">
+                    <!-- Slider Buttons Section in a table -->
+                    <div class="tabs scroll">
+                        <a href="javascript:void(0);" :class="selectedTab == 'tr' ? 'active' : ''"
+                            @click="openTab('tr')">
+                            <img class="icon" src="/img/tresorerie.svg">
+                            <span>Trésorerie</span>
+                        </a>
+                        <a href="javascript:void(0);" :class="selectedTab == 're' ? 'active' : ''"
+                            @click="openTab('re')">
+                            <img class="icon" src="/img/remise.svg">
+                            <span>Remises</span>
+                        </a>
+                        <a href="javascript:void(0);" :class="selectedTab == 'im' ? 'active' : ''"
+                            @click="openTab('im')">
+                            <img class="icon" src="/img/unpaid.svg">
+                            <span>Impayés</span>
+                        </a>
+                    </div>
+                    <!-- Section avec tous les inputs affichés par défaut des sélections -->
+                    <div class="field suffix border" x-show="userType == 'productowner' && selectedTab == 'tr'"
+                        x-transition x-transition.duration.300>
+                        <select x-model="siren">
+                            <option value="" selected>Tous les numéros de Siren</option>
+                            <template x-for="siren in sirenNumbers" :key="siren">
+                                <option :value="siren" x-text="siren"></option>
+                            </template>
+                        </select>
+                        <a class="loader" x-show="sirenNumbers.length == 0" x-transition x-transition.duration.300></a>
+                        <i x-show="sirenNumbers.length != 0">arrow_drop_down</i>
+                    </div>
+                    <div class="field label suffix border" x-show="userType == 'productowner' && selectedTab == 'tr'"
+                        x-transition x-transition.duration.300>
+                        <input type="text" id="socialName" name="socialName" x-model="socialName">
+                        <label>Raison sociale</label>
+                    </div>
+                    <div class="field label prefix border" x-show="selectedTab == 'tr'" x-transition
+                        x-transition.duration.300 @click="document.getElementById('date').showPicker()">
+                        <i>today</i>
+                        <input type="date" id="date" name="date" x-model="date">
+                        <label class="active">Date</label>
+                    </div>
+                    <div class="field label prefix border" x-show="selectedTab != 'tr'" x-transition
+                        x-transition.duration.300 @click="document.getElementById('dateBefore').showPicker()">
+                        <i>today</i>
+                        <input type="date" id="dateBefore" name="dateBefore" x-model="dateBefore">
+                        <label class="active">Date avant le</label>
+                    </div>
+                    <div class="field label prefix border" x-show="selectedTab != 'tr'" x-transition
+                        x-transition.duration.300 @click="document.getElementById('dateAfter').showPicker()">
+                        <i>today</i>
+                        <input type="date" id="dateAfter" name="dateAfter" x-model="dateAfter">
+                        <label class="active">Date après le</label>
+                    </div>
+                    <div class="field label suffix border"
+                        x-show="selectedTab == 're' && (userType == 'productowner' || userType == 'user')" x-transition
+                        x-transition.duration.300>
+                        <input type="text" id="numDiscount" name="numDiscount" x-model="numDiscount">
+                        <label>Numéro de remise</label>
+                    </div>
+                    <div class="field label border" x-show="selectedTab == 'im'" x-transition x-transition.duration.300>
+                        <input type="tel" id="dossierUnpaid" name="dossierUnpaid">
+                        <label>N° dossier impayé</label>
+                    </div>
+                    <!-- Search Button -->
+                    <button class="responsive no-margin" @click="search">Rechercher</button>
+                </article>
+
+                <article class="no-elevate">
+                    <div x-show="loading" class="middle-align center-align" style="height: 300px;">
+                        <a class="loader"></a>
+                    </div>
+
+                    <div x-show="!loading">
+                        <div x-show="selectedTab == 'tr'">
+                            <template x-for="(item, i) in results" :key="i">
+                                <div>
+                                    <article class="no-elevate fill">
+                                        <details>
+                                            <summary class="none">
+                                                <div class="row">
+                                                    <div class="max">
+                                                        <h5 :class="item.MontantTotal < 0 ? 'red-text' : ''"
+                                                            x-text="item.RaisonSociale"></h5>
+                                                    </div>
+                                                    <i>arrow_drop_down</i>
+                                                </div>
+                                            </summary>
+                                            <div>
+                                                <br>
+                                                <p>Siren <span x-text="item.NumSiren"></span></p>
+                                                <p><span x-text="item.NombreTransactions"></span> transaction(s) au
+                                                    total
+                                                </p>
+                                                <h6 :class="item.MontantTotal < 0 ? 'red-text' : ''"
+                                                    x-text="new Intl.NumberFormat('fr-FR', { style: 'currency', currency: item.Devise }).format(item.MontantTotal)">
+                                                </h6>
+                                                <!-- show help button id item.MontantTotal < 0 -->
+                                                <a href="https://www.youtube.com/watch?v=6HIZGewTQjA" class="help"
+                                                    x-show="item.MontantTotal < 0" @click="openHelpModal(item.NumSiren)"
+                                                    target="_blank">
+                                                    <i>help</i> <u> Aide pour gérer votre trésorerie</u>
+                                                </a>
+                                            </div>
+                                        </details>
+                                    </article>
+                                    <br>
+                                </div>
+                            </template>
+                        </div>
+                        <dialog x-ref="detailsModal">
+                            <div class="center-align middle-align" style="height: 200px;"
+                                x-show="loadingLinkedTransactions">
+                                <a class="loader"></a>
+                            </div>
+                            <div x-show="!loadingLinkedTransactions">
+                                <h4>Détails transactions</h4>
+                                <p x-if="linkedTransactions.length > 0">SIREN n° <span
+                                        x-text="linkedTransactions[0]?.numSiren"></span></p>
+                                <table class="border">
+                                    <thead>
+                                        <tr>
+                                            <th>ID transaction</th>
+                                            <th>N° autorisation</th>
+                                            <th>Date</th>
+                                            <th>Carte</th>
+                                            <th>Montant</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <template x-for="transaction in linkedTransactions"
+                                            :key="transaction.idTransaction">
+                                            <tr>
+                                                <td x-text="transaction.idTransaction"></td>
+                                                <td x-text="transaction.numAuthorization"></td>
+                                                <td x-text="transaction.dateTransaction"></td>
+                                                <td>**** <span x-text="transaction.endingFoursCardNumbers"></span></td>
+                                                <td
+                                                    x-text="new Intl.NumberFormat('fr-FR', { style: 'currency', currency: transaction.currency }).format(transaction.amount)">
+                                                </td>
+                                            </tr>
+                                        </template>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <nav class="right-align">
+                                <form method="dialog">
+                                    <button class="border">Fermer</button>
+                                </form>
+                            </nav>
+                        </dialog>
+                        <div x-show="selectedTab == 're'">
+                            <button class="hide-print">
+                                <span>Exporter les données</span>
+                                <i>arrow_drop_down</i>
+                                <div class="dropdown">
+                                    <template x-for="ext in ['csv', 'xlsx', 'pdf']">
+                                        <a @click="exportTableIn('#transactions-table', ext)">
+                                            .<span x-text="ext"></span>
+                                            <i class="loader small" x-show="ext == exportTypeLoading"></i>
+                                        </a>
+                                    </template>
+                                </div>
+                            </button>
+                            <table class="border" id="transactions-table">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            <a @click="orderTableBy(transactions, 'NumSiren')"
+                                                href="javascript:void(0);">
+                                                Numéro Siren
+                                            </a>
+                                        </th>
+                                        <th>
+                                            <a @click="orderTableBy(transactions, 'RaisonSociale')"
+                                                href="javascript:void(0);">
+                                                Raison sociale
+                                            </a>
+                                        </th>
+                                        <th>
+                                            <a @click="orderTableBy(transactions, 'NumeroRemise')"
+                                                href="javascript:void(0);">
+                                                Numéro remise
+                                            </a>
+                                        </th>
+                                        <th>
+                                            <a @click="orderTableBy(transactions, 'DateTraitement')"
+                                                href="javascript:void(0);">
+                                                Date de traitement
+                                            </a>
+                                        </th>
+                                        <th>
+                                            <a @click="orderTableBy(transactions, 'NombreTransactions')"
+                                                href="javascript:void(0);">
+                                                Nombre de transactions
+                                            </a>
+                                        </th>
+                                        <th>
+                                            <a @click="orderTableBy(transactions, 'MontantTotal')"
+                                                href="javascript:void(0);">
+                                                Montant total
+                                            </a>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <template x-for="transaction in paginate(transactions)"
+                                        :key="transaction.NumeroRemise">
+                                        <tr tabindex="0" role="button"
+                                            @click="loadDetailsForSiren(transaction.NumSiren)"
+                                            @keyup.enter="loadDetailsForSiren(transaction.NumSiren)">
+                                            <td x-text="transaction.NumSiren"></td>
+                                            <td x-text="transaction.RaisonSociale"></td>
+                                            <td x-text="transaction.NumeroRemise"></td>
+                                            <td x-text="formatDate(transaction.DateTraitement)"></td>
+                                            <td x-text="transaction.NombreTransactions"></td>
+                                            <!-- If montant total is negative: red text -->
+                                            <td x-text="new Intl.NumberFormat('fr-FR', { style: 'currency', currency: transaction.Devise }).format(transaction.MontantTotal)"
+                                                :class="transaction.Sens == '-' ? 'red-text' : ''"></td>
+                                            </td>
+                                        </tr>
+                                    </template>
+                                </tbody>
+                            </table>
+                            <div style="display: flex; justify-content: space-between;">
+                                <p>
+                                    Page <input type="number" x-model="page" style="all: unset; width: 30px;">
+                                    Afficher <input type="number" x-model="rowsCount" style="all: unset; width: 30px;">
+                                    lignes par page
+                                    <span x-text="transactions.length"></span> résultat(s)
+                                </p>
+                                <p class="green-text">Total: <span
+                                        x-text="totalForCurrentPaginationOf(transactions)"></span>
+                                    (sans unité, toutes devises)
+                                </p>
+                            </div>
+                        </div>
+                        <div x-show="selectedTab == 'im'">
+                            <!--<div x-text="getTotalAmount"></div>-->
+                            <button class="hide-print">
+                                <span>Exporter les données</span>
+                                <i>arrow_drop_down</i>
+                                <div class="dropdown">
+                                    <template x-for="ext in ['csv', 'xlsx', 'pdf']">
+                                        <a @click="exportTableIn('#unpaids-table', ext)">
+                                            .<span x-text="ext"></span>
+                                            <i class="loader small" x-show="ext == exportTypeLoading"></i>
+                                        </a>
+                                    </template>
+                                </div>
+                            </button>
+                            <table class="border" id="unpaids-table">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            <a @click="orderTableBy(unpaids, 'NumSiren')" href="javascript:void(0);">
+                                                Numéro Siren
+                                            </a>
+                                        </th>
+                                        <th>
+                                            <a @click="orderTableBy(unpaids, 'DateVente')" href="javascript:void(0);">
+                                                Date de vente
+                                            </a>
+                                        </th>
+                                        <th>
+                                            <a @click="orderTableBy(unpaids, 'DateRemise')" href="javascript:void(0);">
+                                                Date de remise
+                                            </a>
+                                        </th>
+                                        <th>
+                                            <a @click="orderTableBy(unpaids, 'NumCarte')" href="javascript:void(0);">
+                                                Numéro de carte
+                                            </a>
+                                        </th>
+                                        <th>
+                                            <a @click="orderTableBy(unpaids, 'Devise')" href="javascript:void(0);">
+                                                Devise
+                                            </a>
+                                        </th>
+                                        <th>
+                                            <a @click="orderTableBy(unpaids, 'Montant')" href="javascript:void(0);">
+                                                Montant
+                                            </a>
+                                        </th>
+                                        <th>
+                                            <a @click="orderTableBy(unpaids, 'LibImpayé')" href="javascript:void(0);">
+                                                Libellé
+                                            </a>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <template x-for="unpaid in paginate(unpaids)" :key="unpaid.numDossierImpayé">
+                                        <tr tabindex="0" role="button" @click="loadDetailsForSiren(unpaid.NumSiren)"
+                                            @keyup.enter="loadDetailsForSiren(unpaid.NumSiren)">
+                                            <td x-text="unpaid.NumSiren"></td>
+                                            <td x-text="formatDate(unpaid.DateVente)"></td>
+                                            <td x-text="formatDate(unpaid.DateRemise)"></td>
+                                            <td x-text="'**** ' + unpaid.NumCarte + ' ' + unpaid.Reseau"></td>
+                                            <td x-text="unpaid.Devise"></td>
+                                            <td
+                                                x-text="new Intl.NumberFormat('fr-FR', { style: 'currency', currency: unpaid.Devise }).format(unpaid.Montant)">
+                                            </td>
+                                            <td x-text="unpaid.LibImpayé"></td>
+                                        </tr>
+                                    </template>
+                                </tbody>
+                            </table>
+                            <div style="display: flex; justify-content: space-between;">
+                                <p>
+                                    Page <input type="number" x-model="page" style="all: unset; width: 30px;">
+                                    Afficher <input type="number" x-model="rowsCount" value="8"
+                                        style="all: unset; width: 30px;">
+                                    lignes par page
+                                    <span x-text="unpaids.length"></span> résultat(s)
+                                </p>
+                                <p class="green-text">Total: <span x-text="totalForCurrentPaginationOf(unpaids)"></span>
+                                    (sans unité,
+                                    toutes devises)
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+
+                <div></div>
+                <article class="no-elevate hide-print" x-show="selectedTab == 'im'">
+                    <div id="highcharts-pie-unpaids-reasons"></div>
+                    <div id="highcharts-treemap-unpaids-networks"></div>
+                </article>
+
+
+
+                <article class="no-elevate hide-print" x-show="selectedTab == 're'">
+                    <div id="highcharts-line-discounts"></div>
+                </article>
+
+                <article class="no-elevate hide-print" x-show="selectedTab == 'tr'">
+                    <div id="highcharts-histogram-treasury" x-show="userType == 'productowner'"></div>
+                    <div id="highcharts-speed-treasury" x-show="userType == 'user'"></div>
+                </article>
+
+
+            </div>
+
+
+
+        </div>
+
+
+    </div>
+
+
+
+    <style>
+        .main {
+            max-width: 1300px;
+        }
+
+        .flex {
+            display: grid;
+            grid-template-columns: 460px 1fr;
+            gap: 20px;
+        }
+
+        article+article {
+            margin-top: 0;
+            width: 100%;
+        }
+
+        th a:focus {
+            outline: 2px dashed #000;
+            outline-offset: 2px;
+        }
+
+        @media print {
+            .hide-print {
+                display: none !important;
+            }
+        }
+
+        @media (max-width: 1100px) {
+            .flex {
+                display: flex;
+                flex-direction: column;
+                gap: 8px;
+            }
+        }
+
+        @media (min-width: 600px) {
+            .main {
+                padding: 20px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            h4 {
+                font-size: 16px;
+            }
+
+            h6 {
+                font-size: 14px;
+            }
+        }
+    </style>
+</div>

@@ -1,0 +1,103 @@
+/* Background */
+body {
+    background-color: #F1F1F1;
+    ;
+    margin: 0;
+    padding: 0;
+}
+
+/* Main with margins*/
+.main {
+    margin: 10px;
+}
+
+@media (min-width: 600px) {
+    .main {
+        padding-left: 100px !important;
+    }
+}
+
+@media (min-width: 768px) {
+    .main {
+        margin: 20px auto;
+        max-width: 450px;
+    }
+}
+
+/* Image icon dimensions 40px and center */
+.icon {
+    width: 40px;
+    height: 40px;
+    margin: 0 auto;
+    display: block;
+}
+
+/* Card dimensions 120px and center*/
+.card {
+    width: 120px;
+    height: 120px;
+    margin: 0 auto;
+    display: block;
+    background-color: #CDCDCD;
+}
+
+/* Line with color #B8B8B8 */
+.line {
+    border-bottom: 2px solid #B8B8B8;
+    margin: 20px 0;
+}
+
+a:focus-visible {
+    outline: 1px dashed #000;
+}
+
+dialog {
+    position: fixed;
+    padding: 32px;
+    margin: auto;
+    width: 100%;
+    max-width: 650px;
+    max-height: 80vh;
+    background-color: #fff;
+    border: none;
+    border-radius: 12rem;
+    box-shadow: 0 24px 38px 3px rgba(0, 0, 0, 0.14), 0 9px 46px 8px rgba(0, 0, 0, 0.12), 0 11px 15px -7px rgba(0, 0, 0, 0.20);
+}
+
+dialog::backdrop {
+    background-color: #000;
+    opacity: 0.5;
+}
+
+.darkgrey-text {
+    color: #767676;
+}
+
+.login>img {
+    width: 35%;
+    display: block;
+    width: 35%;
+}
+
+.login {
+    padding: 50px;
+}
+
+.login .main {
+    padding-left: 0 !important;
+    margin: 0 auto;
+    max-width: 450px;
+}
+
+@media (max-width: 768px) {
+    .login {
+        padding: 16px;
+    }
+}
+
+nav a.active i {
+    background-color: var(--secondary-container);
+    color: var(--on-secondary-container);
+    padding: 4rem 16rem;
+    font-variation-settings: "FILL" 1;
+}

@@ -42,7 +42,7 @@ class Connexion {
 
         if($cond){
             foreach ($cond as $v) {
-                $stmt->bindParam($v[0],$v[1], PDO::PARAM_STR);
+                $stmt->bindParam($v[0],$v[1]);
             }
         }
 
@@ -56,10 +56,6 @@ class Connexion {
 
 
 }
-use Kontabl\DotEnv;
-
-include "lib/parse.env.php";
-(new DotEnv(__DIR__ . '/../../.env'))->load();
 // mysql:host=localhost;dbname=test;
 
 
@@ -78,5 +74,3 @@ $DB->q(
 		)
 	);
 */
-
-?>
