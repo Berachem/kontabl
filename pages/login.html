@@ -35,7 +35,12 @@
                     <br>
                     <button class="responsive no-margin" :disabled="!turnstileLoaded || sending">M'identifier</button>
 
-                    <div class="cf-turnstile"></div>
+                    <dialog x-ref="turnstileDialog" style="max-width: 460px;">
+                        <h4>Vérification en cours ...</h4>
+                        <p>Nous vérifions que votre demande n'est pas automatisée. Si demandé, cliquez sur la case ci-dessous.</p>
+                        <br>
+                        <div class="cf-turnstile"></div>
+                    </dialog>
 
                     <article x-show="errMsg" class="no-elevate error">
                         <span x-text="errMsg"></span>
