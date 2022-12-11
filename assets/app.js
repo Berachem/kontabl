@@ -545,11 +545,12 @@ document.addEventListener('alpine:init', () => {
         user: "",
         password: "",
         inputType: "password",
+        needLoginToContinue: false,
 
         init() {
             const urlParams = new URLSearchParams(window.location.href.split('?')[1]);
             if (urlParams.has('reqauth')) {
-                this.errMsg = "Vous devez vous connecter pour accéder à cette page";
+                this.needLoginToContinue = true;
             }
 
             setInterval(() => {
@@ -790,6 +791,6 @@ document.addEventListener('alpine:init', () => {
 document.addEventListener('DOMContentLoaded', () => {
     const hash = window.location.hash;
     if (!hash) {
-        window.location.hash = '#/';
+        window.location.hash = '#/login';
     }
 });
