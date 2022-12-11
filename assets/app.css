@@ -84,6 +84,7 @@ dialog::backdrop {
 }
 
 .login .main {
+    padding-left: 0 !important;
     margin: 0 auto;
     max-width: 450px;
 }
