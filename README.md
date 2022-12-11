@@ -52,7 +52,7 @@ Rôle | Login | Mot de passe
 --- | --- | ---
 Product Owner | ``productowner`` | ``productowner``
 Administrateur | ``admin`` | ``admin``
-Marchand | ``mcdo`` | ``mcdo``
+Marchand | ``mcdo``<br> ``louisvi``<br> ``action`` | ``mcdo``<br> ``louisvi``<br> ``action``
 
 ## Equipe
 [@Berachem](https://github.com/Berachem)
