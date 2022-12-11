@@ -20,6 +20,7 @@ $_SESSION['_token'] = $_token;
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/beercss@2.2.11/dist/cdn/beer.min.css" integrity="sha256-lYnQDpcf+FFMWvFyNlfYM5Zis7/ENdFurMo6UK58k4E=" crossorigin="anonymous">
     <link rel="stylesheet" href="/assets/app.css?v=<?= md5_file('./assets/app.css') ?>">
+    <link rel="icon" href="/img/favicon.png" type="image/png">
 
     <style>
         body {
