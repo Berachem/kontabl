@@ -507,9 +507,14 @@ document.addEventListener('alpine:init', () => {
             });
             table.querySelectorAll('tbody tr').forEach(tr => {
                 const row = [];
-                tr.querySelectorAll('td').forEach((td, i) => row.push(
-                    moneyCols.has(i) ? parseFloat(td.innerText.replace(/ /g, '').replace(',', '.')) : td.innerText
-                ));
+                
+                tr.querySelectorAll('td').forEach((td, i) => {
+                 
+
+                    row.push(
+                        moneyCols.has(i) ? parseFloat(td.innerText.replace(/[^0-9.,]/g, '').replace(',', '.')) : td.innerText
+                    )
+                } );
                 tableRows.push(row);
             });
             const csvText =
