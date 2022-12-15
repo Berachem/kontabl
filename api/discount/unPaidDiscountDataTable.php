@@ -98,10 +98,11 @@ if(isset($_SESSION['num'])){
         $sens= "-";
         $numDossierImpaye = isset($_GET["numDossierImpaye"]) ? $_GET["numDossierImpaye"] : null;
         $data = array();
+        $unPaidReason = isset($_GET["unPaidReason"]) ? $_GET["unPaidReason"] : null;
 
         $tmpData = getDiscounts($numSiren, $raisonSociale, $date_debut, $date_fin, $sens, $numDossierImpaye);
 
-
+    
 
     // renvoie le json avec le numSiren, la dateVente, la dateRemise, le numCarte, le reseau, le numDossierImpayé, la devise, le montant et le libImpayé
     $data = array();
@@ -118,6 +119,17 @@ if(isset($_SESSION['num'])){
             "LibImpayé" => getDiscountDetails($row["NumeroRemise"])->unpaidWording
         ));
     }
+
+    if ($unPaidReason) {
+        // keep strpos(strtoupper($row["LibImpayé"]), strtoupper($unPaidReason)) !== false;
+        for ($i = 0; $i < count($data); $i++) {
+            if (strpos(strtoupper($data[$i]["LibImpayé"]), strtoupper($unPaidReason)) === false) {
+                unset($data[$i]);
+            }
+        }
+        $data = array_values($data);
+    }
+
 
     $response = array(
         "success" => true,

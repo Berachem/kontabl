@@ -369,7 +369,7 @@ document.addEventListener('alpine:init', () => {
                     });
                     break;
                 case 'im':
-                    res = await fetch(`/api/?action=unPaidDiscountDataTable&date_debut=${this.dateAfter}&date_fin=${this.dateBefore}&numDossierImpaye=${this.unpaidNumber}`).then(x => x.json());
+                    res = await fetch(`/api/?action=unPaidDiscountDataTable&date_debut=${this.dateAfter}&date_fin=${this.dateBefore}&numDossierImpaye=${this.unpaidNumber}&raisonSociale=${this.socialName}&unPaidReason=${this.libUnpaid}`).then(x => x.json());
                     if (res.success) {
                         this.unpaids = res.data;
 

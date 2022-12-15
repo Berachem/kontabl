@@ -150,8 +150,8 @@ function getDiscounts($numSiren, $raisonSociale, $date_debut, $date_fin, $sens, 
         );
 
         if ($numUnPaidFile) {
-            $sql3 .= " AND numUnPaidFile = :numUnPaidFile";
-            array_push($cond3, array(":numUnPaidFile", $numUnPaidFile));
+            $sql3 .= " AND numUnPaidFile LIKE :numUnPaidFile";
+            array_push($cond3, array(":numUnPaidFile", "%" . $numUnPaidFile . "%"));
         }
 
         $result3 = $db->q($sql3, $cond3);
