@@ -22,13 +22,15 @@
                     <!-- Slider Buttons Section in a table -->
                     <div class="tabs">
                         <a href="javascript:void(0);" :class="selectedTab == 'merchants' ? 'active' : ''"
-                            @click="openTab('merchants')" x-show="userType == 'productowner'">
-                            <span>Marchands</span>
+                            @click="openTab('merchants')" x-show="userType == 'productowner' || userType == 'admin'">
+                            <span x-show="userType == 'productowner'">Marchands</span>
+                            <span x-show="userType == 'admin'">Supprimer</span>
                         </a>
                         <a href="javascript:void(0);" :class="selectedTab == 'merchantsTemp' ? 'active' : ''"
                             @click="openTab('merchantsTemp')"
                             x-show="userType == 'productowner' || userType == 'admin'">
-                            <span>Marchands Temporaires</span>
+                            <span x-show="userType == 'productowner'">Marchands Temporaires</span>
+                            <span x-show="userType == 'admin'">Créer</span>
                         </a>
                     </div>
                 </article>

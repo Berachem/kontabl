@@ -25,6 +25,7 @@ if (isset($_SESSION["num"]) && ($_SESSION["type"] == "productowner" || $_SESSION
     // return the response
     $response = array(
         "success" => true,
+        "sirenDeleted" => $_POST["numSiren"],
     );
 } else {
     // return the response

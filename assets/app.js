@@ -726,6 +726,9 @@ document.addEventListener('alpine:init', () => {
 
         async deleteMerchant(siren) {
             if (!confirm('Voulez-vous vraiment supprimer ce marchand ?')) return;
+            if (this.userType == 'admin') {
+                if (!confirm('Avez vous l\'accord du Product Owner pour supprimer ce marchand ?')) return;
+            }
 
             const formData = new FormData();
             formData.append('numSiren', siren);
@@ -751,6 +754,13 @@ document.addEventListener('alpine:init', () => {
                 this.merchants = this.merchants.filter(x => x.numSiren !== siren);
                 this.merchantsTemp = this.merchantsTemp.filter(x => x.numSiren !== siren);
             }
+
+            alert('Le marchand à bien été supprimé ✅')
+
+            let res;
+            res = await fetch('/api/?action=getAllAcount').then(x => x.json());
+            if (!res.success) return;
+            this.merchants = res.data;
         },
 
         async acceptMerchantTemp(siren) {

@@ -7,7 +7,7 @@ Return a JSON object with the following parameters for each user:
     and a succes
 */
 
-if (isset($_SESSION["num"]) && ($_SESSION["type"] == "productowner")) {
+if (isset($_SESSION["num"]) && ($_SESSION["type"] == "productowner" || $_SESSION["type"] == "admin")) {
 
     $users = $db->q("SELECT raisonSociale, siren, currency, network, numCarte, idLogin FROM merchant;");
 
