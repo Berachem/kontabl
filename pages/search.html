@@ -55,8 +55,8 @@
                         <a class="loader" x-show="sirenNumbers.length == 0" x-transition x-transition.duration.300></a>
                         <i x-show="sirenNumbers.length != 0">arrow_drop_down</i>
                     </div>
-                    <div class="field label suffix border" x-show="userType == 'productowner' && selectedTab == 'tr'"
-                        x-transition x-transition.duration.300>
+                    <div class="field label suffix border" x-show="userType == 'productowner'" x-transition
+                        x-transition.duration.300>
                         <input type="text" id="socialName" name="socialName" x-model="socialName">
                         <label>Raison sociale</label>
                     </div>
@@ -85,8 +85,12 @@
                         <label>Numéro de remise</label>
                     </div>
                     <div class="field label border" x-show="selectedTab == 'im'" x-transition x-transition.duration.300>
-                        <input type="tel" id="dossierUnpaid" name="dossierUnpaid">
+                        <input type="tel" id="dossierUnpaid" name="dossierUnpaid" x-model="unpaidNumber">
                         <label>N° dossier impayé</label>
+                    </div>
+                    <div class="field label border" x-show="selectedTab == 'im'" x-transition x-transition.duration.300>
+                        <input type="text" id="libUnpaid" name="libUnpaid" x-model="libUnpaid">
+                        <label>Motif</label>
                     </div>
                     <!-- Search Button -->
                     <button class="responsive no-margin" @click="search">Rechercher</button>

@@ -52,6 +52,7 @@ document.addEventListener('alpine:init', () => {
         dateAfter: "",
         numDiscount: "",
         unpaidNumber: "",
+        libUnpaid: "",
         results: [],
         transactions: [],
         unpaids: [],
@@ -286,7 +287,7 @@ document.addEventListener('alpine:init', () => {
 
                     break;
                 case 're':
-                    res = await fetch(`/api/?action=discountDataTable&date_debut=${this.dateAfter}&date_fin=${this.dateBefore}&numRemise=${this.numDiscount}`).then(x => x.json());
+                    res = await fetch(`/api/?action=discountDataTable&date_debut=${this.dateAfter}&date_fin=${this.dateBefore}&numRemise=${this.numDiscount}&raisonSociale=${this.socialName}`).then(x => x.json());
                     const transactionsAmountByMonth = [];
                     if (res.success) {
                         this.transactions = res.data.map(x => {
@@ -499,13 +500,24 @@ document.addEventListener('alpine:init', () => {
             const table = document.querySelector(tableSelector);
             const tableHeaders = [];
             const tableRows = [];
-            table.querySelectorAll('thead th').forEach(th => tableHeaders.push(th.innerText));
+            const moneyCols = new Set();
+            table.querySelectorAll('thead th').forEach((th, i) => {
+                tableHeaders.push(th.innerText);
+                if (/montant/i.test(th.innerText))
+                    moneyCols.add(i);
+            });
             table.querySelectorAll('tbody tr').forEach(tr => {
                 const row = [];
-                tr.querySelectorAll('td').forEach(td => row.push(td.innerText));
+
+                tr.querySelectorAll('td').forEach((td, i) => {
+
+
+                    row.push(
+                        moneyCols.has(i) ? parseFloat(td.innerText.replace(/[^0-9.,]/g, '').replace(',', '.')) : td.innerText
+                    );
+                });
                 tableRows.push(row);
             });
-            console.log(tableHeaders, tableRows);
             const csvText =
                 tableHeaders.join(';') + ';exporté le ' + this.formatDate(+new Date()) + '\n' +
                 tableRows.map(x => x.join(';')).join('\n');
@@ -627,7 +639,7 @@ document.addEventListener('alpine:init', () => {
 
         socialName: '',
         siren: '',
-        currency: '',
+        currency: 'EUR',
         numCard: '5555555555554444',
         network: 'MS',
         password: '',
