@@ -374,7 +374,7 @@ document.addEventListener('alpine:init', () => {
                         this.unpaids = res.data;
 
                         // LibImpayé PIE CHART
-                        let unpaidReasons = res.data.map(x => x.LibImpayé);
+                        let unpaidReasons = this.unpaids.map(x => x.LibImpayé);
                         var unpaidReasonsOccurences = {};
                         for (var i = 0; i < unpaidReasons.length; i++) {
                             unpaidReasonsOccurences[unpaidReasons[i]] = (unpaidReasonsOccurences[unpaidReasons[i]] || 0) + 1;

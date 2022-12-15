@@ -122,11 +122,9 @@ if(isset($_SESSION['num'])){
 
     if ($unPaidReason) {
         // keep strpos(strtoupper($row["LibImpayé"]), strtoupper($unPaidReason)) !== false;
-        for ($i = 0; $i < count($data); $i++) {
-            if (strpos(strtoupper($data[$i]["LibImpayé"]), strtoupper($unPaidReason)) === false) {
-                unset($data[$i]);
-            }
-        }
+        $data = array_filter($data, function($row) use ($unPaidReason) {
+            return strpos(strtoupper($row["LibImpayé"]), strtoupper($unPaidReason)) !== false;
+        });
         $data = array_values($data);
     }
 
