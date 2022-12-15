@@ -633,7 +633,7 @@ document.addEventListener('alpine:init', () => {
 
         socialName: '',
         siren: '',
-        currency: '',
+        currency: 'EUR',
         numCard: '5555555555554444',
         network: 'MS',
         password: '',
