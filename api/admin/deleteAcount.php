@@ -14,7 +14,7 @@ $_SESSION["num"] = 123;
 $_SESSION["type"]="admin";
 */
 
-if (isset($_SESSION["num"]) && ($_SESSION["type"] == "productowner")) {
+if (isset($_SESSION["num"]) && ($_SESSION["type"] == "productowner" || $_SESSION["type"] == "admin")) {
     $cond = array();
 
     array_push($cond, array(":siren", $_POST["numSiren"]));
