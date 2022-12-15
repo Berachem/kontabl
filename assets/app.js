@@ -720,7 +720,7 @@ document.addEventListener('alpine:init', () => {
                 this.network = '';
                 this.idLogin = '';
                 this.password = '';
-                alert('Le marchand à bien été créé');
+                alert('Le marchand a bien été créé ✅\n\nIl est en attente d\'acceptation du Product Owner 🕒');
             }
         },
 
@@ -755,12 +755,16 @@ document.addEventListener('alpine:init', () => {
                 this.merchantsTemp = this.merchantsTemp.filter(x => x.numSiren !== siren);
             }
 
-            alert('Le marchand à bien été supprimé ✅')
+            alert('Le marchand a bien été supprimé ✅')
 
             let res;
             res = await fetch('/api/?action=getAllAcount').then(x => x.json());
             if (!res.success) return;
             this.merchants = res.data;
+
+            let resTemp = await fetch('/api/?action=getAllAcountTemp').then(x => x.json());
+            if (!resTemp.success) return;
+            this.merchantsTemp = resTemp.data;
         },
 
         async acceptMerchantTemp(siren) {
@@ -787,6 +791,17 @@ document.addEventListener('alpine:init', () => {
                 this.merchantsTemp = this.merchantsTemp.filter(x => x.numSiren !== siren);
                 this.merchants.push(resJson.merchant);
             }
+
+            alert('Le marchand temporaire a bien été accepté ✅')
+
+            let res;
+            res = await fetch('/api/?action=getAllAcount').then(x => x.json());
+            if (!res.success) return;
+            this.merchants = res.data;
+
+            let resTemp = await fetch('/api/?action=getAllAcountTemp').then(x => x.json());
+            if (!resTemp.success) return;
+            this.merchantsTemp = resTemp.data;
         },
 
         async init() {
