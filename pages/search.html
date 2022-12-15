@@ -55,8 +55,9 @@
                         <a class="loader" x-show="sirenNumbers.length == 0" x-transition x-transition.duration.300></a>
                         <i x-show="sirenNumbers.length != 0">arrow_drop_down</i>
                     </div>
-                    <div class="field label suffix border" x-show="userType == 'productowner' && selectedTab == 'tr'"
-                        x-transition x-transition.duration.300>
+                    <div class="field label suffix border"
+                        x-show="userType == 'productowner' && (selectedTab == 'tr' || selectedTab == 're')" x-transition
+                        x-transition.duration.300>
                         <input type="text" id="socialName" name="socialName" x-model="socialName">
                         <label>Raison sociale</label>
                     </div>

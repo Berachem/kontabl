@@ -286,7 +286,7 @@ document.addEventListener('alpine:init', () => {
 
                     break;
                 case 're':
-                    res = await fetch(`/api/?action=discountDataTable&date_debut=${this.dateAfter}&date_fin=${this.dateBefore}&numRemise=${this.numDiscount}`).then(x => x.json());
+                    res = await fetch(`/api/?action=discountDataTable&date_debut=${this.dateAfter}&date_fin=${this.dateBefore}&numRemise=${this.numDiscount}&raisonSociale=${this.RaisonSociale}`).then(x => x.json());
                     const transactionsAmountByMonth = [];
                     if (res.success) {
                         this.transactions = res.data.map(x => {
