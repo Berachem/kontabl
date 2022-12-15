@@ -49,10 +49,11 @@ if(isset($_SESSION['num'])){
         $numRemise = isset($_GET["numRemise"]) ? $_GET["numRemise"] : null;
         $data = array();
 
-
+    
         $data = getDiscounts($numSiren, $raisonSociale, $date_debut, $date_fin, $sens,null);
-        //var_dump($data);
-        if ($numRemise){
+
+          //var_dump($data);
+          if ($numRemise){
             // On filtre les données pour ne garder que celles qui correspondent au numéro de remise
             $data = array_filter($data, function($item) use ($numRemise){
                 //var_dump($item);
@@ -60,11 +61,14 @@ if(isset($_SESSION['num'])){
             });
         }
 
+        $data = array_values($data);
+
 
         $response = array(
             "success" => true,
             "data" => $data,
             "siren" => $numSiren,
+            "test" => "test",
         );
 } else{
     $response = [
