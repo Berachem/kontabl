@@ -65,7 +65,8 @@ if(isset($_SESSION['num'])){
             // On filtre les données pour ne garder que celles qui correspondent à la raison sociale
             $data = array_filter($data, function($item) use ($raisonSociale){
                 //var_dump($item);
-                return $item["RaisonSociale"] == $raisonSociale;
+                //strcontains
+                return strpos(strtoupper($item["RaisonSociale"]), strtoupper($raisonSociale)) !== false;
             });
         }
 
