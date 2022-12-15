@@ -190,11 +190,13 @@ function getDiscounts($numSiren, $raisonSociale, $date_debut, $date_fin, $sens, 
                     $d['Sens'] = $discount->sens;
                 }
                 array_push($data, $d);
+                
             }
         } else {
             continue;
         }
     }
+    
     return $data;
 }
 
