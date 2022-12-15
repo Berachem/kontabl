@@ -231,14 +231,15 @@
                                                 Montant total
                                             </a>
                                         </th>
+                                        <th>
+                                            Details
+                                        </th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <template x-for="transaction in paginate(transactions)"
                                         :key="transaction.NumeroRemise">
-                                        <tr tabindex="0" role="button"
-                                            @click="loadDetailsForSiren(transaction.NumSiren)"
-                                            @keyup.enter="loadDetailsForSiren(transaction.NumSiren)">
+                                        <tr>
                                             <td x-text="transaction.NumSiren"></td>
                                             <td x-text="transaction.RaisonSociale"></td>
                                             <td x-text="transaction.NumeroRemise"></td>
@@ -247,6 +248,11 @@
                                             <!-- If montant total is negative: red text -->
                                             <td x-text="new Intl.NumberFormat('fr-FR', { style: 'currency', currency: transaction.Devise }).format(transaction.MontantTotal)"
                                                 :class="transaction.Sens == '-' ? 'red-text' : ''"></td>
+                                            </td>
+                                            <td>
+                                                <button class="border" @click="loadDetailsForSiren(transaction.NumSiren)">
+                                                    <i>more_horiz</i>
+                                                </button>
                                             </td>
                                         </tr>
                                     </template>
@@ -317,12 +323,14 @@
                                                 Libellé
                                             </a>
                                         </th>
+                                        <th>
+                                            Détails
+                                        </th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <template x-for="unpaid in paginate(unpaids)" :key="unpaid.numDossierImpayé">
-                                        <tr tabindex="0" role="button" @click="loadDetailsForSiren(unpaid.NumSiren)"
-                                            @keyup.enter="loadDetailsForSiren(unpaid.NumSiren)">
+                                        <tr>
                                             <td x-text="unpaid.NumSiren"></td>
                                             <td x-text="formatDate(unpaid.DateVente)"></td>
                                             <td x-text="formatDate(unpaid.DateRemise)"></td>
@@ -332,6 +340,11 @@
                                                 x-text="'- ' + new Intl.NumberFormat('fr-FR', { style: 'currency', currency: unpaid.Devise }).format(unpaid.Montant)">
                                             </td>
                                             <td x-text="unpaid.LibImpayé"></td>
+                                            <td>
+                                                <button class="border" @click="loadDetailsForSiren(unpaid.NumSiren)"">
+                                                    <i>more_horiz</i>
+                                                </button>
+                                            </td>
                                         </tr>
                                     </template>
                                 </tbody>
