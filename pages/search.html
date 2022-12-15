@@ -324,8 +324,8 @@
                                             <td x-text="formatDate(unpaid.DateRemise)"></td>
                                             <td x-text="'**** ' + unpaid.NumCarte + ' ' + unpaid.Reseau"></td>
                                             <td x-text="unpaid.Devise"></td>
-                                            <td
-                                                x-text="new Intl.NumberFormat('fr-FR', { style: 'currency', currency: unpaid.Devise }).format(unpaid.Montant)">
+                                            <td class="red-text"
+                                                x-text="'- ' + new Intl.NumberFormat('fr-FR', { style: 'currency', currency: unpaid.Devise }).format(unpaid.Montant)">
                                             </td>
                                             <td x-text="unpaid.LibImpayé"></td>
                                         </tr>
