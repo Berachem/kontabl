@@ -13,7 +13,7 @@ GET:
 $_GET["numSiren"] = "154685474"; */
 
 
-if (isset($_SESSION['type']) && $_SESSION['type'] == 'productowner' && isset($_GET["numSiren"])) {
+if (isset($_SESSION['type']) && ($_SESSION['type'] == 'productowner' ||  $_SESSION['type'] == 'admin') && isset($_GET["numSiren"])) {
     
     // transfer the merchant from merchant_temp to merchant
     // merchant : name, siren, currency, numCarte, network,password, idLogin 
@@ -61,7 +61,7 @@ if (isset($_SESSION['type']) && $_SESSION['type'] == 'productowner' && isset($_G
 }else{
     $response = [
         "success" => false,
-        "error" => "Vous n'êtes pas productowner"
+        "error" => "Vous n'avais pas les droits"
     ];
     header('Content-Type: application/json');
     echo json_encode($response, JSON_UNESCAPED_UNICODE);

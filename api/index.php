@@ -82,5 +82,8 @@ if (isset($_GET['action'])) {
         case "csvToXls":
             include("other/csvToXls.php");
             break;
+        case "createMerchantDirectly":
+            include("merchant_creation/createMerchantDirectly.php");
+            break;
     }
 }

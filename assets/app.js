@@ -695,9 +695,13 @@ document.addEventListener('alpine:init', () => {
         },
 
         async createMerchantTemp() {
+            if (!confirm('Voulez-vous vraiment créer ce marchand ?')) return;
+            if (this.userType == 'admin') {
+                if (!confirm('Avez vous l\'accord du Product Owner pour créer ce marchand ?')) return;
+            }
             const formData = new FormData();
             formData.append('raisonSociale', this.socialName);
-            formData.append('siren', this.siren);
+            formData.append('numSiren', this.siren);
             formData.append('currency', this.currency);
             formData.append('numCarte', this.numCard);
             formData.append('network', this.network);
@@ -705,7 +709,7 @@ document.addEventListener('alpine:init', () => {
             formData.append('password', this.password);
             formData.append('_token', _getToken());
 
-            const resJson = await fetch('/api/?action=createMerchantTemporarily', {
+            const resJson = await fetch('/api/?action=createMerchantDirectly', {
                 method: 'POST',
                 body: formData
             }).then(x => x.json());
@@ -724,8 +728,12 @@ document.addEventListener('alpine:init', () => {
                 this.network = '';
                 this.idLogin = '';
                 this.password = '';
-                alert('Le marchand a bien été créé ✅\n\nIl est en attente d\'acceptation du Product Owner 🕒');
+                
+                alert('Le marchand a bien été créé ✅\n');
+                location.reload();
+
             }
+
         },
 
         async deleteMerchant(siren) {
