@@ -502,28 +502,32 @@ document.addEventListener('alpine:init', () => {
             const tableRows = [];
             const moneyCols = new Set();
             table.querySelectorAll('thead th').forEach((th, i) => {
-                tableHeaders.push(th.innerText);
-                if (/montant/i.test(th.innerText))
-                    moneyCols.add(i);
+                if (!th.innerText.includes('Détails')){
+                    tableHeaders.push(th.innerText.normalize("NFD").replace(/[\u0300-\u036f]/g, ""));
+                    if (/montant/i.test(th.innerText) && th.innerText !== 'Détails')
+                        moneyCols.add(i);
+                }
+                
             });
             table.querySelectorAll('tbody tr').forEach(tr => {
                 const row = [];
 
                 tr.querySelectorAll('td').forEach((td, i) => {
-
-
+                    
+                    if (!td.innerText.includes('more_horiz')) 
                     row.push(
-                        moneyCols.has(i) ? parseFloat(td.innerText.replace(/[^0-9.,]/g, '').replace(',', '.')) : td.innerText
+                        moneyCols.has(i)  ? parseFloat(td.innerText.replace(/[^0-9.,]/g, '').replace(',', '.')) : td.innerText.normalize("NFD").replace(/[\u0300-\u036f]/g, "")
                     );
                 });
                 tableRows.push(row);
             });
             const csvText =
-                tableHeaders.join(';') + ';exporté le ' + this.formatDate(+new Date()) + '\n' +
+                tableHeaders.join(';') + ';datant du ' + this.formatDate(+new Date()).normalize("NFD").replace(/[\u0300-\u036f]/g, "") + '\n' +
                 tableRows.map(x => x.join(';')).join('\n');
+                
             switch (fileType) {
                 case 'csv':
-                    const csvBlob = new Blob([csvText], { type: 'text/csv' });
+                    const csvBlob = new Blob([csvText], { type: 'text/csv' , encoding: 'UTF-8'});
                     _downloadBlob(csvBlob, 'export.csv');
                     break;
                 case 'xlsx':
