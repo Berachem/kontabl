@@ -34,8 +34,6 @@ if (isset($_SESSION['type']) && $_SESSION['type']== 'admin'){
         // Check if all the parameters are set
         if (isset($_POST["raisonSociale"]) 
         && isset($_POST["siren"]) 
-        && isset($_POST["currency"]) 
-        && isset($_POST["numCarte"]) 
         && isset($_POST["network"]) 
         && isset($_POST["idLogin"]) 
         && isset($_POST["password"])){
@@ -105,13 +103,11 @@ if (isset($_SESSION['type']) && $_SESSION['type']== 'admin'){
                         $param = array(
                             array(':raisonSociale',$_POST['raisonSociale'],PDO::PARAM_STR),
                             array(':siren',$_POST['siren'],PDO::PARAM_STR),
-                            array(':currency',$_POST['currency'],PDO::PARAM_STR),
-                            array(':numCarte',$_POST['numCarte'],PDO::PARAM_STR),
                             array(':network',$_POST['network'],PDO::PARAM_STR),
                             array(':password',$_POST['password'],PDO::PARAM_STR),
                             array(':idLogin',$_POST['idLogin'],PDO::PARAM_STR),
                         );
-                        $merchant = $db -> q("INSERT INTO merchant_temp (raisonSociale, siren, currency, numCarte, network, password, idLogin) VALUES (:raisonSociale, :siren, :currency, :numCarte, :network, :password, :idLogin);", $param);
+                        $merchant = $db -> q("INSERT INTO merchant_temp (raisonSociale, siren, network, password, idLogin) VALUES (:raisonSociale, :siren, :network, :password, :idLogin);", $param);
 
                         // return success
                         $response = [

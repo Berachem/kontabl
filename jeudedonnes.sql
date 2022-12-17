@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : localhost:3306
--- Généré le : sam. 12 nov. 2022 à 14:00
+-- Généré le : sam. 17 déc. 2022 à 17:47
 -- Version du serveur : 8.0.30
 -- Version de PHP : 7.4.32
 
@@ -61,20 +61,20 @@ CREATE TABLE `discount` (
 
 INSERT INTO `discount` (`numDiscount`, `numTransaction`, `sens`, `unpaidWording`, `numUnpaidFile`, `dateDiscount`) VALUES
 (1, 2, '-', 'Solde insuffisant', 'PMRLK', '2022-02-09 08:40:08'),
-(2, 3, '+', NULL, "AP5KT", '2022-04-19 07:36:12'),
-(3, 1, '+', NULL, "AH5ET", '2022-06-29 13:22:14'),
+(2, 3, '+', NULL, 'AP5KT', '2022-04-19 07:36:12'),
+(3, 1, '+', NULL, 'AH5ET', '2022-06-29 13:22:14'),
 (11, 6, '-', 'Plafond atteint', 'DP236', '2022-08-16 10:49:45'),
-(12, 4, '+', NULL, "395ET", '2020-08-01 10:49:45'),
+(12, 4, '+', NULL, '395ET', '2020-08-01 10:49:45'),
 (13, 7, '-', 'Plafond atteint', '2365F', '2022-09-05 11:13:32'),
-(14, 6, '+', NULL, "35FET", '2022-11-09 09:45:37'),
-(15, 7, '+', NULL, "31FT5", '2022-11-25 16:30:26'),
-(16, 5, '+', NULL, "A1FT5", '2022-11-01 14:10:12'),
+(14, 6, '+', NULL, '35FET', '2022-11-09 09:45:37'),
+(15, 7, '+', NULL, '31FT5', '2022-11-25 16:30:26'),
+(16, 5, '+', NULL, 'A1FT5', '2022-11-01 14:10:12'),
 (17, 10, '-', 'Plafond atteint', 'BAD4A', '2022-01-01 14:10:12'),
 (18, 8, '-', 'Solde insuffisant', 'A1FTG', '2022-02-01 21:10:51'),
 (19, 9, '-', 'Solde insuffisant', 'RFTYH', '2022-03-01 22:10:35'),
 (20, 11, '-', 'Erreur inconnue', 'MPS5V', '2022-04-01 20:10:12'),
-(21, 12, '+', NULL, "FERET", '2022-11-10 14:58:34'),
-(22, 13, '+', NULL, "MMDL9", '2022-11-01 14:58:34'),
+(21, 12, '+', NULL, 'FERET', '2022-11-10 14:58:34'),
+(22, 13, '+', NULL, 'MMDL9', '2022-11-01 14:58:34'),
 (23, 9, '-', 'Erreur inconnue', 'MPS49', '2022-07-01 14:10:35'),
 (24, 14, '-', 'Carde plus valide', 'MPS8V', '2022-01-01 08:10:12'),
 (25, 15, '+', NULL, 'YTSQ0', '2020-11-20 05:20:15'),
@@ -393,7 +393,6 @@ INSERT INTO `discount` (`numDiscount`, `numTransaction`, `sens`, `unpaidWording`
 (338, 164, '+', NULL, 'N7KW0', '2022-07-19 09:45:38'),
 (339, 164, '-', 'Plafond atteint', 'PC3HG', '2022-08-29 07:47:16');
 
-
 -- --------------------------------------------------------
 
 --
@@ -403,8 +402,6 @@ INSERT INTO `discount` (`numDiscount`, `numTransaction`, `sens`, `unpaidWording`
 CREATE TABLE `merchant` (
   `raisonSociale` varchar(30) NOT NULL,
   `siren` char(9) NOT NULL,
-  `currency` varchar(3) NOT NULL,
-  `numCarte` char(4) NOT NULL,
   `network` char(2) NOT NULL,
   `password` varchar(350) NOT NULL,
   `idLogin` varchar(350) NOT NULL
@@ -414,13 +411,13 @@ CREATE TABLE `merchant` (
 -- Déchargement des données de la table `merchant`
 --
 
-INSERT INTO `merchant` (`raisonSociale`, `siren`, `currency`, `numCarte`, `network`, `password`, `idLogin`) VALUES
-('Action Contre la faim', '123456789', 'EUR', '5879', 'AE', '$2y$10$wIvqO7K4DK8alKhpDDzVYOXmySi6zvEH80xEc0yQ6lJZsfcURaqoy', 'action'),
-('Louis Vuitton Services', '347662454', 'USD', '4589', 'MC', '$2y$10$rJJzcYpZ7TPh.uRl2ix7f.umGB3oykXjKFFDIYXI2ZYIY1R40eAaS', 'louisvi'),
-('Leroy Merlin Noisy', '384560942', 'EUR', '7485', 'AE', '$2y$10$eLydEkQ3bS7p3ciLX5kL.OxxOtQR2B782ZylCXBTbsZ7RyyNn4vo6', 'leroy'),
-('Gucci France', '632032348', 'EUR', '9685', 'VS', '$2y$10$rN7DbLVNgXvknxD4HiliXOKHOIhZ88vswLlRvcDsAFFPQtYMnfk.2', 'guccifrance'),
-('McDonald Champs sur Marne', '722003936', 'EUR', '1796', 'VS', '$2y$10$y8XN1Ye0fIknpPV6lpQCAeOE8H2.HrRyFgTYkmvpUr2KIOiUxFNaC', 'mcdo'),
-('Burger King', '987654321', 'USD', '8565', 'AE', '$2y$10$0id6ZFNVDu8/gPB8DbmEd.cyJqtPTWk48xYxO.jbq76dY6LgXwSUS', 'bk');
+INSERT INTO `merchant` (`raisonSociale`, `siren`, `network`, `password`, `idLogin`) VALUES
+('Action Contre la faim', '123456789', 'AE', '$2y$10$wIvqO7K4DK8alKhpDDzVYOXmySi6zvEH80xEc0yQ6lJZsfcURaqoy', 'action'),
+('Louis Vuitton Services', '347662454', 'MC', '$2y$10$rJJzcYpZ7TPh.uRl2ix7f.umGB3oykXjKFFDIYXI2ZYIY1R40eAaS', 'louisvi'),
+('Leroy Merlin Noisy', '384560942', 'AE', '$2y$10$eLydEkQ3bS7p3ciLX5kL.OxxOtQR2B782ZylCXBTbsZ7RyyNn4vo6', 'leroy'),
+('Gucci France', '632032348', 'VS', '$2y$10$rN7DbLVNgXvknxD4HiliXOKHOIhZ88vswLlRvcDsAFFPQtYMnfk.2', 'guccifrance'),
+('McDonald Champs sur Marne', '722003936', 'VS', '$2y$10$y8XN1Ye0fIknpPV6lpQCAeOE8H2.HrRyFgTYkmvpUr2KIOiUxFNaC', 'mcdo'),
+('Burger King', '987654321', 'AE', '$2y$10$0id6ZFNVDu8/gPB8DbmEd.cyJqtPTWk48xYxO.jbq76dY6LgXwSUS', 'bk');
 
 -- --------------------------------------------------------
 
@@ -431,17 +428,18 @@ INSERT INTO `merchant` (`raisonSociale`, `siren`, `currency`, `numCarte`, `netwo
 CREATE TABLE `merchant_temp` (
   `raisonSociale` varchar(30) NOT NULL,
   `siren` char(9) NOT NULL,
-  `currency` varchar(3) NOT NULL,
-  `numCarte` char(16) NOT NULL,
   `network` char(2) NOT NULL,
   `password` varchar(350) NOT NULL,
   `idLogin` varchar(350) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
+--
+-- Déchargement des données de la table `merchant_temp`
+--
 
-INSERT INTO `merchant_temp` (`raisonSociale`, `siren`, `currency`, `numCarte`, `network`, `password`, `idLogin`) VALUES
-('Crous ESIEE', '320367139', 'EUR', '4896', 'VS', '$2y$10$2X7Jh/crzd0glet3rxo2zO5YhvGJteaziD2MvzeQ9yQt/Z27Luhci', 'esiee'),
-('Fouquets Champs-Élysées', '402594006', 'EUR', '2398', 'MC', '$2y$10$v2axLxR16KaF/PzOgwkbhuNKfK3Br2lG3cG0mL0SsGgFqK9Ltouou', 'fouquet');
+INSERT INTO `merchant_temp` (`raisonSociale`, `siren`, `network`, `password`, `idLogin`) VALUES
+('Crous ESIEE', '320367139', 'VS', '$2y$10$2X7Jh/crzd0glet3rxo2zO5YhvGJteaziD2MvzeQ9yQt/Z27Luhci', 'esiee'),
+('Fouquets Champs-Élysées', '402594006', 'MC', '$2y$10$v2axLxR16KaF/PzOgwkbhuNKfK3Br2lG3cG0mL0SsGgFqK9Ltouou', 'fouquet');
 
 -- --------------------------------------------------------
 
@@ -699,13 +697,13 @@ ALTER TABLE `transaction`
 -- AUTO_INCREMENT pour la table `discount`
 --
 ALTER TABLE `discount`
-  MODIFY `numDiscount` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `numDiscount` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=340;
 
 --
 -- AUTO_INCREMENT pour la table `transaction`
 --
 ALTER TABLE `transaction`
-  MODIFY `idTransaction` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `idTransaction` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=165;
 
 --
 -- Contraintes pour les tables déchargées

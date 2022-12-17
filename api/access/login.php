@@ -1,5 +1,5 @@
 <?php
-
+/*
 $url_path = 'https://challenges.cloudflare.com/turnstile/v0/siteverify';
 $data = [
     'secret' => getenv('TURNSTILE_SECRET'),
@@ -34,7 +34,7 @@ if ($response['success'] == false) {
     exit;
 }
 
-
+*/
 if (!isset($_SESSION["nbtry"])) {
     $_SESSION["nbtry"] = 3;
 }

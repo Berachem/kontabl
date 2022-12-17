@@ -30,7 +30,7 @@ if (isset($_SESSION["num"]) && $_SESSION["type"]=="user"){
     $dateDebut = isset($_GET["dateDebut"]) ? $_GET["dateDebut"] : null;
     $dateFin = isset($_GET["dateFin"]) ? $_GET["dateFin"] : null;
 
-    $sql = "SELECT raisonSociale, siren, transaction.currency, COUNT(siren) AS nbTransaction FROM merchant JOIN transaction ON numSiren = siren WHERE siren = :siren";
+    $sql = "SELECT raisonSociale, siren, COUNT(siren) AS nbTransaction FROM merchant JOIN transaction ON numSiren = siren WHERE siren = :siren";
 
     $sqlnegative = "SELECT SUM(amount) AS totalAmount FROM merchant JOIN transaction ON numSiren = siren JOIN discount ON discount.numTransaction = idTransaction WHERE siren = :siren AND sens = '-'";
     $sqlpositive = "SELECT SUM(amount) AS totalAmount FROM merchant JOIN transaction ON numSiren = siren JOIN discount ON discount.numTransaction = idTransaction WHERE siren = :siren AND sens = '+'";
@@ -51,7 +51,7 @@ if (isset($_SESSION["num"]) && $_SESSION["type"]=="user"){
         array_push($cond,array(":date", $dateFin));
     }
 
-    $sql .= " GROUP BY raisonSociale, siren, transaction.currency;";
+    $sql .= " GROUP BY raisonSociale, siren;";
 
     $result = $db->q($sql, $cond);
     $resultpositive = $db->q($sqlpositive, $cond);
@@ -64,7 +64,6 @@ if (isset($_SESSION["num"]) && $_SESSION["type"]=="user"){
         $responseData = array(array(
             "NumSiren" => $result->siren,
             "RaisonSociale" => $result->raisonSociale,
-            "Devise" => $result->currency,
             "NombreTransaction" => $result->nbTransaction,
             "MontantTotal" => $resultpositive[0]->totalAmount-$resultnegative[0]->totalAmount,
         ));

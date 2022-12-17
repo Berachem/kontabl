@@ -12,16 +12,14 @@ $_SESSION["type"] = "productowner"; */
 
 if (isset($_SESSION["num"]) && ($_SESSION["type"] == "productowner")) {
 
-    $users = $db->q("SELECT raisonSociale, siren, currency, network, numCarte, idLogin FROM merchant_temp;");
+    $users = $db->q("SELECT raisonSociale, siren, network, idLogin FROM merchant_temp;");
 
     $data = array();
     foreach ($users as $user) {
         array_push($data, array(
             "NumSiren" => $user->siren,
             "RaisonSociale" => $user->raisonSociale,
-            "Currency" => $user->currency,
             "Network" => $user->network,
-            "NumCarte" => $user->numCarte,
             "IdLogin" => $user->idLogin,
         ));
     }

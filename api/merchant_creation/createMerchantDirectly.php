@@ -8,8 +8,6 @@ isset($_POST["numSiren"]) && isset($_POST["raisonSociale"]) && isset($_POST["pas
     $param = array(
         array(':raisonSociale', $_POST['raisonSociale'], PDO::PARAM_STR),
         array(':siren', $_POST['numSiren'], PDO::PARAM_STR),
-        array(':currency', "EUR", PDO::PARAM_STR),
-        array(':numCarte', "none", PDO::PARAM_STR),
         array(':network', "VS", PDO::PARAM_STR),
         array(':password', password_hash($_POST["password"],PASSWORD_BCRYPT ), PDO::PARAM_STR),
         array(':idLogin', $_POST['idLogin'], PDO::PARAM_STR),

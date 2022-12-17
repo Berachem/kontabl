@@ -29,16 +29,14 @@ if (isset($_SESSION["num"]) && ($_SESSION["type"] == "productowner" || $_SESSION
         "data" => $data
     );
 } else if (isset($_SESSION["num"]) && ($_SESSION["type"] == "user")) {
-    $users = $db->q("SELECT raisonSociale, siren, currency, network, numCarte, idLogin FROM merchant WHERE siren =" . $_SESSION["num"] . ";");
+    $users = $db->q("SELECT raisonSociale, siren, network, idLogin FROM merchant WHERE siren =" . $_SESSION["num"] . ";");
 
     $data = array();
     foreach ($users as $user) {
         array_push($data, array(
             "NumSiren" => $user->siren,
             "RaisonSociale" => $user->raisonSociale,
-            "Currency" => $user->currency,
             "Network" => $user->network,
-            "NumCarte" => $user->numCarte,
             "IdLogin" => $user->idLogin,
         ));
     }

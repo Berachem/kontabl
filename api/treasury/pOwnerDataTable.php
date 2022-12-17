@@ -119,7 +119,6 @@ if (isset($_SESSION["num"]) && ($_SESSION["type"]=="productowner")){
             "NumSiren" => $merchant->siren,
             "RaisonSociale" => $merchant->raisonSociale,
             "NombreTransactions" => getNbTransactionsByOneDate($db, $merchant->siren, $date),
-            "Devise"=> getDevise($db, $merchant->siren),
             "MontantTotal" => getMontantTotalByOneDate($db, $merchant->siren, $date)
         ));
     }

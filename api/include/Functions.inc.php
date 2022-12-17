@@ -93,18 +93,6 @@ function getMontantTotal($db, $numSiren, $date)
     return $result[0]->somme;
 }
 
-function getDevise($db, $numSiren)
-{
-    // get the currency of the merchant
-    $sql = "SELECT currency FROM merchant WHERE siren = :numSiren";
-    $cond = array(
-        array(":numSiren", $numSiren)
-    );
-
-    $result = $db->q($sql, $cond);
-    return $result[0]->currency;
-};
-
 
 /*FONCTION DE CLEMENT qui renvoie une liste de dictionnaire contenants les clés :
     -  NumSiren
@@ -178,7 +166,7 @@ function getDiscounts($numSiren, $raisonSociale, $date_debut, $date_fin, $sens, 
                 $d['NumeroRemise'] = $discount->numDiscount;
                 $d['DateTraitement'] = $discount->dateDiscount;
                 $d['NombreTransactions'] = getNbTransactions($db, $transaction->numSiren, $date_debut, $date_fin);
-                $d['Devise'] = getDevise($db, $transaction->numSiren);
+                $d['Devise'] = $transaction->currency;
                 $d['MontantTotal'] = getMontantTotal($db, $transaction->numSiren, $discount->dateDiscount);
                 if ($sens) {
                     if ($discount->sens == $sens) {
